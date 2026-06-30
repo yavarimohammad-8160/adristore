@@ -64,3 +64,4 @@ out/
 node_modules/
 out/
 public/images/
+*.zip
