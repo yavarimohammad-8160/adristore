@@ -9,6 +9,8 @@ import {
 import { saveVideoFile, videoMediaUrl } from "@/lib/video-storage";
 import crypto from "crypto";
 
+export const dynamic = "force-dynamic";
+
 const EXT_FALLBACK: Record<string, string> = {
   "video/mp4": ".mp4",
   "video/webm": ".webm",
@@ -65,3 +67,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "خطا در آپلود ویدیو" }, { status: 500 });
   }
 }
+

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/build-cloudflare.mjs",
+    "build:server": "next build",
     "build:cloudflare": "node scripts/build-cloudflare.mjs",
     "zip:cloudflare": "node scripts/zip-cloudflare.mjs",
     "prebuild:static": "node --env-file=.env.local --import tsx scripts/prebuild-static-data.ts",

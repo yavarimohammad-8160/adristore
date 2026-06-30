@@ -9,6 +9,8 @@ import {
   slugifyPage,
 } from "@/lib/site-settings";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     await requireAdmin();
@@ -56,3 +58,4 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "خطا در ذخیره" }, { status: 500 });
   }
 }
+

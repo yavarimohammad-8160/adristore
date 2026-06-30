@@ -4,6 +4,8 @@ import { getAdminSettings } from "@/lib/admin-settings";
 import { getSecurityOverview, MAX_LOGIN_ATTEMPTS } from "@/lib/admin-security";
 import { MIN_ADMIN_PASSWORD_LENGTH } from "@/lib/password-policy";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     await requireAdmin();
@@ -43,3 +45,4 @@ export async function GET() {
     return NextResponse.json({ error: "خطا" }, { status: 500 });
   }
 }
+

@@ -9,6 +9,8 @@ import {
   type ManagedSeriesRecord,
 } from "@/lib/series-store";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     await requireAdmin();

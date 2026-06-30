@@ -67,3 +67,5 @@ public/images/
 *.zip
 out.zip
 out.zip
+out/
+.next/

@@ -15,6 +15,8 @@ import {
   recordFailedLogin,
 } from "@/lib/admin-security";
 
+export const dynamic = "force-dynamic";
+
 function sessionCookie(token: string) {
   const response = NextResponse.json({ ok: true });
   response.cookies.set(ADMIN_SESSION_COOKIE, token, {
@@ -99,3 +101,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "خطا در ورود" }, { status: 500 });
   }
 }
+

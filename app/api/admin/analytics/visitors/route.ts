@@ -3,6 +3,8 @@ import { requireAdmin } from "@/lib/admin-auth";
 import { getBasalamVisitAnalytics } from "@/lib/basalam-visit-analytics";
 import { getWebsiteVisitAnalytics } from "@/lib/traffic-analytics";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     await requireAdmin();

@@ -1,21 +1,5 @@
 /**
- * Cloudflare Pages static-export config.
- * Copied to next.config.mjs during `npm run build:cloudflare` (takes precedence over next.config.ts).
+ * @deprecated Use root `next.config.mjs` (static export when NEXT_PUBLIC_STATIC_EXPORT=1).
+ * Kept for reference only.
  */
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: "export",
-  trailingSlash: true,
-  poweredByHeader: false,
-  reactStrictMode: true,
-  compress: true,
-  productionBrowserSourceMaps: false,
-  images: {
-    unoptimized: true,
-  },
-  experimental: {
-    optimizePackageImports: ["lucide-react", "@base-ui/react", "sonner", "recharts"],
-  },
-};
-
-export default nextConfig;
+export { default } from "../next.config.mjs";

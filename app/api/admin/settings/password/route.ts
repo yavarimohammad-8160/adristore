@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-auth";
 import { changeAdminPassword } from "@/lib/admin-settings";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: NextRequest) {
   try {
     await requireAdmin();
@@ -18,3 +20,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "خطا در تغییر رمز" }, { status: 500 });
   }
 }
+

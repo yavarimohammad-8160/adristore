@@ -11,6 +11,8 @@ import { productMatchesSearch } from "@/lib/product-search";
 import type { Photo } from "@/lib/types";
 import { updateVideoIndexEntry } from "@/lib/video-index";
 
+export const dynamic = "force-dynamic";
+
 function filterManual(
   records: Awaited<ReturnType<typeof getAllManualProducts>>,
   opts: {
@@ -186,3 +188,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "خطا در ایجاد محصول" }, { status: 500 });
   }
 }
+

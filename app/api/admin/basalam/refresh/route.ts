@@ -5,6 +5,8 @@ import { searchVendorProducts, isBasalamConfigured, getVendor } from "@/lib/basa
 import { rebuildVideoIndex } from "@/lib/video-index";
 import { revalidateStorefront } from "@/lib/revalidate-storefront";
 
+export const dynamic = "force-dynamic";
+
 export async function POST() {
   try {
     await requireAdmin();
@@ -37,3 +39,4 @@ export async function POST() {
     return NextResponse.json({ error: "خطا در بروزرسانی باسلام" }, { status: 500 });
   }
 }
+

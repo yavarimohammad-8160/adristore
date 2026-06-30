@@ -8,6 +8,8 @@ import {
 } from "@/lib/manual-products";
 import { searchVendorProducts } from "@/lib/basalam";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     await requireAdmin();
@@ -68,3 +70,4 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 }
+

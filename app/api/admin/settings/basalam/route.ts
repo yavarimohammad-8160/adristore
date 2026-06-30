@@ -3,6 +3,8 @@ import { requireAdmin } from "@/lib/admin-auth";
 import { getBasalamStats } from "@/lib/manual-products";
 import { getVendor } from "@/lib/basalam";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     await requireAdmin();
@@ -19,3 +21,4 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 }
+

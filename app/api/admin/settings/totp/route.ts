@@ -12,6 +12,8 @@ import {
 import { buildTotpUri, createTotpSecret, verifyTotpCode } from "@/lib/totp";
 import { createTotpQrDataUrl } from "@/lib/totp-qr";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     await requireAdmin();
@@ -73,3 +75,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "خطا" }, { status: 500 });
   }
 }
+

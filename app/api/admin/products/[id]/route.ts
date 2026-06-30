@@ -17,6 +17,8 @@ import { saveProductOverride, photosToUrls } from "@/lib/product-overrides";
 import { getProduct } from "@/lib/products";
 import { updateVideoIndexEntry } from "@/lib/video-index";
 
+export const dynamic = "force-dynamic";
+
 interface RouteParams {
   params: Promise<{ id: string }>;
 }
@@ -154,3 +156,4 @@ export async function DELETE(_request: NextRequest, { params }: RouteParams) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 }
+

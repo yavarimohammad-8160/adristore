@@ -4,6 +4,8 @@ import fs from "fs/promises";
 import path from "path";
 import crypto from "crypto";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: NextRequest) {
   try {
     await requireAdmin();
@@ -34,3 +36,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "خطا در آپلود" }, { status: 500 });
   }
 }
+

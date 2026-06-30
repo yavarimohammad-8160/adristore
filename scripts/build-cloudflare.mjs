@@ -5,7 +5,6 @@
  */
 import { spawnSync } from "node:child_process";
 import {
-  copyFileSync,
   existsSync,
   mkdirSync,
   readFileSync,
@@ -19,11 +18,7 @@ import path from "node:path";
 const ROOT = process.cwd();
 const STASH = path.join(ROOT, ".cloudflare-build-stash");
 const CLOUDFLARE_CONFIG = path.join(ROOT, "next.config.mjs");
-const CLOUDFLARE_CONFIG_TEMPLATE = path.join(
-  ROOT,
-  "scripts",
-  "cloudflare-next.config.mjs"
-);
+const CLOUDFLARE_PAGES_MAX_FILE_BYTES = 25 * 1024 * 1024;
 
 function loadEnvLocal() {
   const envPath = path.join(process.cwd(), ".env.local");
@@ -52,10 +47,6 @@ const STASH_ITEMS = [
   { from: path.join(ROOT, "app", "admin"), to: path.join(STASH, "app-admin") },
   { from: path.join(ROOT, "app", "pages"), to: path.join(STASH, "app-pages") },
   { from: path.join(ROOT, "middleware.ts"), to: path.join(STASH, "middleware.ts") },
-  {
-    from: path.join(ROOT, "next.config.ts"),
-    to: path.join(STASH, "next.config.ts"),
-  },
 ];
 
 function run(cmd, args, env = {}) {
@@ -108,6 +99,25 @@ function dirSizeMB(dir) {
   return (bytes / (1024 * 1024)).toFixed(2);
 }
 
+/** Cloudflare Pages Direct Upload rejects individual files over 25 MB. */
+function findOversizedFiles(dir, maxBytes = CLOUDFLARE_PAGES_MAX_FILE_BYTES) {
+  const oversized = [];
+  const walk = (p) => {
+    for (const entry of readdirSync(p, { withFileTypes: true })) {
+      const full = path.join(p, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else {
+        const size = statSync(full).size;
+        if (size > maxBytes) {
+          oversized.push({ path: full, size });
+        }
+      }
+    }
+  };
+  if (existsSync(dir)) walk(dir);
+  return oversized.sort((a, b) => b.size - a.size);
+}
+
 /** Next.js static export writes index.txt identical to __next._full.txt — drop the duplicate. */
 function pruneDuplicateRscPayloads(outDir) {
   let removed = 0;
@@ -136,36 +146,40 @@ function pruneDuplicateRscPayloads(outDir) {
 
 console.log("\n📦 Cloudflare Pages static build\n");
 
-let createdCloudflareConfig = false;
-
 try {
-  if (existsSync(CLOUDFLARE_CONFIG)) {
-    rmSync(CLOUDFLARE_CONFIG);
+  if (!existsSync(CLOUDFLARE_CONFIG)) {
+    throw new Error("next.config.mjs not found (required for Cloudflare static export)");
   }
-  copyFileSync(CLOUDFLARE_CONFIG_TEMPLATE, CLOUDFLARE_CONFIG);
-  createdCloudflareConfig = true;
 
-  console.log("1/5 Prebuilding catalog JSON…");
+  console.log("1/6 Prebuilding catalog JSON…");
   run("node", ["--env-file=.env.local", "--import", "tsx", "scripts/prebuild-static-data.ts"]);
 
-  console.log("2/5 Stashing server-only routes…");
+  console.log("2/6 Stashing server-only routes…");
   run("node", ["scripts/patch-product-page-static.mjs", "patch"]);
   stash();
 
-  if (existsSync(path.join(ROOT, "next.config.ts"))) {
-    console.log("   (next.config.mjs takes precedence over next.config.ts)");
-  }
-
-  console.log("3/5 Running next build (output: export)…");
+  console.log("3/6 Running next build (output: export)…");
   if (existsSync(path.join(ROOT, "out"))) {
     rmSync(path.join(ROOT, "out"), { recursive: true, force: true });
   }
   run("npx", ["next", "build"]);
 
-  console.log("4/5 Pruning duplicate RSC payloads…");
+  console.log("4/6 Pruning duplicate RSC payloads…");
   pruneDuplicateRscPayloads(path.join(ROOT, "out"));
 
-  console.log("5/5 Build complete.");
+  console.log("5/6 Checking Cloudflare Pages file size limits…");
+  const oversized = findOversizedFiles(path.join(ROOT, "out"));
+  if (oversized.length > 0) {
+    console.error("✗ Files exceed Cloudflare Pages 25 MB limit:");
+    for (const file of oversized) {
+      const mb = (file.size / (1024 * 1024)).toFixed(2);
+      console.error(`  ${mb} MB  ${path.relative(ROOT, file.path)}`);
+    }
+    throw new Error(`${oversized.length} file(s) exceed the 25 MB Cloudflare Pages limit`);
+  }
+  console.log("   all files within 25 MB limit");
+
+  console.log("6/6 Build complete.");
 } catch (err) {
   console.error("\n✗ Cloudflare build failed:", err);
   process.exitCode = 1;
@@ -176,10 +190,6 @@ try {
     run("node", ["scripts/patch-product-page-static.mjs", "restore"]);
   } catch {
     /* page may not have been patched */
-  }
-  if (createdCloudflareConfig && existsSync(CLOUDFLARE_CONFIG)) {
-    rmSync(CLOUDFLARE_CONFIG);
-    console.log("  removed temporary next.config.mjs");
   }
 }
 

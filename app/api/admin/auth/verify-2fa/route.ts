@@ -9,6 +9,8 @@ import { getTotpSecret } from "@/lib/admin-settings";
 import { verifyTotpCode } from "@/lib/totp";
 import { checkIpAllowed, clearLoginFailures, getClientIp } from "@/lib/admin-security";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: NextRequest) {
   try {
     getAdminSecret();
@@ -58,3 +60,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "خطا در تأیید" }, { status: 500 });
   }
 }
+
