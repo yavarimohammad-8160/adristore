@@ -2,45 +2,61 @@
 /**
  * Cloudflare Pages static export build.
  * Temporarily removes API routes, admin, and middleware (incompatible with output: 'export').
+ *
+ * Env vars (Cloudflare Pages → Settings → Environment variables):
+ *   BASALAM_TOKEN     — optional; live Basalam catalog when set
+ *   BASALAM_VENDOR_ID — optional vendor id (default 1213430)
+ *   SKIP_PREBUILD     — optional; skip prebuild when catalog JSON already exists
+ *   SKIP_BASALAM_PREBUILD — optional; force mock catalog (no Basalam API)
+ *
+ * .env.local is optional for local dev only (see scripts/load-env.mjs).
  */
 import { spawnSync } from "node:child_process";
 import {
   existsSync,
   mkdirSync,
-  readFileSync,
   readdirSync,
   renameSync,
   rmSync,
   statSync,
 } from "node:fs";
 import path from "node:path";
+import { loadOptionalEnvFiles } from "./load-env.mjs";
 
 const ROOT = process.cwd();
 const STASH = path.join(ROOT, ".cloudflare-build-stash");
 const CLOUDFLARE_CONFIG = path.join(ROOT, "next.config.mjs");
 const CLOUDFLARE_PAGES_MAX_FILE_BYTES = 25 * 1024 * 1024;
+const CATALOG_DIR = path.join(ROOT, "public", "data");
 
-function loadEnvLocal() {
-  const envPath = path.join(process.cwd(), ".env.local");
-  if (!existsSync(envPath)) return;
-  for (const line of readFileSync(envPath, "utf8").split("\n")) {
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith("#")) continue;
-    const eq = trimmed.indexOf("=");
-    if (eq === -1) continue;
-    const key = trimmed.slice(0, eq).trim();
-    let value = trimmed.slice(eq + 1).trim();
-    if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
-    ) {
-      value = value.slice(1, -1);
-    }
-    process.env[key] = value;
-  }
+loadOptionalEnvFiles(ROOT);
+
+function hasBasalamToken() {
+  return Boolean(process.env.BASALAM_TOKEN?.trim());
 }
 
-loadEnvLocal();
+function catalogExists() {
+  return ["home-catalog.json", "products-catalog.json"].every((name) =>
+    existsSync(path.join(CATALOG_DIR, name))
+  );
+}
+
+function shouldSkipPrebuild() {
+  return process.env.SKIP_PREBUILD === "1" && catalogExists();
+}
+
+function logBuildEnv() {
+  const vendorId = process.env.BASALAM_VENDOR_ID || "1213430";
+  if (shouldSkipPrebuild()) {
+    console.log("   prebuild: skipped (SKIP_PREBUILD=1, catalog present)");
+    return;
+  }
+  if (hasBasalamToken()) {
+    console.log(`   prebuild: live Basalam API (vendor ${vendorId})`);
+    return;
+  }
+  console.log("   prebuild: mock catalog (BASALAM_TOKEN not set, no API calls)");
+}
 
 const STASH_ITEMS = [
   { from: path.join(ROOT, "app", "api"), to: path.join(STASH, "app-api") },
@@ -50,10 +66,21 @@ const STASH_ITEMS = [
 ];
 
 function run(cmd, args, env = {}) {
+  const prebuildEnv = {};
+  if (!hasBasalamToken() || process.env.SKIP_BASALAM_PREBUILD === "1") {
+    prebuildEnv.USE_MOCK_CATALOG = "1";
+    prebuildEnv.SKIP_BASALAM_PREBUILD = "1";
+  }
+
   const result = spawnSync(cmd, args, {
     cwd: ROOT,
     stdio: "inherit",
-    env: { ...process.env, ...env, NEXT_PUBLIC_STATIC_EXPORT: "1" },
+    env: {
+      ...process.env,
+      ...env,
+      ...prebuildEnv,
+      NEXT_PUBLIC_STATIC_EXPORT: "1",
+    },
   });
   if (result.status !== 0) {
     throw new Error(`Command failed (${result.status}): ${cmd} ${args.join(" ")}`);
@@ -152,7 +179,10 @@ try {
   }
 
   console.log("1/6 Prebuilding catalog JSON…");
-  run("node", ["--env-file=.env.local", "--import", "tsx", "scripts/prebuild-static-data.ts"]);
+  logBuildEnv();
+  if (!shouldSkipPrebuild()) {
+    run("node", ["--import", "tsx", "scripts/prebuild-static-data.ts"]);
+  }
 
   console.log("2/6 Stashing server-only routes…");
   run("node", ["scripts/patch-product-page-static.mjs", "patch"]);

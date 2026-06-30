@@ -8,7 +8,7 @@
     "build:server": "next build",
     "build:cloudflare": "node scripts/build-cloudflare.mjs",
     "zip:cloudflare": "node scripts/zip-cloudflare.mjs",
-    "prebuild:static": "node --env-file=.env.local --import tsx scripts/prebuild-static-data.ts",
+    "prebuild:static": "node --import tsx scripts/prebuild-static-data.ts",
     "reset:admin": "node --env-file=.env.local scripts/reset-admin-credentials.mjs",
     "start": "next start",
     "lint": "eslint",

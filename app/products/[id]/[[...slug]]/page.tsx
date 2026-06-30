@@ -34,8 +34,12 @@ const AddToCartButton = nextDynamic(
 
 
 
+
+
 export const revalidate = 300;
 export const dynamicParams = true;
+
+
 
 
 

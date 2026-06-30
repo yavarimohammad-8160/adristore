@@ -2,7 +2,7 @@
  * Script-safe catalog builder (no Next.js unstable_cache).
  * Used by Cloudflare static export prebuild.
  */
-import { getVendorProducts } from "./basalam";
+import { getAllMockCatalogProducts, getVendorProducts } from "./basalam";
 import { buildSeriesCatalog } from "./product-series";
 import { readManualProducts, manualToProduct } from "./manual-products";
 import {
@@ -31,17 +31,8 @@ async function applyOverrides(products: Product[]): Promise<Product[]> {
   return products.map((p) => applyProductOverride(p, map.get(p.id) ?? null));
 }
 
-/** Full storefront catalog for static JSON export. */
-export async function buildExportCatalog(): Promise<{
-  products: Product[];
-  seriesCatalog: ReturnType<typeof buildSeriesCatalog>;
-  total: number;
-}> {
-  const [basalamProducts, manualRecords] = await Promise.all([
-    fetchAllBasalamProducts(),
-    readManualProducts(),
-  ]);
-
+async function mergeCatalog(basalamProducts: Product[]) {
+  const manualRecords = await readManualProducts();
   const manual = manualRecords.map(manualToProduct);
   const manualIds = new Set(manual.map((p) => p.id));
   const basalamOnly = basalamProducts.filter((p) => !manualIds.has(p.id));
@@ -52,4 +43,23 @@ export async function buildExportCatalog(): Promise<{
     seriesCatalog: buildSeriesCatalog(merged),
     total: merged.length,
   };
+}
+
+/** Full storefront catalog for static JSON export (live Basalam API). */
+export async function buildExportCatalog(): Promise<{
+  products: Product[];
+  seriesCatalog: ReturnType<typeof buildSeriesCatalog>;
+  total: number;
+}> {
+  const basalamProducts = await fetchAllBasalamProducts();
+  return mergeCatalog(basalamProducts);
+}
+
+/** Mock catalog for CI / builds without BASALAM_TOKEN (no network calls). */
+export async function buildMockExportCatalog(): Promise<{
+  products: Product[];
+  seriesCatalog: ReturnType<typeof buildSeriesCatalog>;
+  total: number;
+}> {
+  return mergeCatalog(getAllMockCatalogProducts());
 }

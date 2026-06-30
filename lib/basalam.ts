@@ -357,14 +357,19 @@ const MOCK_PRODUCTS: Product[] = [
   },
 ];
 
-function getMockProducts(page: number, per_page: number): ProductListResponse {
-  const simulated = Array.from({ length: 42 }).flatMap((_, i) =>
+/** Full mock catalog for static export when BASALAM_TOKEN is unavailable. */
+export function getAllMockCatalogProducts(): Product[] {
+  return Array.from({ length: 42 }).flatMap((_, i) =>
     MOCK_PRODUCTS.map((p, idx) => ({
       ...p,
       id: p.id + i * 100 + idx,
       title: `${p.title} ${i > 0 ? `#${i + 1}` : ""}`.trim(),
     }))
   );
+}
+
+function getMockProducts(page: number, per_page: number): ProductListResponse {
+  const simulated = getAllMockCatalogProducts();
   const start = (page - 1) * per_page;
   return {
     products: simulated.slice(start, start + per_page),
