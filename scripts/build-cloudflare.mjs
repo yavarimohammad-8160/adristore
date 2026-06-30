@@ -29,7 +29,7 @@ const CLOUDFLARE_CONFIG = path.join(ROOT, "next.config.mjs");
 const CLOUDFLARE_PAGES_MAX_FILE_BYTES = 25 * 1024 * 1024;
 const CATALOG_DIR = path.join(ROOT, "public", "data");
 
-loadOptionalEnvFiles(ROOT);
+// loadOptionalEnvFiles(ROOT);
 
 function hasBasalamToken() {
   return Boolean(process.env.BASALAM_TOKEN?.trim());
