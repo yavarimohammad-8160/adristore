@@ -3,15 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
+    "dev": "next dev",
     "build:cloudflare": "node scripts/build-cloudflare.mjs",
     "zip:cloudflare": "node scripts/zip-cloudflare.mjs",
     "prebuild:static": "node --env-file=.env.local --import tsx scripts/prebuild-static-data.ts",
     "reset:admin": "node --env-file=.env.local scripts/reset-admin-credentials.mjs",
     "start": "next start",
     "lint": "eslint",
-    "vercel-build": "next build"
+    "vercel-build": "next build",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "engines": {
     "node": ">=20"
@@ -19,6 +23,7 @@
   "dependencies": {
     "@base-ui/react": "^1.6.0",
     "@netlify/blobs": "^10.7.9",
+    "@opennextjs/cloudflare": "^1.20.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.21.0",
@@ -42,6 +47,7 @@
     "shadcn": "^4.11.0",
     "tailwindcss": "^4",
     "tsx": "^4.20.3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.105.0"
   }
 }
