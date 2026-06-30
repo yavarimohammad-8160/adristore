@@ -15,6 +15,7 @@ import { spawnSync } from "node:child_process";
 import {
   existsSync,
   mkdirSync,
+  readFileSync,
   readdirSync,
   renameSync,
   rmSync,
@@ -45,10 +46,22 @@ function catalogExists() {
 }
 
 function shouldSkipPrebuild() {
+  if (process.env.FORCE_CATALOG_REFRESH === "1") return false;
   if (process.env.SKIP_PREBUILD === "1" && catalogExists()) return true;
-  // Without a Basalam token, never regenerate — reuse committed catalog JSON.
-  if (!hasBasalamToken() && catalogExists()) return true;
+  // Always reuse committed catalog unless explicitly forced — prevents API failures
+  // from overwriting 1180+ real products with 42-item mock data.
+  if (catalogExists()) return true;
   return false;
+}
+
+function readCatalogProductCount(catalogPath = path.join(CATALOG_DIR, "home-catalog.json")) {
+  try {
+    const raw = readFileSync(catalogPath, "utf8");
+    const data = JSON.parse(raw);
+    return Array.isArray(data.products) ? data.products.length : 0;
+  } catch {
+    return 0;
+  }
 }
 
 function logBuildEnv() {
@@ -193,6 +206,15 @@ try {
     run("node", ["--import", "tsx", "scripts/prebuild-static-data.ts"]);
   }
 
+  const catalogCount = readCatalogProductCount();
+  if (catalogCount < 50) {
+    throw new Error(
+      `Catalog has only ${catalogCount} products — refusing to build mock/broken export. ` +
+        "Ensure public/data/home-catalog.json is committed with the real catalog."
+    );
+  }
+  console.log(`   catalog: ${catalogCount} products in public/data/home-catalog.json`);
+
   const mediaDir = path.join(ROOT, "public", "media", "products");
   const imageCount = existsSync(mediaDir)
     ? readdirSync(mediaDir).filter((name) => !name.startsWith(".")).length
@@ -238,6 +260,26 @@ try {
   const redirectsFile = path.join(ROOT, "out", "_redirects");
   if (!existsSync(indexHtml)) {
     throw new Error("out/index.html missing — static export failed");
+  }
+
+  try {
+    const outRaw = readFileSync(path.join(ROOT, "out", "data", "home-catalog.json"), "utf8");
+    const outData = JSON.parse(outRaw);
+    const outProducts = Array.isArray(outData.products) ? outData.products.length : 0;
+    if (outProducts < 50) {
+      throw new Error(`out/data/home-catalog.json has only ${outProducts} products — export is broken`);
+    }
+    console.log(`   export catalog: ${outProducts} products in out/data/`);
+  } catch (e) {
+    if (e instanceof Error && e.message.includes("out/data")) throw e;
+    console.warn("   ⚠ could not verify out/data/home-catalog.json");
+  }
+
+  const productPageSample = path.join(ROOT, "out", "products", "48115796", "index.html");
+  if (!existsSync(productPageSample)) {
+    console.warn("   ⚠ sample product page out/products/48115796/index.html missing");
+  } else {
+    console.log("   product pages: static HTML verified (sample 48115796)");
   }
   if (!existsSync(headersFile)) {
     console.warn("   ⚠ out/_headers missing (copy from public/_headers)");
