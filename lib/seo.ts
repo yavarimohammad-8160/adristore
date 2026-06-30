@@ -5,7 +5,7 @@ import { formatPrice } from "./format";
 import { productPath } from "./slug";
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://adristore.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://adristore.ir";
 export const SITE_NAME = "آدری‌استور";
 export const SITE_NAME_LATIN = "adristore";
 export const BRAND_NAME = "Kimdi";

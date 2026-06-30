@@ -31,6 +31,9 @@ const CATALOG_DIR = path.join(ROOT, "public", "data");
 
 // loadOptionalEnvFiles(ROOT);
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://adristore.ir";
+
 function hasBasalamToken() {
   return Boolean(process.env.BASALAM_TOKEN?.trim());
 }
@@ -47,6 +50,7 @@ function shouldSkipPrebuild() {
 
 function logBuildEnv() {
   const vendorId = process.env.BASALAM_VENDOR_ID || "1213430";
+  console.log(`   site URL: ${SITE_URL}`);
   if (shouldSkipPrebuild()) {
     console.log("   prebuild: skipped (SKIP_PREBUILD=1, catalog present)");
     return;
@@ -80,6 +84,8 @@ function run(cmd, args, env = {}) {
       ...env,
       ...prebuildEnv,
       NEXT_PUBLIC_STATIC_EXPORT: "1",
+      NEXT_PUBLIC_SITE_URL: SITE_URL,
+      CF_PAGES: process.env.CF_PAGES || "1",
     },
   });
   if (result.status !== 0) {
@@ -210,6 +216,19 @@ try {
   console.log("   all files within 25 MB limit");
 
   console.log("6/6 Build complete.");
+
+  const indexHtml = path.join(ROOT, "out", "index.html");
+  const headersFile = path.join(ROOT, "out", "_headers");
+  const redirectsFile = path.join(ROOT, "out", "_redirects");
+  if (!existsSync(indexHtml)) {
+    throw new Error("out/index.html missing — static export failed");
+  }
+  if (!existsSync(headersFile)) {
+    console.warn("   ⚠ out/_headers missing (copy from public/_headers)");
+  }
+  if (!existsSync(redirectsFile)) {
+    console.warn("   ⚠ out/_redirects missing (copy from public/_redirects)");
+  }
 } catch (err) {
   console.error("\n✗ Cloudflare build failed:", err);
   process.exitCode = 1;
@@ -235,4 +254,8 @@ if (!existsSync(outDir)) {
 
 const sizeMb = dirSizeMB(outDir);
 console.log(`\n✅ Static export ready: out/ (${sizeMb} MB)\n`);
-console.log("Next: zip the out/ folder and upload to Cloudflare Pages → Direct Upload\n");
+console.log("Deploy options:");
+console.log("  1. Cloudflare Pages → Connect Git → build: npm run build → output: out");
+console.log("  2. Custom domain: Pages project → Custom domains → add adristore.ir + www");
+console.log("  3. Direct upload: npm run zip:cloudflare");
+console.log("  4. CLI: npm run deploy:cloudflare (requires CLOUDFLARE_API_TOKEN)\n");

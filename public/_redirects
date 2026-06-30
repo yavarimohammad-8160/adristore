@@ -1,0 +1,7 @@
+# Cloudflare Pages redirects (copied to out/ on build)
+/product/:id /products/:id/ 301
+/product/:id/* /products/:id/:splat 301
+/shop /products/ 301
+/catalog /products/ 301
+/admin /admin/login/ 302
+/admin/* /admin/login/ 302
