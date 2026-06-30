@@ -1,6 +1,8 @@
 import { unstable_cache } from "next/cache";
 import type { Product } from "./types";
 import { getVendorProducts, searchVendorProducts } from "./products";
+import { productMatchesSearch } from "./product-search";
+import { getStaticHomeCatalog, isStaticExportBuild } from "./static-catalog";
 import { CACHE_TAGS, REVALIDATE } from "./cache-config";
 
 const RONALDO_TERMS = ["رونالدو", "ronaldo", "cristiano", "کریستیانو"];
@@ -58,11 +60,35 @@ function findBestMatch(
   )[0];
 }
 
+async function fetchHeroStarProductsFromCatalog(
+  catalog: Product[]
+): Promise<{
+  ronaldo: Product | null;
+  messi: Product | null;
+  pool: Product[];
+}> {
+  const ronaldoHits = catalog.filter((p) => productMatchesSearch(p, "رونالدو")).slice(0, 10);
+  const messiHits = catalog.filter((p) => productMatchesSearch(p, "مسی")).slice(0, 10);
+  const main = catalog.slice(0, 24);
+
+  const pool = dedupeById([...ronaldoHits, ...messiHits, ...main]);
+  const exclude = new Set<number>();
+  const messi = findBestMatch(pool, MESSI_TERMS, exclude);
+  if (messi) exclude.add(messi.id);
+  const ronaldo = findBestMatch(pool, RONALDO_TERMS, exclude);
+  return { ronaldo, messi, pool };
+}
+
 async function fetchHeroStarProductsUncached(): Promise<{
   ronaldo: Product | null;
   messi: Product | null;
   pool: Product[];
 }> {
+  if (isStaticExportBuild()) {
+    const { catalogProducts } = await getStaticHomeCatalog();
+    return fetchHeroStarProductsFromCatalog(catalogProducts);
+  }
+
   const [ronaldoSearch, messiSearch, main] = await Promise.all([
     searchVendorProducts({ search: "رونالدو", per_page: 10 }),
     searchVendorProducts({ search: "مسی", per_page: 10 }),

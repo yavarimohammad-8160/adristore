@@ -125,12 +125,17 @@ async function fetchProductCatalog(): Promise<{
   products: Product[];
   series: ProductSeries[];
 }> {
-  const staticRes = await fetch(STATIC_DATA.homeCatalog);
-  if (staticRes.ok) {
+  for (const url of [STATIC_DATA.homeCatalog, STATIC_DATA.productsCatalog]) {
+    const staticRes = await fetch(url, { cache: "force-cache" });
+    if (!staticRes.ok) continue;
     const data = await staticRes.json();
-    const series = parseSeriesCatalogJson(JSON.stringify(data?.series ?? []));
+    const products = asProductArray(data?.products);
+    if (products.length === 0) continue;
+    const series = parseSeriesCatalogJson(
+      JSON.stringify(data?.series ?? [])
+    );
     return {
-      products: asProductArray(data?.products),
+      products,
       series: series.length > 0 ? series : DEFAULT_SERIES_CATALOG,
     };
   }
@@ -284,19 +289,17 @@ export function HomeCatalogProvider({
     setPage(1);
   }, []);
 
-  // Strip stray query/hash on mount and reset filter state to a clean homepage.
+  // Strip stray query/hash on mount (keep in-memory filters intact for search UX).
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const { pathname, search, hash } = window.location;
+    const { pathname, search: locationSearch, hash } = window.location;
     const onHome = pathname === "/" || pathname === "";
 
-    if (onHome && (search || hash)) {
+    if (onHome && (locationSearch || hash)) {
       window.history.replaceState(null, "", "/");
     }
-
-    clearFilters();
-  }, [clearFilters]);
+  }, []);
 
   const loadMore = useCallback(() => {
     if (loading || !hasMore) return;

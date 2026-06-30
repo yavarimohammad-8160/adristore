@@ -30,12 +30,16 @@ function hasBasalamToken(): boolean {
 }
 
 function useMockCatalog(): boolean {
+  if (process.env.FORCE_MOCK_CATALOG === "1") return true;
   return (
     process.env.USE_MOCK_CATALOG === "1" ||
     process.env.SKIP_BASALAM_PREBUILD === "1" ||
     !hasBasalamToken()
   );
 }
+
+/** Real storefront catalogs have hundreds of Kimdi cards; mock has ~42. */
+const MIN_REAL_CATALOG_PRODUCTS = 50;
 
 async function fileExists(filePath: string): Promise<boolean> {
   try {
@@ -103,6 +107,21 @@ async function readExistingCatalog(): Promise<CatalogSnapshot | null> {
   };
 }
 
+async function mirrorAndWriteCatalog(snapshot: CatalogSnapshot): Promise<void> {
+  console.log("→ Mirroring product images for static hosting…");
+  const mirrored = await mirrorProductImages(snapshot.products);
+  const next: CatalogSnapshot = {
+    ...snapshot,
+    products: normalizeProductImagePaths(mirrored),
+    generatedAt: new Date().toISOString(),
+  };
+  await writeCatalogFiles(next);
+  const localImages = next.products.filter((p) =>
+    JSON.stringify(p).includes("/media/products/")
+  ).length;
+  console.log(`   ${localImages} product(s) with local image paths`);
+}
+
 async function writeCatalogFiles(snapshot: CatalogSnapshot): Promise<void> {
   await mkdir(OUT_DIR, { recursive: true });
 
@@ -132,11 +151,14 @@ async function main() {
     if (await catalogFilesExist()) {
       const existing = await readExistingCatalog();
       console.log(
-        `→ Skipping prebuild (SKIP_PREBUILD=1, ${existing?.products.length ?? "?"} products in cache)`
+        `→ Skipping catalog regen (SKIP_PREBUILD=1, ${existing?.products.length ?? "?"} products in cache)`
       );
+      if (existing && process.env.SKIP_IMAGE_MIRROR !== "1" && hasBasalamToken()) {
+        await mirrorAndWriteCatalog(existing);
+      }
       return;
     }
-    console.warn("→ SKIP_PREBUILD=1 but no catalog found — generating mock catalog");
+    console.warn("→ SKIP_PREBUILD=1 but no catalog found — generating catalog");
   }
 
   console.log("→ Prebuilding static catalog data…");
@@ -144,14 +166,25 @@ async function main() {
   let snapshot: CatalogSnapshot | null = null;
 
   if (useMockCatalog()) {
-    console.log("   skipping Basalam API — using mock catalog (no BASALAM_TOKEN)");
-    const { products, seriesCatalog, total } = await buildMockExportCatalog();
-    snapshot = {
-      products,
-      seriesCatalog,
-      total,
-      generatedAt: new Date().toISOString(),
-    };
+    const existing = await readExistingCatalog();
+    if (existing && existing.products.length >= MIN_REAL_CATALOG_PRODUCTS) {
+      console.log(
+        `   reusing committed catalog (${existing.products.length} products, no BASALAM_TOKEN)`
+      );
+      snapshot = {
+        ...existing,
+        generatedAt: existing.generatedAt || new Date().toISOString(),
+      };
+    } else {
+      console.log("   no cached catalog — using mock catalog (no BASALAM_TOKEN)");
+      const { products, seriesCatalog, total } = await buildMockExportCatalog();
+      snapshot = {
+        products,
+        seriesCatalog,
+        total,
+        generatedAt: new Date().toISOString(),
+      };
+    }
   } else {
     console.log("   fetching live catalog with BASALAM_TOKEN");
     try {
@@ -179,27 +212,17 @@ async function main() {
   }
 
   if (process.env.SKIP_IMAGE_MIRROR !== "1") {
-    console.log("→ Mirroring product images for static hosting…");
-    const mirrored = await mirrorProductImages(snapshot.products);
-    snapshot = {
-      ...snapshot,
-      products: normalizeProductImagePaths(mirrored),
-      seriesCatalog: snapshot.seriesCatalog,
-    };
+    await mirrorAndWriteCatalog(snapshot);
   } else {
     snapshot = {
       ...snapshot,
       products: normalizeProductImagePaths(snapshot.products),
     };
+    await writeCatalogFiles(snapshot);
   }
 
-  await writeCatalogFiles(snapshot);
-
-  const localImages = snapshot.products.filter((p) =>
-    JSON.stringify(p).includes("/media/products/")
-  ).length;
   console.log(
-    `✓ Wrote public/data/*.json (${snapshot.products.length} products, ${snapshot.seriesCatalog.length} series, ${localImages} with local images)`
+    `✓ Wrote public/data/*.json (${snapshot.products.length} products, ${snapshot.seriesCatalog.length} series)`
   );
 }
 

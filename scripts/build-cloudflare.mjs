@@ -45,21 +45,24 @@ function catalogExists() {
 }
 
 function shouldSkipPrebuild() {
-  return process.env.SKIP_PREBUILD === "1" && catalogExists();
+  if (process.env.SKIP_PREBUILD === "1" && catalogExists()) return true;
+  // Without a Basalam token, never regenerate — reuse committed catalog JSON.
+  if (!hasBasalamToken() && catalogExists()) return true;
+  return false;
 }
 
 function logBuildEnv() {
   const vendorId = process.env.BASALAM_VENDOR_ID || "1213430";
   console.log(`   site URL: ${SITE_URL}`);
   if (shouldSkipPrebuild()) {
-    console.log("   prebuild: skipped (SKIP_PREBUILD=1, catalog present)");
+    console.log("   prebuild: skipped (reusing committed catalog JSON)");
     return;
   }
   if (hasBasalamToken()) {
     console.log(`   prebuild: live Basalam API (vendor ${vendorId})`);
     return;
   }
-  console.log("   prebuild: mock catalog (BASALAM_TOKEN not set, no API calls)");
+  console.log("   prebuild: refresh catalog (no BASALAM_TOKEN — will reuse committed JSON if present)");
 }
 
 const STASH_ITEMS = [
@@ -188,6 +191,19 @@ try {
   logBuildEnv();
   if (!shouldSkipPrebuild()) {
     run("node", ["--import", "tsx", "scripts/prebuild-static-data.ts"]);
+  }
+
+  const mediaDir = path.join(ROOT, "public", "media", "products");
+  const imageCount = existsSync(mediaDir)
+    ? readdirSync(mediaDir).filter((name) => !name.startsWith(".")).length
+    : 0;
+  if (imageCount < 100) {
+    const hint = hasBasalamToken()
+      ? "images will be mirrored during the next full prebuild"
+      : "set BASALAM_TOKEN in Cloudflare Pages env to fetch + mirror images during build";
+    console.warn(`   ⚠ only ${imageCount} product image(s) in public/media/products (${hint})`);
+  } else {
+    console.log(`   product images: ${imageCount} file(s) in public/media/products`);
   }
 
   console.log("2/6 Stashing server-only routes…");
