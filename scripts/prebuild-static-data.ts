@@ -9,6 +9,10 @@ import {
   buildExportCatalog,
   buildMockExportCatalog,
 } from "../lib/prebuild-catalog";
+import {
+  mirrorProductImages,
+  normalizeProductImagePaths,
+} from "../lib/mirror-product-images";
 import type { ProductSeries } from "../lib/product-series";
 import type { Product } from "../lib/types";
 
@@ -174,10 +178,28 @@ async function main() {
     }
   }
 
+  if (process.env.SKIP_IMAGE_MIRROR !== "1") {
+    console.log("→ Mirroring product images for static hosting…");
+    const mirrored = await mirrorProductImages(snapshot.products);
+    snapshot = {
+      ...snapshot,
+      products: normalizeProductImagePaths(mirrored),
+      seriesCatalog: snapshot.seriesCatalog,
+    };
+  } else {
+    snapshot = {
+      ...snapshot,
+      products: normalizeProductImagePaths(snapshot.products),
+    };
+  }
+
   await writeCatalogFiles(snapshot);
 
+  const localImages = snapshot.products.filter((p) =>
+    JSON.stringify(p).includes("/media/products/")
+  ).length;
   console.log(
-    `✓ Wrote public/data/*.json (${snapshot.products.length} products, ${snapshot.seriesCatalog.length} series)`
+    `✓ Wrote public/data/*.json (${snapshot.products.length} products, ${snapshot.seriesCatalog.length} series, ${localImages} with local images)`
   );
 }
 

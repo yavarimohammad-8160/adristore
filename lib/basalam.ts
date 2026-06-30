@@ -19,9 +19,14 @@ function getHeaders(): HeadersInit {
   return headers;
 }
 
+const CARD_PLACEHOLDER = "/card-placeholder.svg";
+
 export function getPhotoUrl(photo?: Photo | null, fallbackId = 1): string {
-  if (!photo) return `https://picsum.photos/id/${(fallbackId % 200) + 10}/400/520`;
-  return photo.lg || photo.md || photo.original || photo.sm || photo.xs || "";
+  if (!photo) return CARD_PLACEHOLDER;
+  const url = (photo.lg || photo.md || photo.original || photo.sm || photo.xs || "").trim();
+  if (!url) return CARD_PLACEHOLDER;
+  if (url.startsWith("/")) return url;
+  return url;
 }
 
 export async function getVendor(): Promise<Vendor | null> {
@@ -343,9 +348,9 @@ const MOCK_PRODUCTS: Product[] = [
     price: 1850000,
     photo: {
       id: 1,
-      original: "https://picsum.photos/id/1015/600/600",
-      md: "https://picsum.photos/id/1015/400/400",
-      sm: "https://picsum.photos/id/1015/300/300",
+      original: "/card-placeholder.svg",
+      md: "/card-placeholder.svg",
+      sm: "/card-placeholder.svg",
     },
     photos: [],
     inventory: 12,

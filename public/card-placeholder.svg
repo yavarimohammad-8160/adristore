@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="520" viewBox="0 0 400 520" role="img" aria-label="تصویر کارت">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="520" fill="url(#bg)"/>
+  <rect x="24" y="24" width="352" height="472" rx="16" fill="none" stroke="#3b82f6" stroke-width="3" opacity="0.5"/>
+  <text x="200" y="250" text-anchor="middle" fill="#93c5fd" font-family="system-ui,sans-serif" font-size="28" font-weight="700">Kimdi</text>
+  <text x="200" y="290" text-anchor="middle" fill="#86efac" font-family="system-ui,sans-serif" font-size="18">کارت کلکسیونی</text>
+</svg>

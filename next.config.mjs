@@ -26,7 +26,16 @@ const nextConfig = {
     ? {
         output: 'export',
         trailingSlash: true,
-        images: { unoptimized: true },
+        images: {
+          unoptimized: true,
+          remotePatterns: [
+            { protocol: "https", hostname: "statics.basalam.com" },
+            { protocol: "https", hostname: "static.basalam.com" },
+            { protocol: "https", hostname: "cdn.basalam.com" },
+            { protocol: "https", hostname: "basalam.com" },
+            { protocol: "https", hostname: "picsum.photos" },
+          ],
+        },
         experimental: {
           optimizePackageImports: [
             "lucide-react",

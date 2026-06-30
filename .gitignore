@@ -17,6 +17,7 @@
 /.next/
 /out/
 /public/data/*.json
+/public/media/products/
 /adristore-cloudflare.zip
 /.cloudflare-build-stash/
 

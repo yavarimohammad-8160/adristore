@@ -16,6 +16,11 @@ import {
   applyProductOverride,
 } from "./product-overrides";
 import { productMatchesSearch } from "./product-search";
+import {
+  getStaticProductById,
+  isStaticExportBuild,
+  readStaticProducts,
+} from "./static-catalog";
 
 const MANUAL_ID_MIN = 900_000_000;
 
@@ -66,6 +71,11 @@ async function withOverride(product: Product | null): Promise<Product | null> {
 async function fetchProduct(productId: number | string): Promise<Product | null> {
   const id = Number(productId);
   if (!Number.isFinite(id) || id <= 0) return null;
+
+  if (isStaticExportBuild()) {
+    const fromCatalog = await getStaticProductById(id);
+    if (fromCatalog) return fromCatalog;
+  }
 
   if (id >= MANUAL_ID_MIN) {
     const manual = await getManualProduct(id);
@@ -136,6 +146,10 @@ const STOREFRONT_CATALOG_TTL = 5 * 60 * 1000;
 
 /** Basalam catalog + manual products + admin overrides — single source for search/series filters. */
 async function getStorefrontCatalog(): Promise<Product[]> {
+  if (isStaticExportBuild()) {
+    return readStaticProducts();
+  }
+
   if (
     storefrontCatalogCache &&
     Date.now() - storefrontCatalogCache.fetchedAt < STOREFRONT_CATALOG_TTL

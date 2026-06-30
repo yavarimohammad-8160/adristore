@@ -1,5 +1,6 @@
 import { searchVendorProducts } from "./products";
 import { buildSeriesCatalog } from "./product-series";
+import { getStaticHomeCatalog, isStaticExportBuild } from "./static-catalog";
 import type { Product } from "./types";
 
 export interface HomeCatalogData {
@@ -10,6 +11,10 @@ export interface HomeCatalogData {
 
 /** Single source for homepage grid + series dropdown (same product set). */
 export async function getHomeCatalogData(): Promise<HomeCatalogData> {
+  if (isStaticExportBuild()) {
+    return getStaticHomeCatalog();
+  }
+
   try {
     const { products, total } = await searchVendorProducts({
       page: 1,
