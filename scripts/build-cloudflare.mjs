@@ -202,8 +202,18 @@ try {
 
   console.log("1/6 Prebuilding catalog JSON…");
   logBuildEnv();
+  const mediaDir = path.join(ROOT, "public", "media", "products");
+  const imageCount = existsSync(mediaDir)
+    ? readdirSync(mediaDir).filter((name) => !name.startsWith(".")).length
+    : 0;
+
   if (!shouldSkipPrebuild()) {
     run("node", ["--import", "tsx", "scripts/prebuild-static-data.ts"]);
+  } else if (imageCount < 100 && hasBasalamToken()) {
+    console.log("   no local images — refreshing catalog + mirroring from Basalam API…");
+    run("node", ["--import", "tsx", "scripts/prebuild-static-data.ts"], {
+      FORCE_CATALOG_REFRESH: "1",
+    });
   }
 
   const catalogCount = readCatalogProductCount();
@@ -215,17 +225,16 @@ try {
   }
   console.log(`   catalog: ${catalogCount} products in public/data/home-catalog.json`);
 
-  const mediaDir = path.join(ROOT, "public", "media", "products");
-  const imageCount = existsSync(mediaDir)
+  const finalImageCount = existsSync(mediaDir)
     ? readdirSync(mediaDir).filter((name) => !name.startsWith(".")).length
     : 0;
-  if (imageCount < 100) {
+  if (finalImageCount < 100) {
     const hint = hasBasalamToken()
       ? "images will be mirrored during the next full prebuild"
       : "set BASALAM_TOKEN in Cloudflare Pages env to fetch + mirror images during build";
-    console.warn(`   ⚠ only ${imageCount} product image(s) in public/media/products (${hint})`);
+    console.warn(`   ⚠ only ${finalImageCount} product image(s) in public/media/products (${hint})`);
   } else {
-    console.log(`   product images: ${imageCount} file(s) in public/media/products`);
+    console.log(`   product images: ${finalImageCount} file(s) in public/media/products`);
   }
 
   console.log("2/6 Stashing server-only routes…");

@@ -118,7 +118,12 @@ export function ProductCard({
 
   const cardContent = (
     <>
-      <div className="trading-card-front relative flex flex-col h-full">
+      <Link
+        href={productUrl}
+        prefetch
+        className="trading-card-front relative flex flex-col h-full"
+        aria-label={`مشاهده ${product.title}`}
+      >
         <CardImageArea
           imgSrc={imgSrc}
           title={product.title}
@@ -128,7 +133,7 @@ export function ProductCard({
           criticalLow={criticalLow}
           hideStandardRarity={hideStandardRarity}
         />
-      </div>
+      </Link>
 
       <div className="trading-card-back">
         <div>
