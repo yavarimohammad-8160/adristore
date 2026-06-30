@@ -1,0 +1,1 @@
+export const VIDEO_MEDIA_PREFIX = "/api/media/videos/";

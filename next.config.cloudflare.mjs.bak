@@ -1,0 +1,19 @@
+/**
+ * Cloudflare Pages static-export config (NOT compatible with this app).
+ *
+ * This project uses dynamic API routes (/api/admin/*, etc.) and cannot use
+ * output: 'export'. Keep this file renamed/backed up — do NOT restore as
+ * next.config.mjs or `npm run build` will fail.
+ *
+ * Deploy this app on Vercel, Netlify (Next.js runtime), or Node instead.
+ */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  images: {
+    unoptimized: true,
+  },
+  trailingSlash: true,
+};
+
+export default nextConfig;

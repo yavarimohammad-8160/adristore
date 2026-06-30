@@ -1,0 +1,143 @@
+/* Admin-only styles — not used on storefront */
+
+.admin-form-section {
+  border: 2px solid rgba(30, 64, 175, 0.25);
+  border-radius: 1rem;
+  background: rgba(17, 24, 39, 0.45);
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .admin-form-section {
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+.admin-form-section__title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: rgba(147, 197, 253, 0.95);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(30, 64, 175, 0.3);
+}
+
+.admin-photo-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .admin-photo-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  }
+}
+
+.admin-photo-item {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 2px solid rgba(251, 191, 36, 0.35);
+  background: rgba(255, 255, 255, 0.05);
+  cursor: grab;
+  touch-action: none;
+  transition: border-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+}
+
+.admin-photo-item:active {
+  cursor: grabbing;
+}
+
+.admin-photo-item--dragging {
+  opacity: 0.45;
+  border-color: rgba(59, 130, 246, 0.8);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+.admin-photo-item--primary {
+  border-color: rgba(34, 197, 94, 0.65);
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+}
+
+.admin-photo-item__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.admin-photo-item__badge {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  font-size: 0.55rem;
+  font-weight: 800;
+  padding: 0.15rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.9);
+  color: #052e16;
+  z-index: 2;
+}
+
+.admin-photo-item__actions {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.2rem;
+  padding: 0.35rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+}
+
+.admin-photo-item__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 0.4rem;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.admin-photo-item__btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.admin-photo-item__btn--danger:hover {
+  background: rgba(239, 68, 68, 0.85);
+}
+
+.admin-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(30, 64, 175, 0.35);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: #bfdbfe;
+}
+
+.admin-video-preview {
+  aspect-ratio: 16 / 9;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 2px solid rgba(30, 64, 175, 0.4);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.admin-video-preview iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
