@@ -30,7 +30,7 @@ const CLOUDFLARE_CONFIG = path.join(ROOT, "next.config.mjs");
 const CLOUDFLARE_PAGES_MAX_FILE_BYTES = 25 * 1024 * 1024;
 const CATALOG_DIR = path.join(ROOT, "public", "data");
 
-// loadOptionalEnvFiles(ROOT);
+loadOptionalEnvFiles(ROOT);
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://adristore.ir";
@@ -210,7 +210,7 @@ try {
   if (!shouldSkipPrebuild()) {
     run("node", ["--import", "tsx", "scripts/prebuild-static-data.ts"]);
   } else if (imageCount < 100 && hasBasalamToken()) {
-    console.log("   no local images — refreshing catalog + mirroring from Basalam API…");
+    console.log("   no local images — live Basalam fetch + image mirror for CI…");
     run("node", ["--import", "tsx", "scripts/prebuild-static-data.ts"], {
       FORCE_CATALOG_REFRESH: "1",
     });
