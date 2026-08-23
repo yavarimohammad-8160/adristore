@@ -19,6 +19,7 @@ import {
 } from "@/lib/product-series";
 import { productMatchesSearch } from "@/lib/product-search";
 import { STATIC_DATA } from "@/lib/static-data";
+import { sortProductsNewestFirst } from "@/lib/product-sort";
 
 const PER_PAGE = 24;
 
@@ -126,7 +127,7 @@ async function fetchProductCatalog(): Promise<{
   series: ProductSeries[];
 }> {
   for (const url of [STATIC_DATA.homeCatalog, STATIC_DATA.productsCatalog]) {
-    const staticRes = await fetch(url, { cache: "force-cache" });
+    const staticRes = await fetch(`${url}?v=${Date.now()}`, { cache: "no-store" });
     if (!staticRes.ok) continue;
     const data = await staticRes.json();
     const products = asProductArray(data?.products);
@@ -247,7 +248,7 @@ export function HomeCatalogProvider({
       pool = pool.filter((product) => productMatchesSearch(product, query));
     }
 
-    return pool;
+    return sortProductsNewestFirst(pool);
   }, [activeSeries, sourceCatalog, seriesList, search]);
 
   const filteredTotal = useMemo(() => {

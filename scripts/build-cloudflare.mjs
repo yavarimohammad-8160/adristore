@@ -13,6 +13,7 @@
  */
 import { spawnSync } from "node:child_process";
 import {
+  cpSync,
   existsSync,
   mkdirSync,
   readFileSync,
@@ -92,7 +93,16 @@ function run(cmd, args, env = {}) {
     prebuildEnv.SKIP_BASALAM_PREBUILD = "1";
   }
 
-  const result = spawnSync(cmd, args, {
+  let command = cmd;
+  let commandArgs = args;
+  if (cmd === "node") {
+    command = process.execPath;
+  } else if (cmd === "npx" && args[0] === "next") {
+    command = process.execPath;
+    commandArgs = [path.join(ROOT, "node_modules/next/dist/bin/next"), ...args.slice(1)];
+  }
+
+  const result = spawnSync(command, commandArgs, {
     cwd: ROOT,
     stdio: "inherit",
     env: {
@@ -104,6 +114,9 @@ function run(cmd, args, env = {}) {
       CF_PAGES: process.env.CF_PAGES || "1",
     },
   });
+  if (result.error) {
+    throw result.error;
+  }
   if (result.status !== 0) {
     throw new Error(`Command failed (${result.status}): ${cmd} ${args.join(" ")}`);
   }
@@ -209,7 +222,7 @@ try {
 
   if (!shouldSkipPrebuild()) {
     run("node", ["--import", "tsx", "scripts/prebuild-static-data.ts"]);
-  } else if (imageCount < 100 && hasBasalamToken()) {
+  } else if (imageCount < 100 && hasBasalamToken() && process.env.SKIP_IMAGE_MIRROR !== "1") {
     console.log("   no local images — live Basalam fetch + image mirror for CI…");
     run("node", ["--import", "tsx", "scripts/prebuild-static-data.ts"], {
       FORCE_CATALOG_REFRESH: "1",
@@ -249,6 +262,11 @@ try {
 
   console.log("4/6 Pruning duplicate RSC payloads…");
   pruneDuplicateRscPayloads(path.join(ROOT, "out"));
+  const functionsDir = path.join(ROOT, "functions");
+  if (existsSync(functionsDir)) {
+    cpSync(functionsDir, path.join(ROOT, "out", "functions"), { recursive: true });
+    console.log("   copied functions/ into out/");
+  }
 
   console.log("5/6 Checking Cloudflare Pages file size limits…");
   const oversized = findOversizedFiles(path.join(ROOT, "out"));

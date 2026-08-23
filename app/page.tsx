@@ -15,6 +15,8 @@ import { VideoProductGrid } from "@/components/VideoProductGrid";
 import { getProductsWithVideo } from "@/lib/videos";
 import { homeMetadata, absoluteUrl, SITE_NAME, BRAND_NAME, HOME_DESCRIPTION } from "@/lib/seo";
 import { productPath } from "@/lib/slug";
+import { sortProductsNewestFirst } from "@/lib/product-sort";
+import { ProductLink } from "@/components/ProductLink";
 
 export const dynamic = "force-static";
 
@@ -27,7 +29,9 @@ export default async function Home() {
       fetchHeroStarProducts(),
       getProductsWithVideo(),
     ]);
-  const safeCatalog = Array.isArray(catalogProducts) ? catalogProducts : [];
+  const safeCatalog = sortProductsNewestFirst(
+    Array.isArray(catalogProducts) ? catalogProducts : []
+  );
   const initialProducts = safeCatalog.slice(0, 24);
   const videoPreview = Array.isArray(videoProducts) ? videoProducts.slice(0, 6) : [];
   const featured = initialProducts.slice(0, 8);
@@ -83,13 +87,13 @@ export default async function Home() {
             </p>
             <nav className="mt-3 flex flex-wrap gap-2" aria-label="لینک به کارت‌های محبوب">
               {featured.slice(0, 6).map((product) => (
-                <Link
+                <ProductLink
                   key={product.id}
                   href={productPath(product.id, product.title)}
                   className="inline-flex items-center rounded-full border border-[#22c55e]/35 bg-[#22c55e]/10 px-3 py-1.5 text-xs sm:text-sm font-bold text-[#86efac] hover:bg-[#22c55e]/25 hover:border-[#22c55e]/55 transition-colors"
                 >
                   {product.title}
-                </Link>
+                </ProductLink>
               ))}
               <Link
                 href="/products"

@@ -5,6 +5,8 @@ export interface Photo {
   sm?: string;
   md?: string;
   lg?: string;
+  /** Original Basalam CDN URL — storefront fallback when jsDelivr 404s. */
+  remote?: string;
 }
 
 export interface Product {

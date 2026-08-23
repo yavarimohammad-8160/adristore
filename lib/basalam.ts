@@ -3,18 +3,26 @@ import { matchesCategory } from "./categories";
 import { productMatchesSearch } from "./product-search";
 import { productMatchesSeries } from "./product-series";
 import { toDisplayPrice, toApiPrice } from "./format";
+import { sortProductsNewestFirst } from "./product-sort";
 
 const BASE_URL = "https://openapi.basalam.com/v1";
-const VENDOR_ID = process.env.BASALAM_VENDOR_ID || "1213430";
-const TOKEN = process.env.BASALAM_TOKEN;
+
+function getVendorId(): string {
+  return process.env.BASALAM_VENDOR_ID?.trim() || "1213430";
+}
+
+function getToken(): string {
+  return process.env.BASALAM_TOKEN?.trim() || "";
+}
 
 function getHeaders(): HeadersInit {
   const headers: HeadersInit = {
     Accept: "application/json",
     "Content-Type": "application/json",
   };
-  if (TOKEN) {
-    headers["Authorization"] = `Bearer ${TOKEN}`;
+  const token = getToken();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
   }
   return headers;
 }
@@ -23,7 +31,15 @@ const CARD_PLACEHOLDER = "/card-placeholder.svg";
 
 export function getPhotoUrl(photo?: Photo | null, fallbackId = 1): string {
   if (!photo) return CARD_PLACEHOLDER;
-  const url = (photo.lg || photo.md || photo.original || photo.sm || photo.xs || "").trim();
+  const url = (
+    photo.lg ||
+    photo.md ||
+    photo.original ||
+    photo.remote ||
+    photo.sm ||
+    photo.xs ||
+    ""
+  ).trim();
   if (!url) return CARD_PLACEHOLDER;
   if (url.startsWith("/")) return url;
   return url;
@@ -31,7 +47,7 @@ export function getPhotoUrl(photo?: Photo | null, fallbackId = 1): string {
 
 export async function getVendor(): Promise<Vendor | null> {
   try {
-    const res = await fetch(`${BASE_URL}/vendors/${VENDOR_ID}`, {
+    const res = await fetch(`${BASE_URL}/vendors/${getVendorId()}`, {
       headers: getHeaders(),
       next: { revalidate: 3600 },
     });
@@ -73,7 +89,7 @@ async function fetchProductsPage(
   if (extra?.min_price != null) searchParams.set("min_price", String(toApiPrice(extra.min_price)));
   if (extra?.max_price != null) searchParams.set("max_price", String(toApiPrice(extra.max_price)));
 
-  const url = `${BASE_URL}/vendors/${VENDOR_ID}/products?${searchParams.toString()}`;
+  const url = `${BASE_URL}/vendors/${getVendorId()}/products?${searchParams.toString()}`;
 
   const res = await fetch(url, {
     headers: getHeaders(),
@@ -82,7 +98,7 @@ async function fetchProductsPage(
 
   if (!res.ok) {
     console.error(`Basalam products fetch failed (${res.status})`);
-    if (!TOKEN || res.status === 401) {
+    if (!getToken() || res.status === 401) {
       return getMockProducts(page, per_page);
     }
     throw new Error(`Failed to fetch products: ${res.status}`);
@@ -108,34 +124,46 @@ export async function getVendorProducts(
 
 let catalogCache: { products: Product[]; total: number; fetchedAt: number } | null = null;
 const CACHE_TTL = 5 * 60 * 1000;
+const CATALOG_PAGE_SIZE = 100;
+const CATALOG_MAX_PAGES = 50;
+const CATALOG_PAGE_CONCURRENCY = 3;
+
+/** Fetch every vendor product page. Do not cap at 12 pages — that silently dropped new cards. */
+export async function fetchAllVendorProducts(): Promise<{ products: Product[]; total: number }> {
+  const first = await fetchProductsPage(1, CATALOG_PAGE_SIZE);
+  const totalPages = Math.min(Math.max(first.total_pages || 1, 1), CATALOG_MAX_PAGES);
+  const allProducts = [...first.products];
+
+  for (let start = 2; start <= totalPages; start += CATALOG_PAGE_CONCURRENCY) {
+    const batch: Promise<ProductListResponse>[] = [];
+    for (let p = start; p < start + CATALOG_PAGE_CONCURRENCY && p <= totalPages; p++) {
+      batch.push(fetchProductsPage(p, CATALOG_PAGE_SIZE));
+    }
+    const results = await Promise.all(batch);
+    for (const r of results) allProducts.push(...r.products);
+  }
+
+  const unique = new Map<number, Product>();
+  for (const product of allProducts) {
+    if (Number.isFinite(product.id)) unique.set(product.id, product);
+  }
+
+  return { products: [...unique.values()], total: first.total || unique.size };
+}
 
 async function getFullCatalog(): Promise<{ products: Product[]; total: number }> {
   if (catalogCache && Date.now() - catalogCache.fetchedAt < CACHE_TTL) {
     return { products: catalogCache.products, total: catalogCache.total };
   }
 
-  const first = await fetchProductsPage(1, 100);
-  const totalPages = first.total_pages;
-  const allProducts = [...first.products];
-
-  const pagesToFetch = Math.min(totalPages, 12);
-  const fetches = [];
-  for (let p = 2; p <= pagesToFetch; p++) {
-    fetches.push(fetchProductsPage(p, 100));
-  }
-
-  const results = await Promise.all(fetches);
-  for (const r of results) {
-    allProducts.push(...r.products);
-  }
-
+  const fetched = await fetchAllVendorProducts();
   catalogCache = {
-    products: allProducts,
-    total: first.total,
+    products: fetched.products,
+    total: fetched.total,
     fetchedAt: Date.now(),
   };
 
-  return { products: allProducts, total: first.total };
+  return fetched;
 }
 
 export async function searchVendorProducts(
@@ -182,7 +210,7 @@ export async function searchVendorProducts(
 
     if (sort === "price:asc") filtered.sort((a, b) => a.price - b.price);
     else if (sort === "price:desc") filtered.sort((a, b) => b.price - a.price);
-    else if (sort === "newest") filtered.sort((a, b) => (b.id || 0) - (a.id || 0));
+    else filtered = sortProductsNewestFirst(filtered);
 
     const start = (page - 1) * per_page;
     const pageProducts = filtered.slice(start, start + per_page);
@@ -208,7 +236,7 @@ function applySort(
   const products = [...result.products];
   if (sort === "price:asc") products.sort((a, b) => a.price - b.price);
   else if (sort === "price:desc") products.sort((a, b) => b.price - a.price);
-  else if (sort === "newest") products.sort((a, b) => (b.id || 0) - (a.id || 0));
+  else return { ...result, products: sortProductsNewestFirst(products) };
   return { ...result, products };
 }
 
@@ -220,7 +248,7 @@ export async function getProduct(productId: number | string): Promise<Product | 
     });
 
     if (!res.ok) {
-      if (!TOKEN && res.status === 401) {
+      if (!getToken() && res.status === 401) {
         return getMockProductById(String(productId));
       }
       return null;
@@ -290,6 +318,59 @@ function collectPhotos(p: Record<string, unknown>): Photo[] {
   for (const ph of arr) add(ph);
 
   return result;
+}
+
+/** Vendor list omits `photos[]` and `created_at`. Product detail has the gallery. */
+export async function fetchProductDetail(productId: number): Promise<Product | null> {
+  try {
+    const res = await fetch(`${BASE_URL}/products/${productId}`, {
+      headers: getHeaders(),
+      signal: AbortSignal.timeout(20_000),
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as Record<string, unknown>;
+    return normalizeProduct((data.data || data) as Record<string, unknown>);
+  } catch {
+    return null;
+  }
+}
+
+export async function enrichProductsWithGallery(
+  products: Product[],
+  options: { concurrency?: number; onProgress?: (done: number, total: number) => void } = {}
+): Promise<Product[]> {
+  const concurrency = Math.max(1, options.concurrency ?? 5);
+  const out = products.slice();
+  let cursor = 0;
+  let done = 0;
+
+  const worker = async () => {
+    while (cursor < out.length) {
+      const index = cursor++;
+      const current = out[index];
+      const detailed = await fetchProductDetail(current.id);
+      if (detailed) {
+        const photos = collectPhotos({
+          photo: detailed.photo || current.photo,
+          photos: [...(detailed.photos ?? []), ...(current.photos ?? [])],
+        });
+        out[index] = {
+          ...current,
+          ...detailed,
+          photo: photos[0] ?? detailed.photo ?? current.photo,
+          photos,
+          created_at: detailed.created_at || current.created_at,
+          description: detailed.description || current.description,
+          brief: detailed.brief || current.brief,
+        };
+      }
+      done += 1;
+      options.onProgress?.(done, out.length);
+    }
+  };
+
+  await Promise.all(Array.from({ length: Math.min(concurrency, out.length) }, () => worker()));
+  return out;
 }
 
 function normalizeProduct(p: Record<string, unknown>): Product {
@@ -391,9 +472,9 @@ function getMockProductById(id: string): Product {
   return { ...MOCK_PRODUCTS[0], id: Number(id) || 999999, title: "کارت کلکسیونی ویژه" };
 }
 
-export const BASALAM_VENDOR_ID = VENDOR_ID;
+export const BASALAM_VENDOR_ID = getVendorId();
 
 /** @internal Server-only — do not expose to clients */
 export function isBasalamConfigured(): boolean {
-  return Boolean(TOKEN);
+  return Boolean(getToken());
 }

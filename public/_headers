@@ -1,7 +1,7 @@
 # Cloudflare Pages — caching & security (https://developers.cloudflare.com/pages/configuration/headers/)
 
 /data/*
-  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Cache-Control: public, max-age=0, must-revalidate
 
 /media/products/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400

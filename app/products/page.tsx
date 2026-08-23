@@ -18,7 +18,9 @@ let catalogCache: Product[] | null = null;
 async function loadCatalogProducts(): Promise<Product[]> {
   if (catalogCache) return catalogCache;
 
-  const staticRes = await fetch(STATIC_DATA.productsCatalog);
+  const staticRes = await fetch(`${STATIC_DATA.productsCatalog}?v=${Date.now()}`, {
+    cache: "no-store",
+  });
   if (staticRes.ok) {
     const data = await staticRes.json();
     const products = Array.isArray(data?.products) ? data.products : [];
@@ -68,7 +70,7 @@ function ProductsContent() {
   const [filter, setFilter] = useState(searchParams.get("filter") || "");
   const [minPrice, setMinPrice] = useState(Number(searchParams.get("min_price") || 0));
   const [maxPrice, setMaxPrice] = useState(Number(searchParams.get("max_price") || 5000000));
-  const [sort, setSort] = useState<"default" | "price-low" | "price-high">("default");
+  const [sort, setSort] = useState<"newest" | "price-low" | "price-high">("newest");
   const [page, setPage] = useState(1);
 
   const [data, setData] = useState<ProductListResponse | null>(null);
@@ -86,7 +88,7 @@ function ProductsContent() {
       setLoading(true);
       try {
         const sortParam =
-          sort === "price-low" ? "price:asc" : sort === "price-high" ? "price:desc" : "";
+          sort === "price-low" ? "price:asc" : sort === "price-high" ? "price:desc" : "newest";
 
         const params: Record<string, string> = {
           page: String(p),
@@ -141,7 +143,7 @@ function ProductsContent() {
     setFilter("");
     setMinPrice(0);
     setMaxPrice(5000000);
-    setSort("default");
+    setSort("newest");
     setPage(1);
   }
 
@@ -213,10 +215,10 @@ function ProductsContent() {
           <label className="block text-xs mb-1.5 text-[#ef4444] font-bold">مرتب‌سازی</label>
           <select
             value={sort}
-            onChange={(e) => setSort(e.target.value as "default" | "price-low" | "price-high")}
+            onChange={(e) => setSort(e.target.value as "newest" | "price-low" | "price-high")}
             className="filter-input w-full h-12 px-3 text-sm font-semibold"
           >
-            <option value="default">پیش‌فرض</option>
+            <option value="newest">جدیدترین</option>
             <option value="price-low">ارزان‌ترین</option>
             <option value="price-high">گران‌ترین</option>
           </select>

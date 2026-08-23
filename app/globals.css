@@ -197,6 +197,17 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* Invisible back-face still intercepts clicks in Chromium 3D. */
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .trading-card:hover .trading-card-back {
+    pointer-events: auto;
+  }
+  .trading-card:hover .trading-card-front {
+    pointer-events: none;
+  }
 }
 
 .card-img {

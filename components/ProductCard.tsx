@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import type { MouseEvent } from "react";
 import { Product } from "@/lib/types";
-import { getPhotoUrl } from "@/lib/basalam";
+import { SmartProductImage } from "@/components/SmartProductImage";
+import { ProductLink } from "@/components/ProductLink";
 import { Badge } from "@/components/ui/badge";
 import { ConfettiBurst } from "./ConfettiBurst";
 import { KimdiBadge } from "./KimdiBadge";
@@ -46,7 +47,7 @@ function LowStockBadge({ label, critical }: { label: string; critical?: boolean 
 }
 
 function CardImageArea({
-  imgSrc,
+  product,
   title,
   rarity,
   inStock,
@@ -55,7 +56,7 @@ function CardImageArea({
   showTitleBar = true,
   hideStandardRarity = false,
 }: {
-  imgSrc: string;
+  product: Product;
   title: string;
   rarity: { label: string; cls: string };
   inStock: boolean;
@@ -67,8 +68,8 @@ function CardImageArea({
   return (
     <>
       <div className="relative flex-1 min-h-0 overflow-hidden">
-        <img
-          src={imgSrc}
+        <SmartProductImage
+          photo={product.photo}
           alt={buildProductImageAlt(title)}
           className="card-img absolute inset-0"
           loading="lazy"
@@ -109,7 +110,6 @@ export function ProductCard({
   hideStandardRarity = false,
 }: ProductCardProps) {
   const rarity = getRarity(product.title, product.price);
-  const imgSrc = getPhotoUrl(product.photo, product.id);
   const productUrl = productPath(product.id, product.title);
   const inventory = product.inventory ?? 0;
   const inStock = inventory > 0;
@@ -118,14 +118,13 @@ export function ProductCard({
 
   const cardContent = (
     <>
-      <Link
+      <ProductLink
         href={productUrl}
-        prefetch
         className="trading-card-front relative flex flex-col h-full"
         aria-label={`مشاهده ${product.title}`}
       >
         <CardImageArea
-          imgSrc={imgSrc}
+          product={product}
           title={product.title}
           rarity={rarity}
           inStock={inStock}
@@ -133,7 +132,7 @@ export function ProductCard({
           criticalLow={criticalLow}
           hideStandardRarity={hideStandardRarity}
         />
-      </Link>
+      </ProductLink>
 
       <div className="trading-card-back">
         <div>
@@ -155,13 +154,12 @@ export function ProductCard({
         </div>
 
         <div className="pt-2">
-          <Link
+          <ProductLink
             href={productUrl}
-            prefetch
             className="w-full inline-flex justify-center btn-primary h-10 items-center rounded-xl text-sm font-bold"
           >
             مشاهده جزئیات 🃏
-          </Link>
+          </ProductLink>
           <a
             href={product.url || `https://basalam.com/p/${product.id}`}
             target="_blank"
@@ -175,15 +173,23 @@ export function ProductCard({
     </>
   );
 
+  function goToProduct(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (target.closest("a[target='_blank']")) return;
+    if (target.closest("a")) return;
+    event.preventDefault();
+    window.location.assign(productUrl);
+  }
+
   if (!showFlip) {
     return (
       <ConfettiBurst>
-        <Link href={productUrl} prefetch className="group block card-glow">
+        <ProductLink href={productUrl} className="group block card-glow">
           <div className="trading-card">
             <div className="trading-card-inner">
               <div className="trading-card-front relative flex flex-col h-full">
                 <CardImageArea
-                  imgSrc={imgSrc}
+                  product={product}
                   title={product.title}
                   rarity={rarity}
                   inStock={inStock}
@@ -197,19 +203,19 @@ export function ProductCard({
               <Price value={product.price} size="sm" />
             </div>
           </div>
-        </Link>
+        </ProductLink>
       </ConfettiBurst>
     );
   }
 
   return (
     <ConfettiBurst className="card-glow">
-      <div className="trading-card group">
+      <div className="trading-card group" onClick={goToProduct} role="link">
         <div className="trading-card-inner">{cardContent}</div>
         <div className="mt-2 px-1 flex justify-between items-center text-xs sm:text-xs gap-1 min-h-[44px]">
-          <Link href={productUrl} prefetch className="touch-target inline-flex items-center text-[#1e40af] hover:underline font-bold truncate py-2">
+          <ProductLink href={productUrl} className="touch-target inline-flex items-center text-[#1e40af] hover:underline font-bold truncate py-2">
             جزئیات →
-          </Link>
+          </ProductLink>
           <Price value={product.price} size="sm" />
           <span className={`font-bold shrink-0 ${inStock ? "text-[#22c55e]" : "text-[#ef4444]"}`}>
             {inStock ? `${formatNumber(inventory)} عدد` : "ناموجود"}

@@ -1,9 +1,9 @@
-import Link from "next/link";
 import type { Product } from "@/lib/types";
-import { getPhotoUrl } from "@/lib/basalam";
+import { ProductLink } from "@/components/ProductLink";
 import { buildProductImageAlt } from "@/lib/seo";
 import { productPath } from "@/lib/slug";
 import { Price } from "@/components/Price";
+import { SmartProductImage } from "@/components/SmartProductImage";
 
 interface RelatedProductCardProps {
   product: Product;
@@ -11,16 +11,15 @@ interface RelatedProductCardProps {
 
 export function RelatedProductCard({ product }: RelatedProductCardProps) {
   const href = productPath(product.id, product.title);
-  const imgSrc = getPhotoUrl(product.photo, product.id);
 
   return (
-    <Link href={href} prefetch className="group block card-glow">
+    <ProductLink href={href} className="group block card-glow">
       <div className="trading-card">
         <div className="trading-card-inner">
           <div className="trading-card-front relative flex flex-col h-full">
             <div className="relative flex-1 min-h-0 overflow-hidden">
-              <img
-                src={imgSrc}
+              <SmartProductImage
+                photo={product.photo}
                 alt={buildProductImageAlt(product.title)}
                 className="card-img absolute inset-0"
                 loading="lazy"
@@ -38,6 +37,6 @@ export function RelatedProductCard({ product }: RelatedProductCardProps) {
           <Price value={product.price} size="sm" />
         </div>
       </div>
-    </Link>
+    </ProductLink>
   );
 }

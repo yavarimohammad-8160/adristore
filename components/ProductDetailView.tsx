@@ -1,27 +1,19 @@
+"use client";
+
 import Link from "next/link";
-import { Suspense } from "react";
-import { preload } from "react-dom";
-import { notFound, permanentRedirect } from "next/navigation";
-import { getProduct } from "@/lib/products";
-import { getPhotoUrl } from "@/lib/basalam";
 import nextDynamic from "next/dynamic";
 import { ProductGallery } from "@/components/ProductGallery";
 import { ProductVideo } from "@/components/ProductVideo";
 import { KimdiBadge } from "@/components/KimdiBadge";
 import { JsonLd } from "@/components/JsonLd";
 import { Price } from "@/components/Price";
-import { RelatedProducts } from "@/components/RelatedProducts";
-import { RelatedProductsSkeleton } from "@/components/RelatedProductsSkeleton";
+import { RelatedProductCard } from "@/components/RelatedProductCard";
 import { formatNumber } from "@/lib/format";
-import {
-  buildProductMetadata,
-  buildProductJsonLd,
-  buildProductDescription,
-} from "@/lib/seo";
-import { productPath, slugMatches } from "@/lib/slug";
+import { buildProductDescription, buildProductJsonLd } from "@/lib/seo";
 import { resolveStaticVideoUrl } from "@/lib/static-video-url";
-import { readStaticProducts } from "@/lib/static-catalog";
+import type { Product } from "@/lib/types";
 import { uniqueProductPhotos } from "@/lib/media-cdn";
+
 const AddToCartButton = nextDynamic(
   () => import("@/components/AddToCartButton").then((m) => m.AddToCartButton),
   {
@@ -31,84 +23,26 @@ const AddToCartButton = nextDynamic(
   }
 );
 
-
-
-
-
-
-
-
-export const revalidate = 300;
-export const dynamicParams = true;
-
-/** Every catalog ID must be emitted so Cloudflare Pages has HTML for new cards. */
-export async function generateStaticParams() {
-  try {
-    const products = await readStaticProducts();
-    if (products.length > 0) {
-      return products.map((p) => ({ id: String(p.id), slug: [] as string[] }));
-    }
-  } catch (error) {
-    console.error("generateStaticParams catalog read failed:", error);
-  }
-  return [];
-}
-
-
-
-
-
-
-
-
-interface Props {
-  params: Promise<{ id: string; slug?: string[] }>;
-}
-
-export async function generateMetadata({ params }: Props) {
-  const { id } = await params;
-  const product = await getProduct(id);
-  if (!product) {
-    return { title: "کارت پیدا نشد | Kimdi — آدری‌استور" };
-  }
-  return buildProductMetadata(product);
-}
-
-export default async function ProductPage({ params }: Props) {
-  const { id, slug: slugSegments } = await params;
-
-  if (!id || !/^\d+$/.test(id)) {
-    notFound();
-  }
-
-  const product = await getProduct(id);
-
-  if (!product) {
-    notFound();
-  }
-
-  const currentSlug = slugSegments?.[0];
-
-  const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "1";
-  if (!isStaticExport && !slugMatches(currentSlug, product.title)) {
-    permanentRedirect(productPath(product.id, product.title));
-  }
-
+export function ProductDetailView({
+  product,
+  related,
+}: {
+  product: Product;
+  related?: Product[];
+}) {
   const basalamUrl = product.url || `https://basalam.com/p/${product.id}`;
   const inStock = (product.inventory ?? 0) > 0;
   const jsonLd = buildProductJsonLd(product);
   const photos = uniqueProductPhotos(product);
-  const mainImageUrl = getPhotoUrl(product.photo, product.id);
-
-  if (mainImageUrl) {
-    preload(mainImageUrl, { as: "image", fetchPriority: "high" });
-  }
 
   return (
     <>
       <JsonLd data={jsonLd} />
       <div className="max-w-[1440px] mx-auto px-4 sm:px-5 py-6 sm:py-10 wc-page">
-        <nav className="mb-4 sm:mb-6 text-xs sm:text-sm overflow-x-auto whitespace-nowrap pb-1" aria-label="مسیر صفحه">
+        <nav
+          className="mb-4 sm:mb-6 text-xs sm:text-sm overflow-x-auto whitespace-nowrap pb-1"
+          aria-label="مسیر صفحه"
+        >
           <Link href="/" className="text-white/50 hover:text-[#22c55e] font-bold">
             خانه
           </Link>
@@ -201,9 +135,18 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </article>
 
-        <Suspense fallback={<RelatedProductsSkeleton />}>
-          <RelatedProducts excludeId={product.id} />
-        </Suspense>
+        {related && related.length > 0 ? (
+          <section className="mt-16" aria-labelledby="related-heading">
+            <h2 id="related-heading" className="text-[#fbbf24] text-xl font-black mb-4">
+              کارت‌های مشابه Kimdi
+            </h2>
+            <div className="product-grid">
+              {related.map((p) => (
+                <RelatedProductCard key={p.id} product={p} />
+              ))}
+            </div>
+          </section>
+        ) : null}
       </div>
     </>
   );

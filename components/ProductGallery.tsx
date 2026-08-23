@@ -4,8 +4,9 @@ import { useState, useCallback, memo, useRef } from "react";
 import dynamic from "next/dynamic";
 import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import type { Photo } from "@/lib/types";
-import { getPhotoUrl } from "@/lib/basalam";
+import { CARD_PLACEHOLDER, photoFallbackSrcs } from "@/lib/media-cdn";
 import { buildProductImageAlt } from "@/lib/seo";
+import { SmartProductImage } from "@/components/SmartProductImage";
 
 const ImageLightbox = dynamic(
   () => import("./ImageLightbox").then((m) => m.ImageLightbox),
@@ -14,16 +15,13 @@ const ImageLightbox = dynamic(
 
 const SWIPE_THRESHOLD = 48;
 
-function photoToUrl(photo: Photo, fallbackId: number): string {
-  return photo.sm || photo.md || photo.lg || photo.original || getPhotoUrl(photo, fallbackId);
-}
-
-function photoToMainUrl(photo: Photo, fallbackId: number): string {
-  return photo.md || photo.lg || photo.original || photo.sm || getPhotoUrl(photo, fallbackId);
+function photoToUrl(photo: Photo): string {
+  return photoFallbackSrcs(photo)[0] || CARD_PLACEHOLDER;
 }
 
 interface GalleryImageProps {
-  src: string;
+  photo?: Photo | null;
+  src?: string;
   alt: string;
   className?: string;
   priority?: boolean;
@@ -31,6 +29,7 @@ interface GalleryImageProps {
 }
 
 const GalleryImage = memo(function GalleryImage({
+  photo,
   src,
   alt,
   className = "",
@@ -48,7 +47,8 @@ const GalleryImage = memo(function GalleryImage({
           aria-hidden
         />
       )}
-      <img
+      <SmartProductImage
+        photo={photo}
         src={src}
         alt={alt}
         className={`${className} transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
@@ -68,16 +68,17 @@ interface ProductGalleryProps {
   productId: number;
 }
 
-export function ProductGallery({ photos, title, productId }: ProductGalleryProps) {
+export function ProductGallery({ photos, title }: ProductGalleryProps) {
+  const photoList: Photo[] = [];
+  const seen = new Set<string>();
+  for (const photo of photos) {
+    const url = photoToUrl(photo);
+    if (!url || url === CARD_PLACEHOLDER || seen.has(url)) continue;
+    seen.add(url);
+    photoList.push(photo);
+  }
   const images =
-    photos.length > 0
-      ? photos.map((p) => photoToMainUrl(p, productId))
-      : [getPhotoUrl(null, productId)];
-
-  const thumbImages =
-    photos.length > 0
-      ? photos.map((p) => photoToUrl(p, productId))
-      : images;
+    photoList.length > 0 ? photoList.map((p) => photoToUrl(p)) : [CARD_PLACEHOLDER];
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -125,6 +126,7 @@ export function ProductGallery({ photos, title, productId }: ProductGalleryProps
           aria-label="بزرگ‌نمایی تصویر — برای تعویض تصویر بکشید"
         >
           <GalleryImage
+            photo={photoList[activeIndex]}
             src={images[activeIndex]}
             alt={buildProductImageAlt(title)}
             className="w-full h-full object-cover transition-transform duration-300 group-active:scale-[1.01]"
@@ -175,7 +177,7 @@ export function ProductGallery({ photos, title, productId }: ProductGalleryProps
             🖼️ همه تصاویر ({images.length})
           </p>
           <div className="gallery-thumbs flex gap-2.5 sm:gap-3 overflow-x-auto pb-2 scroll-smooth snap-x snap-mandatory -mx-1 px-1">
-            {thumbImages.map((src, i) => (
+            {images.map((src, i) => (
               <button
                 key={`${src}-${i}`}
                 type="button"
@@ -189,6 +191,7 @@ export function ProductGallery({ photos, title, productId }: ProductGalleryProps
                 aria-current={i === activeIndex ? "true" : undefined}
               >
                 <GalleryImage
+                  photo={photoList[i]}
                   src={src}
                   alt={buildProductImageAlt(title, i)}
                   className="w-full h-full object-cover"

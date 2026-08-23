@@ -16,6 +16,7 @@ import {
   applyProductOverride,
 } from "./product-overrides";
 import { productMatchesSearch } from "./product-search";
+import { sortProductsNewestFirst } from "./product-sort";
 import {
   getStaticProductById,
   isStaticExportBuild,
@@ -214,7 +215,7 @@ export async function searchVendorProducts(params: SearchParams = {}): Promise<P
 
     if (sort === "price:asc") filtered = [...filtered].sort((a, b) => a.price - b.price);
     else if (sort === "price:desc") filtered = [...filtered].sort((a, b) => b.price - a.price);
-    else if (sort === "newest") filtered = [...filtered].sort((a, b) => (b.id || 0) - (a.id || 0));
+    else filtered = sortProductsNewestFirst(filtered);
 
     const start = (page - 1) * per_page;
     const pageProducts = filtered.slice(start, start + per_page);
