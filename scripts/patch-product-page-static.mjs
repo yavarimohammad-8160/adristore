@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Injects static-export route config into product routes (Cloudflare build only). */
+/** Patch product routes for static export (Cloudflare build only). */
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
@@ -9,78 +9,54 @@ const PAGE = path.join(
 );
 const LAYOUT = path.join(process.cwd(), "app/products/layout.tsx");
 
-const STATIC_BLOCK = `
-import { readFile } from "node:fs/promises";
-import path from "node:path";
-import type { Product } from "@/lib/types";
-`;
-
-const STATIC_CONFIG = `
-export const dynamic = "force-static";
-export const dynamicParams = false;
-
-export async function generateStaticParams() {
-  try {
-    const raw = await readFile(
-      path.join(process.cwd(), "public/data/products-catalog.json"),
-      "utf8"
-    );
-    const data = JSON.parse(raw) as { products?: Product[] };
-    const products = Array.isArray(data.products) ? data.products : [];
-    if (products.length > 0) {
-      return products.map((p) => ({ id: String(p.id), slug: [] }));
-    }
-  } catch (error) {
-    console.error("generateStaticParams catalog read failed:", error);
-  }
-  return [];
-}
-`;
-
 const SERVERFUL_PAGE_CONFIG = `export const revalidate = 300;
 export const dynamicParams = true;
 `;
 
 export function patchProductPageForStaticExport() {
-  let src = readFileSync(PAGE, "utf8");
+  let src = readFileSync(PAGE, "utf8").replace(/\r\n/g, "\n");
 
-  if (!src.includes('from "node:fs/promises"')) {
-    src = src.replace(
-      'import { productPath, slugMatches } from "@/lib/slug";',
-      `${STATIC_BLOCK}import { productPath, slugMatches } from "@/lib/slug";`
+  if (!src.includes('export const dynamic = "force-static"')) {
+    const next = src.replace(
+      /export const revalidate = 300;\nexport const dynamicParams = true;\n/,
+      `export const dynamic = "force-static";\nexport const dynamicParams = false;\n`
     );
+    if (next === src) {
+      throw new Error("Could not patch product page — revalidate/dynamicParams block not found");
+    }
+    src = next;
   }
-
-  src = src.replace(
-    /export const revalidate = 300;\n(?:export const dynamicParams = true;\n)?/,
-    `${STATIC_CONFIG}\n`
-  );
-
+  if (!src.includes("export const dynamicParams = false")) {
+    throw new Error("static export requires dynamicParams = false on the product page");
+  }
+  const generateCount = (src.match(/export async function generateStaticParams/g) || []).length;
+  if (generateCount !== 1) {
+    throw new Error(`expected one generateStaticParams, found ${generateCount}`);
+  }
   writeFileSync(PAGE, src);
   console.log("  patched product page for static export");
 
-  let layout = readFileSync(LAYOUT, "utf8");
-  layout = layout.replace(
-    /export const revalidate = 300;\n/,
-    'export const dynamic = "force-static";\n'
-  );
+  let layout = readFileSync(LAYOUT, "utf8").replace(/\r\n/g, "\n");
+  if (!layout.includes('export const dynamic = "force-static"')) {
+    layout = layout.replace(
+      /export const revalidate = 300;\n/,
+      'export const dynamic = "force-static";\n'
+    );
+  }
   writeFileSync(LAYOUT, layout);
   console.log("  patched products layout for static export");
 }
 
 export function restoreProductPageFromStaticExport() {
-  let src = readFileSync(PAGE, "utf8");
-
-  src = src.replace(STATIC_BLOCK, "");
+  let src = readFileSync(PAGE, "utf8").replace(/\r\n/g, "\n");
   src = src.replace(
-    /export const dynamic = "force-static";\nexport const dynamicParams = false;\n\nexport async function generateStaticParams\(\) \{[\s\S]*?\}\n\n/,
-    `${SERVERFUL_PAGE_CONFIG}\n`
+    /export const dynamic = "force-static";\nexport const dynamicParams = false;\n/,
+    SERVERFUL_PAGE_CONFIG
   );
-
   writeFileSync(PAGE, src);
   console.log("  restored product page for serverful dev");
 
-  let layout = readFileSync(LAYOUT, "utf8");
+  let layout = readFileSync(LAYOUT, "utf8").replace(/\r\n/g, "\n");
   layout = layout.replace(
     /export const dynamic = "force-static";\n/,
     "export const revalidate = 300;\n"
