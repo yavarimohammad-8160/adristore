@@ -222,11 +222,11 @@ try {
 
   if (!shouldSkipPrebuild()) {
     run("node", ["--import", "tsx", "scripts/prebuild-static-data.ts"]);
-  } else if (imageCount < 100 && hasBasalamToken() && process.env.SKIP_IMAGE_MIRROR !== "1") {
-    console.log("   no local images — live Basalam fetch + image mirror for CI…");
-    run("node", ["--import", "tsx", "scripts/prebuild-static-data.ts"], {
-      FORCE_CATALOG_REFRESH: "1",
-    });
+  } else {
+    console.log(
+      `   reusing committed catalog JSON (${readCatalogProductCount()} products)` +
+        (imageCount ? `, ${imageCount} local images` : ", images served from adristore-media")
+    );
   }
 
   const catalogCount = readCatalogProductCount();
