@@ -5,11 +5,3 @@
 /catalog /products/ 301
 /admin /admin/login/ 302
 /admin/* /admin/login/ 302
-
-# Missing static product HTML (new Basalam IDs before the next full export).
-# Existing /products/<id>/index.html still wins when present.
-# Full-document request (not Next client navigation) hits this rule.
-/products/:id /product-fallback/?id=:id 302
-/products/:id/ /product-fallback/?id=:id 302
-/products/:id/:slug /product-fallback/?id=:id 302
-/products/:id/:slug/ /product-fallback/?id=:id 302

@@ -1,6 +1,6 @@
 /**
- * Cloudflare Pages Function: missing /products/:id files fall through here.
- * Static HTML generated at export time still wins when present.
+ * Only used when static /products/:id HTML is missing.
+ * Existing exported product pages must be served from ASSETS first.
  */
 export async function onRequestGet(context) {
   const url = new URL(context.request.url);
@@ -8,6 +8,27 @@ export async function onRequestGet(context) {
   const id = parts[1] || "";
   if (!/^\d+$/.test(id)) {
     return context.next();
+  }
+
+  try {
+    const existing = await context.env.ASSETS.fetch(context.request);
+    if (existing.ok) {
+      const contentType = existing.headers.get("content-type") || "";
+      if (!contentType.includes("text/html")) return existing;
+      const body = await existing.text();
+      const isFallback =
+        body.includes("product-fallback") &&
+        !body.includes("gallery-main") &&
+        !body.includes('itemScope');
+      if (!isFallback) {
+        return new Response(body, {
+          status: 200,
+          headers: existing.headers,
+        });
+      }
+    }
+  } catch {
+    /* serve fallback below */
   }
 
   const fallback = new URL("/product-fallback/", url);
