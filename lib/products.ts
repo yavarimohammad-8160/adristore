@@ -137,6 +137,20 @@ async function finalizeListResult(
 }
 
 export async function getVendorProducts(params: ProductQueryParams = {}): Promise<ProductListResponse> {
+  if (isStaticExportBuild()) {
+    const all = sortProductsNewestFirst(await readStaticProducts());
+    const page = params.page ?? 1;
+    const per_page = params.per_page ?? 24;
+    const start = (page - 1) * per_page;
+    return {
+      products: all.slice(start, start + per_page),
+      total: all.length,
+      page,
+      per_page,
+      total_pages: Math.max(1, Math.ceil(all.length / per_page)),
+    };
+  }
+
   const manual = await getManualProductsAsProducts();
   const result = await getBasalamProducts(params);
   return finalizeListResult(result, manual, params.page ?? 1);
