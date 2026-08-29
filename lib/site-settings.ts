@@ -30,6 +30,7 @@ export interface SiteCustomPage {
 
 export interface SiteSettings {
   freeShippingThreshold: number;
+  isFreeShippingEnabled: boolean; // 🔴 این خط اضافه شد
   navLinks: SiteNavLink[];
   customPages: SiteCustomPage[];
   updatedAt: string;
@@ -44,45 +45,17 @@ export { DEFAULT_FREE_SHIPPING_THRESHOLD };
 
 export const DEFAULT_NAV_LINKS: SiteNavLink[] = [
   { id: "home", label: "خانه", href: "/", color: "hover:text-[#22c55e]", enabled: true, order: 0 },
-  {
-    id: "products",
-    label: "همه کارت‌ها",
-    href: "/products",
-    color: "hover:text-[#3b82f6]",
-    enabled: true,
-    order: 1,
-  },
-  {
-    id: "videos",
-    label: "ویدئوها",
-    href: "/videos",
-    color: "hover:text-[#ef4444]",
-    enabled: true,
-    order: 2,
-  },
-  {
-    id: "blog",
-    label: "وبلاگ",
-    href: "/blog",
-    color: "hover:text-[#fbbf24]",
-    enabled: true,
-    order: 3,
-  },
-  {
-    id: "basalam",
-    label: "باسلام",
-    href: "https://basalam.com/adristore",
-    color: "hover:text-[#eab308]",
-    external: true,
-    enabled: true,
-    order: 4,
-  },
+  { id: "products", label: "همه کارت‌ها", href: "/products", color: "hover:text-[#3b82f6]", enabled: true, order: 1 },
+  { id: "videos", label: "ویدئوها", href: "/videos", color: "hover:text-[#ef4444]", enabled: true, order: 2 },
+  { id: "blog", label: "وبلاگ", href: "/blog", color: "hover:text-[#fbbf24]", enabled: true, order: 3 },
+  { id: "basalam", label: "باسلام", href: "https://basalam.com/adristore", color: "hover:text-[#eab308]", external: true, enabled: true, order: 4 },
 ];
 
 function defaultSettings(): SiteSettings {
   const now = new Date().toISOString();
   return {
     freeShippingThreshold: DEFAULT_FREE_SHIPPING_THRESHOLD,
+    isFreeShippingEnabled: true, // 🔴 مقدار پیش‌فرض
     navLinks: DEFAULT_NAV_LINKS.map((l) => ({ ...l })),
     customPages: [],
     updatedAt: now,
@@ -93,7 +66,6 @@ async function ensureDataDir() {
   await fs.mkdir(DATA_DIR, { recursive: true });
 }
 
-/** Read site settings from disk (no Next.js cache). Safe for static export. */
 export async function readSiteSettings(): Promise<SiteSettings> {
   await ensureDataDir();
   try {
@@ -105,6 +77,10 @@ export async function readSiteSettings(): Promise<SiteSettings> {
         typeof parsed.freeShippingThreshold === "number"
           ? parsed.freeShippingThreshold
           : base.freeShippingThreshold,
+      isFreeShippingEnabled: // 🔴 خوندن متغیر از فایل
+        typeof parsed.isFreeShippingEnabled === "boolean"
+          ? parsed.isFreeShippingEnabled
+          : base.isFreeShippingEnabled,
       navLinks:
         Array.isArray(parsed.navLinks) && parsed.navLinks.length > 0
           ? parsed.navLinks
@@ -130,7 +106,7 @@ const getCachedSiteSettings = unstable_cache(readSiteSettings, [CACHE_TAGS.siteS
 export const getSiteSettings = cache(getCachedSiteSettings);
 
 export async function saveSiteSettings(
-  input: Partial<Pick<SiteSettings, "freeShippingThreshold" | "navLinks" | "customPages">>
+  input: Partial<Pick<SiteSettings, "freeShippingThreshold" | "isFreeShippingEnabled" | "navLinks" | "customPages">> // 🔴 متغیر رو به آپدیت هم اضافه کردیم
 ): Promise<SiteSettings> {
   const current = await readSiteSettings();
   const next: SiteSettings = {
@@ -146,16 +122,14 @@ export async function saveSiteSettings(
 export function getEnabledNavLinks(settings: SiteSettings): SiteNavLink[] {
   const customNav = settings.customPages
     .filter((p) => p.enabled && p.showInNav)
-    .map(
-      (p): SiteNavLink => ({
-        id: `page-${p.id}`,
-        label: p.navLabel || p.title,
-        href: `/pages/${p.slug}`,
-        color: "hover:text-[#a78bfa]",
-        enabled: true,
-        order: 50,
-      })
-    );
+    .map((p): SiteNavLink => ({
+      id: `page-${p.id}`,
+      label: p.navLabel || p.title,
+      href: `/pages/${p.slug}`,
+      color: "hover:text-[#a78bfa]",
+      enabled: true,
+      order: 50,
+    }));
 
   return [...settings.navLinks, ...customNav]
     .filter((l) => l.enabled)
@@ -164,9 +138,7 @@ export function getEnabledNavLinks(settings: SiteSettings): SiteNavLink[] {
 
 export async function getCustomPageBySlug(slug: string): Promise<SiteCustomPage | null> {
   const settings = await readSiteSettings();
-  return (
-    settings.customPages.find((p) => p.enabled && p.slug === slug) ?? null
-  );
+  return settings.customPages.find((p) => p.enabled && p.slug === slug) ?? null;
 }
 
 export function slugifyPage(input: string): string {
