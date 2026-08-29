@@ -56,6 +56,7 @@ export default async function RootLayout({
           <ConditionalNavbar
             navLinks={getEnabledNavLinks(siteSettings)}
             freeShippingThreshold={siteSettings.freeShippingThreshold}
+            isFreeShippingEnabled={siteSettings.isFreeShippingEnabled}
           />
           {children}
           <ConditionalFooter />
