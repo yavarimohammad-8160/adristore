@@ -27,12 +27,18 @@ export async function PUT(request: NextRequest) {
 
     const patch: {
       freeShippingThreshold?: number;
+      isFreeShippingEnabled?: boolean; // 🔴 اضافه شدن نوع متغیر
       navLinks?: SiteNavLink[];
       customPages?: SiteCustomPage[];
     } = {};
 
     if (typeof body.freeShippingThreshold === "number" && body.freeShippingThreshold >= 0) {
       patch.freeShippingThreshold = Math.round(body.freeShippingThreshold);
+    }
+
+    // 🔴 اضافه شدن بررسی سوییچ فعال/غیرفعال بودن ارسال رایگان
+    if (typeof body.isFreeShippingEnabled === "boolean") {
+      patch.isFreeShippingEnabled = body.isFreeShippingEnabled;
     }
 
     if (Array.isArray(body.navLinks)) {
@@ -58,4 +64,3 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "خطا در ذخیره" }, { status: 500 });
   }
 }
-
