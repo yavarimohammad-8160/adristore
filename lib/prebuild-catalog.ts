@@ -2,7 +2,7 @@
  * Script-safe catalog builder (no Next.js unstable_cache).
  * Used by Cloudflare static export prebuild.
  */
-import { getAllMockCatalogProducts, getVendorProducts } from "./basalam";
+import { getAllMockCatalogProducts, getVendorProducts, enrichProductsWithGallery } from "./basalam";
 import { buildSeriesCatalog } from "./product-series";
 import { readManualProducts, manualToProduct } from "./manual-products";
 import {
@@ -21,7 +21,9 @@ async function fetchAllBasalamProducts(): Promise<Product[]> {
     all.push(...batch.products);
   }
 
-  return all;
+  // 🔴 جادوی گالری اینجاست: بهش می‌گیم برو گالری همه محصولات رو هم بگیر!
+  console.log(`Enriching ${all.length} products with gallery images...`);
+  return await enrichProductsWithGallery(all, { concurrency: 10 });
 }
 
 async function applyOverrides(products: Product[]): Promise<Product[]> {
