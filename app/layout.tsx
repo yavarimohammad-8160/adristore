@@ -9,7 +9,7 @@ import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { SITE_URL, DEFAULT_KEYWORDS, HOME_TITLE, homeMetadata } from "@/lib/seo";
 import { getEnabledNavLinks, getSiteSettings } from "@/lib/site-settings";
 /** ISR — keep in sync with lib/cache-config.ts REVALIDATE.storefront */
-export const revalidate = 300;
+export const revalidate = 0;
 
 const vazirmatn = Vazirmatn({
   variable: "--font-vazir",
