@@ -55,7 +55,7 @@ function defaultSettings(): SiteSettings {
   const now = new Date().toISOString();
   return {
     freeShippingThreshold: DEFAULT_FREE_SHIPPING_THRESHOLD,
-    isFreeShippingEnabled: true, // 🔴 مقدار پیش‌فرض
+    isFreeShippingEnabled: false, // 🔴 مقدار پیش‌فرض
     navLinks: DEFAULT_NAV_LINKS.map((l) => ({ ...l })),
     customPages: [],
     updatedAt: now,
