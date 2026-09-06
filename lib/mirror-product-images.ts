@@ -4,7 +4,17 @@ import path from "node:path";
 import type { Photo, Product } from "./types";
 
 const MEDIA_DIR = path.join(process.cwd(), "public", "media", "products");
-const CONCURRENCY = 12;
+/** Basalam rate-limits aggressively — keep this low. */
+const CONCURRENCY = 3;
+const MAX_RETRIES = 5;
+const FETCH_TIMEOUT_MS = 45_000;
+const BROWSER_HEADERS: HeadersInit = {
+  Accept: "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+  "Accept-Language": "en-US,en;q=0.9,fa;q=0.8",
+  "User-Agent":
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+  Referer: "https://basalam.com/",
+};
 
 async function exists(filePath: string): Promise<boolean> {
   try {
@@ -46,6 +56,9 @@ function collectPhotoUrls(product: Product): string[] {
       const value = photo[key];
       if (typeof value === "string" && value.trim()) urls.add(value.trim());
     }
+    if (typeof photo.remote === "string" && photo.remote.trim()) {
+      urls.add(photo.remote.trim());
+    }
   };
   add(product.photo);
   for (const photo of product.photos ?? []) add(photo);
@@ -70,6 +83,10 @@ function remapPhoto(photo: Photo, map: Map<string, string>): Photo {
   return next;
 }
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function mirrorRemoteUrl(
   url: string,
   urlToLocal: Map<string, string>
@@ -86,26 +103,43 @@ async function mirrorRemoteUrl(
     return localUrl;
   }
 
-  try {
-    const res = await fetch(url, {
-      headers: { Accept: "image/*" },
-      signal: AbortSignal.timeout(30_000),
-    });
-    if (!res.ok) {
-      console.warn(`   image mirror skipped (${res.status}): ${url.slice(0, 80)}…`);
-      return url;
+  let lastError = "";
+  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+    try {
+      const res = await fetch(url, {
+        headers: BROWSER_HEADERS,
+        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+      });
+      if (res.status === 429) {
+        await sleep(5_000 * 2 ** attempt);
+        lastError = "429";
+        continue;
+      }
+      if (!res.ok) {
+        lastError = String(res.status);
+        if (res.status === 403 || res.status === 404) break;
+        await sleep(1_500 * 2 ** attempt);
+        continue;
+      }
+      const bytes = Buffer.from(await res.arrayBuffer());
+      if (bytes.length < 128) {
+        lastError = "too-small";
+        break;
+      }
+      await mkdir(MEDIA_DIR, { recursive: true });
+      await writeFile(diskPath, bytes);
+      urlToLocal.set(url, localUrl);
+      return localUrl;
+    } catch (err) {
+      lastError = err instanceof Error ? err.message : String(err);
+      await sleep(1_500 * 2 ** attempt);
     }
-    const bytes = Buffer.from(await res.arrayBuffer());
-    if (bytes.length < 128) return url;
-    await mkdir(MEDIA_DIR, { recursive: true });
-    await writeFile(diskPath, bytes);
-    urlToLocal.set(url, localUrl);
-    return localUrl;
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.warn(`   image mirror failed: ${message}`);
-    return url;
   }
+
+  console.warn(
+    `   image mirror failed (${lastError}): ${url.slice(0, 80)}…`
+  );
+  return url;
 }
 
 async function runPool<T>(items: T[], worker: (item: T) => Promise<void>): Promise<void> {
