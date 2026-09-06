@@ -91,6 +91,14 @@ export function filenameFromCdnUrl(url: string): string | null {
   return match?.[1] ?? null;
 }
 
+/** Local site path `/media/products/…` → same filename on jsDelivr / GitHub raw. */
+export function localMediaToCdnFallbacks(url: string): string[] {
+  if (!isLocalAsset(url)) return [];
+  const filename = filenameFromCdnUrl(url);
+  if (!filename) return [];
+  return [jsdelivrUrl(filename), githubRawUrl(filename)];
+}
+
 export function uniqueProductPhotos(product: Pick<Product, "photo" | "photos">): Photo[] {
   const result: Photo[] = [];
   const seen = new Set<string>();
@@ -140,11 +148,12 @@ export function collectMirrorableUrls(product: Product): string[] {
 
 /**
  * Fallback order is the difference between a visible card and a dark one:
- *  1. primary jsDelivr (or whatever is in lg)
- *  2. GitHub raw of that file (bypasses jsDelivr 404 cache)
- *  3. Basalam original (`remote`) — works in Iran when jsDelivr/GitHub are blocked
- *  4. remaining sizes
- *  5. placeholder
+ *  1. primary jsDelivr / local / whatever is in lg
+ *  2. CDN mirrors of a local `/media/products/` file (jsDelivr + GitHub raw)
+ *  3. GitHub raw of a jsDelivr file (bypasses jsDelivr 404 cache)
+ *  4. Basalam original (`remote`) — works in Iran when jsDelivr/GitHub are blocked
+ *  5. remaining sizes
+ *  6. placeholder
  */
 export function photoFallbackSrcs(photo?: Photo | null, extra?: string | null): string[] {
   const ordered: string[] = [];
@@ -159,15 +168,24 @@ export function photoFallbackSrcs(photo?: Photo | null, extra?: string | null): 
 
   const primary = photo?.lg || photo?.md || photo?.original || extra || photo?.sm || photo?.xs;
   push(primary);
+  if (primary) {
+    for (const mirror of localMediaToCdnFallbacks(primary)) push(mirror);
+  }
   if (primary && isJsDelivrUrl(primary)) {
     push(jsdelivrToGitHubRaw(primary));
   }
   push(photo?.remote);
-  if (extra && extra !== primary) push(extra);
+  if (extra && extra !== primary) {
+    push(extra);
+    for (const mirror of localMediaToCdnFallbacks(extra)) push(mirror);
+  }
   if (photo) {
     for (const key of ["md", "original", "sm", "xs"] as const) {
       const value = photo[key];
       push(value);
+      if (value) {
+        for (const mirror of localMediaToCdnFallbacks(value)) push(mirror);
+      }
       if (value && isJsDelivrUrl(value)) push(jsdelivrToGitHubRaw(value));
     }
   }

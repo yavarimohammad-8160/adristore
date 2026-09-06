@@ -34,6 +34,10 @@ function isRemoteUrl(url: string): boolean {
   return /^https?:\/\//i.test(url);
 }
 
+function isBasalamCdnUrl(url: string): boolean {
+  return /basalam\.com\//i.test(url);
+}
+
 function collectPhotoUrls(product: Product): string[] {
   const urls = new Set<string>();
   const add = (photo?: Photo | null) => {
@@ -50,12 +54,19 @@ function collectPhotoUrls(product: Product): string[] {
 
 function remapPhoto(photo: Photo, map: Map<string, string>): Photo {
   const next: Photo = { ...photo };
+  let remoteFallback = photo.remote;
   for (const key of ["lg", "md", "original", "sm", "xs"] as const) {
     const value = photo[key];
     if (typeof value === "string" && map.has(value)) {
+      // Keep the original Basalam CDN URL as remote so clients can fall back
+      // if the mirrored local asset is missing after deploy.
+      if (!remoteFallback && isBasalamCdnUrl(value)) {
+        remoteFallback = value;
+      }
       next[key] = map.get(value);
     }
   }
+  if (remoteFallback) next.remote = remoteFallback;
   return next;
 }
 
@@ -155,6 +166,9 @@ export function normalizeProductImagePaths(products: Product[]): Product[] {
             ? trimmed
             : trimmed.replace(/^\/\//, "https://");
         }
+      }
+      if (typeof photo.remote === "string" && photo.remote.trim()) {
+        next.remote = photo.remote.trim().replace(/^\/\//, "https://");
       }
       return next;
     };
