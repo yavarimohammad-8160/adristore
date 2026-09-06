@@ -2,9 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Photo } from "@/lib/types";
-import { CARD_PLACEHOLDER, photoFallbackSrcs } from "@/lib/media-cdn";
+import {
+  CARD_PLACEHOLDER,
+  isJsDelivrUrl,
+  photoFallbackSrcs,
+} from "@/lib/media-cdn";
 
-const SOURCE_TIMEOUT_MS = 2500;
+/** jsDelivr can hang on cached 404s — only those sources get a soft timeout. */
+const JSDELIVR_TIMEOUT_MS = 2500;
 
 type Props = {
   photo?: Photo | null;
@@ -44,9 +49,13 @@ export function SmartProductImage({
     setLoaded(false);
   }, [srcs]);
 
+  // Soft-timeout only for jsDelivr. Basalam / local / GitHub raw should wait for
+  // onLoad or onError — a short timeout was abandoning slow-but-valid images on
+  // the homepage where many cards load at once (rate limits / high latency).
   useEffect(() => {
     if (loaded || index >= srcs.length - 1) return;
-    const timer = window.setTimeout(advance, SOURCE_TIMEOUT_MS);
+    if (!isJsDelivrUrl(current)) return;
+    const timer = window.setTimeout(advance, JSDELIVR_TIMEOUT_MS);
     return () => window.clearTimeout(timer);
   }, [advance, index, loaded, srcs.length, current]);
 
