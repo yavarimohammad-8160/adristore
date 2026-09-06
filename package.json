@@ -8,6 +8,7 @@
     "build:server": "next build",
     "build:cloudflare": "node scripts/build-cloudflare.mjs",
     "zip:cloudflare": "node scripts/zip-cloudflare.mjs",
+    "cf:deploy": "npx wrangler pages deploy out --project-name=adristore --commit-dirty=true",
     "deploy:cloudflare": "npm run build && node scripts/deploy-emergency.mjs",
     "deploy:emergency": "node scripts/deploy-emergency.mjs",
     "prebuild:static": "node --import tsx scripts/prebuild-static-data.ts",
