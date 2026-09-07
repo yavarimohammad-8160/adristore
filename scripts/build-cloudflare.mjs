@@ -199,7 +199,7 @@ function countFiles(dir) {
 }
 
 /**
- * Product images are served from Basalam CDN (catalog remote URLs).
+ * Product images are served from adristore-img Pages CDN (catalog absolute URLs); Basalam remote is last-resort fallback.
  * Strip mirrored copies from the export so Pages stays under the ~20k file limit.
  */
 function stripExportProductMedia(outDir) {
@@ -209,7 +209,7 @@ function stripExportProductMedia(outDir) {
   if (existsSync(productsDir)) {
     removed = countFiles(productsDir);
     rmSync(productsDir, { recursive: true, force: true });
-    console.log(`   removed out/media/products (${removed} file(s)) — images via Basalam remote URLs`);
+    console.log(`   removed out/media/products (${removed} file(s)) — images via adristore-img.pages.dev`);
   } else {
     console.log("   out/media/products absent (nothing to strip)");
   }

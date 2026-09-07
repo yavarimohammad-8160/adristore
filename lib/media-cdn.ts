@@ -5,6 +5,10 @@ export const MEDIA_REPO = "adristore-media";
 export const MEDIA_BRANCH = "main";
 export const MEDIA_PRODUCTS_DIR = "media/products";
 
+/** Primary product-image CDN (Cloudflare Pages project adristore-img). */
+export const PAGES_IMG_ORIGIN = "https://adristore-img.pages.dev";
+export const PAGES_IMG_PREFIX = `${PAGES_IMG_ORIGIN}/${MEDIA_PRODUCTS_DIR}`;
+
 export const JSDELIVR_PREFIX = `https://cdn.jsdelivr.net/gh/${MEDIA_OWNER}/${MEDIA_REPO}@${MEDIA_BRANCH}/${MEDIA_PRODUCTS_DIR}`;
 export const GITHUB_RAW_PREFIX = `https://raw.githubusercontent.com/${MEDIA_OWNER}/${MEDIA_REPO}/${MEDIA_BRANCH}/${MEDIA_PRODUCTS_DIR}`;
 
@@ -32,6 +36,10 @@ export function isBasalamCdnUrl(url: string): boolean {
   return /basalam\.com\//i.test(url);
 }
 
+export function isPagesImgUrl(url: string): boolean {
+  return /adristore-img\.pages\.dev\//i.test(url);
+}
+
 export async function sha256Hex(input: string): Promise<string> {
   const data = new TextEncoder().encode(input);
   const digest = await crypto.subtle.digest("SHA-256", data);
@@ -55,6 +63,10 @@ export function extensionFromUrl(url: string): string {
 
 export async function filenameFromSourceUrl(url: string): Promise<string> {
   return `${await hashUrl(url)}${extensionFromUrl(url)}`;
+}
+
+export function pagesImgUrl(filename: string): string {
+  return `${PAGES_IMG_PREFIX}/${filename}`;
 }
 
 export function jsdelivrUrl(filename: string): string {
@@ -91,12 +103,12 @@ export function filenameFromCdnUrl(url: string): string | null {
   return match?.[1] ?? null;
 }
 
-/** Local site path `/media/products/…` → same filename on jsDelivr / GitHub raw. */
+/** Local site path `/media/products/…` → Pages CDN first, then jsDelivr / GitHub raw. */
 export function localMediaToCdnFallbacks(url: string): string[] {
   if (!isLocalAsset(url)) return [];
   const filename = filenameFromCdnUrl(url);
   if (!filename) return [];
-  return [jsdelivrUrl(filename), githubRawUrl(filename)];
+  return [pagesImgUrl(filename), jsdelivrUrl(filename), githubRawUrl(filename)];
 }
 
 export function uniqueProductPhotos(product: Pick<Product, "photo" | "photos">): Photo[] {

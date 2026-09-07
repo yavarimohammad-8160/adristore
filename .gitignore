@@ -16,8 +16,8 @@
 # next.js
 /.next/
 /out/
-# Product images: catalog uses Basalam remote URLs for Pages (20k file limit).
-# Still tracked historically; ignore future additions. Do not rely on out/media/products.
+# Product images live on adristore-img Pages CDN; keep out of main deploy (20k limit).
+# Still present locally for tooling; ignore future additions. Do not ship out/media/products.
 /public/media/products/
 /adristore-cloudflare.zip
 /.cloudflare-build-stash/
