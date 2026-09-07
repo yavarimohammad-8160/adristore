@@ -31,6 +31,8 @@ const CLOUDFLARE_CONFIG = path.join(ROOT, "next.config.mjs");
 const CLOUDFLARE_PAGES_MAX_FILE_BYTES = 25 * 1024 * 1024;
 /** Cloudflare Pages free/pro plans cap total files per deployment (~20k). */
 const CLOUDFLARE_PAGES_MAX_FILES = 19000;
+/** Keep a small local JPEG set (e.g. cards lacking Basalam remote); strip only huge mirrors. */
+const STRIP_PRODUCT_MEDIA_IF_ABOVE = 500;
 const CATALOG_DIR = path.join(ROOT, "public", "data");
 
 loadOptionalEnvFiles(ROOT);
@@ -199,17 +201,26 @@ function countFiles(dir) {
 }
 
 /**
- * Product images are served from adristore-img Pages CDN (catalog absolute URLs); Basalam remote is last-resort fallback.
- * Strip mirrored copies from the export so Pages stays under the ~20k file limit.
+ * Large mirrored product trees blow the Pages ~20k file limit and are served from
+ * adristore-img / Basalam instead. Keep a small local set (homepage cards without remote).
  */
 function stripExportProductMedia(outDir) {
   const productsDir = path.join(outDir, "media", "products");
   const mediaDir = path.join(outDir, "media");
   let removed = 0;
   if (existsSync(productsDir)) {
-    removed = countFiles(productsDir);
+    const present = countFiles(productsDir);
+    if (present <= STRIP_PRODUCT_MEDIA_IF_ABOVE) {
+      console.log(
+        `   keeping out/media/products (${present} file(s) ≤ ${STRIP_PRODUCT_MEDIA_IF_ABOVE})`
+      );
+      return 0;
+    }
+    removed = present;
     rmSync(productsDir, { recursive: true, force: true });
-    console.log(`   removed out/media/products (${removed} file(s)) — images via adristore-img.pages.dev`);
+    console.log(
+      `   removed out/media/products (${removed} file(s)) — images via adristore-img / Basalam`
+    );
   } else {
     console.log("   out/media/products absent (nothing to strip)");
   }
@@ -323,7 +334,7 @@ try {
   }
   console.log("   all files within 25 MB limit");
 
-  console.log("5b/6 Stripping local product media from export (Pages 20k file limit)…");
+  console.log("5b/6 Stripping oversized local product media from export (Pages 20k file limit)…");
   const beforeCount = countFiles(path.join(ROOT, "out"));
   console.log(`   out/ file count before strip: ${beforeCount}`);
   stripExportProductMedia(path.join(ROOT, "out"));
