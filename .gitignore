@@ -16,9 +16,10 @@
 # next.js
 /.next/
 /out/
-# Product images live on adristore-img Pages CDN; keep out of main deploy (20k limit).
-# Still present locally for tooling; ignore future additions. Do not ship out/media/products.
-/public/media/products/
+# Prefer adristore-img CDN for the full catalog. Allow a small local JPEG set for
+# homepage cards that lack Basalam remotes (kept under Pages file-count limits).
+/public/media/products/*
+!/public/media/products/*-j2.jpg
 /adristore-cloudflare.zip
 /.cloudflare-build-stash/
 
