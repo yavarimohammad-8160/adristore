@@ -210,16 +210,27 @@ function stripExportProductMedia(outDir) {
   let removed = 0;
   if (existsSync(productsDir)) {
     const present = countFiles(productsDir);
-    if (present <= STRIP_PRODUCT_MEDIA_IF_ABOVE) {
+    // Keep cache-busted local JPEGs for cards without Basalam remotes.
+    const keep = readdirSync(productsDir).filter(
+      (name) => !name.startsWith(".") && name.endsWith("-j2.jpg")
+    );
+    if (present <= STRIP_PRODUCT_MEDIA_IF_ABOVE && keep.length === 0) {
       console.log(
         `   keeping out/media/products (${present} file(s) ≤ ${STRIP_PRODUCT_MEDIA_IF_ABOVE})`
       );
       return 0;
     }
-    removed = present;
-    rmSync(productsDir, { recursive: true, force: true });
+    for (const entry of readdirSync(productsDir, { withFileTypes: true })) {
+      if (entry.name.startsWith(".")) continue;
+      if (entry.name.endsWith("-j2.jpg")) continue;
+      const full = path.join(productsDir, entry.name);
+      if (entry.isDirectory()) rmSync(full, { recursive: true, force: true });
+      else rmSync(full, { force: true });
+      removed += 1;
+    }
+    const kept = countFiles(productsDir);
     console.log(
-      `   removed out/media/products (${removed} file(s)) — images via adristore-img / Basalam`
+      `   stripped out/media/products extras (${removed} removed, ${kept} *-j2.jpg kept) — rest via Basalam / adristore-img`
     );
   } else {
     console.log("   out/media/products absent (nothing to strip)");
