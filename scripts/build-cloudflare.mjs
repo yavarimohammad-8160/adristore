@@ -29,6 +29,8 @@ const ROOT = process.cwd();
 const STASH = path.join(ROOT, ".cloudflare-build-stash");
 const CLOUDFLARE_CONFIG = path.join(ROOT, "next.config.mjs");
 const CLOUDFLARE_PAGES_MAX_FILE_BYTES = 25 * 1024 * 1024;
+/** Cloudflare Pages free/pro plans cap total files per deployment (~20k). */
+const CLOUDFLARE_PAGES_MAX_FILES = 19000;
 const CATALOG_DIR = path.join(ROOT, "public", "data");
 
 loadOptionalEnvFiles(ROOT);
@@ -180,6 +182,47 @@ function findOversizedFiles(dir, maxBytes = CLOUDFLARE_PAGES_MAX_FILE_BYTES) {
   return oversized.sort((a, b) => b.size - a.size);
 }
 
+
+/** Count files under dir (recursive). */
+function countFiles(dir) {
+  let n = 0;
+  const walk = (p) => {
+    if (!existsSync(p)) return;
+    for (const entry of readdirSync(p, { withFileTypes: true })) {
+      const full = path.join(p, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else n++;
+    }
+  };
+  walk(dir);
+  return n;
+}
+
+/**
+ * Product images are served from Basalam CDN (catalog remote URLs).
+ * Strip mirrored copies from the export so Pages stays under the ~20k file limit.
+ */
+function stripExportProductMedia(outDir) {
+  const productsDir = path.join(outDir, "media", "products");
+  const mediaDir = path.join(outDir, "media");
+  let removed = 0;
+  if (existsSync(productsDir)) {
+    removed = countFiles(productsDir);
+    rmSync(productsDir, { recursive: true, force: true });
+    console.log(`   removed out/media/products (${removed} file(s)) — images via Basalam remote URLs`);
+  } else {
+    console.log("   out/media/products absent (nothing to strip)");
+  }
+  if (existsSync(mediaDir)) {
+    const left = readdirSync(mediaDir).filter((n) => !n.startsWith("."));
+    if (left.length === 0) {
+      rmSync(mediaDir, { recursive: true, force: true });
+      console.log("   removed empty out/media/");
+    }
+  }
+  return removed;
+}
+
 /** Next.js static export writes index.txt identical to __next._full.txt — drop the duplicate. */
 function pruneDuplicateRscPayloads(outDir) {
   let removed = 0;
@@ -279,6 +322,19 @@ try {
     throw new Error(`${oversized.length} file(s) exceed the 25 MB Cloudflare Pages limit`);
   }
   console.log("   all files within 25 MB limit");
+
+  console.log("5b/6 Stripping local product media from export (Pages 20k file limit)…");
+  const beforeCount = countFiles(path.join(ROOT, "out"));
+  console.log(`   out/ file count before strip: ${beforeCount}`);
+  stripExportProductMedia(path.join(ROOT, "out"));
+  const afterCount = countFiles(path.join(ROOT, "out"));
+  console.log(`   out/ file count after strip: ${afterCount}`);
+  if (afterCount >= CLOUDFLARE_PAGES_MAX_FILES) {
+    throw new Error(
+      `out/ has ${afterCount} files — exceeds Cloudflare Pages safe limit (${CLOUDFLARE_PAGES_MAX_FILES}). ` +
+        "Reduce static assets before deploy."
+    );
+  }
 
   console.log("6/6 Build complete.");
 
