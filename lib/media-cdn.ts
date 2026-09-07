@@ -160,10 +160,10 @@ export function collectMirrorableUrls(product: Product): string[] {
 
 /**
  * Fallback order is the difference between a visible card and a dark one:
- *  1. primary jsDelivr / local / whatever is in lg
- *  2. CDN mirrors of a local `/media/products/` file (jsDelivr + GitHub raw)
- *  3. GitHub raw of a jsDelivr file (bypasses jsDelivr 404 cache)
- *  4. Basalam original (`remote`) — works in Iran when jsDelivr/GitHub are blocked
+ *  1. primary CDN / local / whatever is in lg
+ *  2. Basalam original (`remote`) ASAP when CDN MIME/extension is wrong
+ *  3. CDN mirrors of a local `/media/products/` file
+ *  4. GitHub raw of a jsDelivr file
  *  5. remaining sizes
  *  6. placeholder
  */
@@ -180,13 +180,14 @@ export function photoFallbackSrcs(photo?: Photo | null, extra?: string | null): 
 
   const primary = photo?.lg || photo?.md || photo?.original || extra || photo?.sm || photo?.xs;
   push(primary);
+  // Prefer Basalam remote ASAP when CDN MIME/extension is wrong (WebP served as JPEG + nosniff).
+  push(photo?.remote);
   if (primary) {
     for (const mirror of localMediaToCdnFallbacks(primary)) push(mirror);
   }
   if (primary && isJsDelivrUrl(primary)) {
     push(jsdelivrToGitHubRaw(primary));
   }
-  push(photo?.remote);
   if (extra && extra !== primary) {
     push(extra);
     for (const mirror of localMediaToCdnFallbacks(extra)) push(mirror);

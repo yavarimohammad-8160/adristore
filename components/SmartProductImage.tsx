@@ -5,11 +5,13 @@ import type { Photo } from "@/lib/types";
 import {
   CARD_PLACEHOLDER,
   isJsDelivrUrl,
+  isPagesImgUrl,
   photoFallbackSrcs,
 } from "@/lib/media-cdn";
 
-/** jsDelivr can hang on cached 404s — only those sources get a soft timeout. */
+/** jsDelivr can hang on cached 404s; Pages CDN can fail MIME decode — soft-timeout both. */
 const JSDELIVR_TIMEOUT_MS = 2500;
+const PAGES_IMG_TIMEOUT_MS = 2500;
 
 type Props = {
   photo?: Photo | null;
@@ -49,13 +51,18 @@ export function SmartProductImage({
     setLoaded(false);
   }, [srcs]);
 
-  // Soft-timeout only for jsDelivr. Basalam / local / GitHub raw should wait for
-  // onLoad or onError — a short timeout was abandoning slow-but-valid images on
-  // the homepage where many cards load at once (rate limits / high latency).
+  // Soft-timeout jsDelivr and adristore-img Pages CDN. Basalam / local / GitHub raw
+  // wait for onLoad/onError — a short timeout was abandoning slow-but-valid images
+  // on the homepage when many cards load at once.
   useEffect(() => {
     if (loaded || index >= srcs.length - 1) return;
-    if (!isJsDelivrUrl(current)) return;
-    const timer = window.setTimeout(advance, JSDELIVR_TIMEOUT_MS);
+    const ms = isJsDelivrUrl(current)
+      ? JSDELIVR_TIMEOUT_MS
+      : isPagesImgUrl(current)
+        ? PAGES_IMG_TIMEOUT_MS
+        : 0;
+    if (!ms) return;
+    const timer = window.setTimeout(advance, ms);
     return () => window.clearTimeout(timer);
   }, [advance, index, loaded, srcs.length, current]);
 
