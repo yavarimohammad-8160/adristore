@@ -4,10 +4,10 @@
  * Order (never reverse):
  *  1. Fetch live Basalam catalog (all pages)
  *  2. Download NEW/changed images with retry
- *  3. Commit images to adristore-media
+ *  3. Commit images to adristore-media (extension from magic bytes)
  *  4. Wait until GitHub raw returns 200
- *  5. Purge jsDelivr
- *  6. Write catalog JSON (jsDelivr URLs only for verified files)
+ *  5. Purge jsDelivr (legacy mirrors)
+ *  6. Write catalog JSON (adristore-img Pages URLs + Basalam remote fallback)
  *  7. Trigger Pages rebuild
  *
  * Incomplete new products are skipped (not added to JSON) and logged.
@@ -25,14 +25,16 @@ import {
 } from "./github-git";
 import {
   collectMirrorableUrls,
-  filenameFromSourceUrl,
+  existingFilenameForStem,
+  filenameFromSourceBytes,
   githubRawUrl,
-  jsdelivrUrl,
+  mediaHashStem,
   mediaRepoPath,
   MEDIA_BRANCH,
   MEDIA_OWNER,
   MEDIA_PRODUCTS_DIR,
   MEDIA_REPO,
+  pagesImgUrl,
   purgeJsdelivrUrl,
   remapPhoto,
   uniqueProductPhotos,
@@ -148,7 +150,9 @@ async function runPool<T>(
   await Promise.all(runners);
 }
 
-async function downloadImage(url: string): Promise<Uint8Array> {
+async function downloadImage(
+  url: string
+): Promise<{ bytes: Uint8Array; contentType: string | null }> {
   return withRetry(
     async () => {
       const res = await fetch(url, {
@@ -159,7 +163,7 @@ async function downloadImage(url: string): Promise<Uint8Array> {
       const bytes = new Uint8Array(await res.arrayBuffer());
       if (bytes.byteLength < 128) throw new Error(`too small (${bytes.byteLength} B)`);
       if (bytes.byteLength > MAX_IMAGE_BYTES) throw new Error(`too large (${bytes.byteLength} B)`);
-      return bytes;
+      return { bytes, contentType: res.headers.get("content-type") };
     },
     { attempts: 4, baseDelayMs: 500, label: `download ${url.slice(0, 80)}` }
   );
@@ -340,7 +344,7 @@ export async function runBasalamSync(options: BasalamSyncOptions = {}): Promise<
     log("warn", "media", `Could not list media repo (${error instanceof Error ? error.message : error}) — will re-check per file`);
   }
 
-  type PendingImage = { url: string; filename: string; productId: number };
+  type PendingImage = { url: string; stem: string; productId: number };
   const pending: PendingImage[] = [];
   const urlToFilename = new Map<string, string>();
   let imagesAlreadyPresent = 0;
@@ -348,15 +352,15 @@ export async function runBasalamSync(options: BasalamSyncOptions = {}): Promise<
   for (const product of liveProducts) {
     for (const url of collectMirrorableUrls(product)) {
       if (urlToFilename.has(url)) continue;
-      const filename = await filenameFromSourceUrl(url);
-      urlToFilename.set(url, filename);
-      const needs = options.forceRebuildImages || !existingFiles.has(filename);
-      if (!needs) {
+      const stem = await mediaHashStem(url);
+      const existingName = existingFilenameForStem(existingFiles, stem);
+      if (existingName && !options.forceRebuildImages) {
+        urlToFilename.set(url, existingName);
         imagesAlreadyPresent += 1;
         continue;
       }
-      if (!pending.some((p) => p.filename === filename)) {
-        pending.push({ url, filename, productId: product.id });
+      if (!pending.some((p) => p.stem === stem)) {
+        pending.push({ url, stem, productId: product.id });
       }
     }
   }
@@ -378,27 +382,32 @@ export async function runBasalamSync(options: BasalamSyncOptions = {}): Promise<
   await mkdir(IMAGE_CACHE_DIR, { recursive: true });
   await runPool(batch, IMAGE_CONCURRENCY, async (item) => {
     try {
-      const cachePath = join(IMAGE_CACHE_DIR, item.filename);
+      const cacheKey = join(IMAGE_CACHE_DIR, `${item.stem}.bin`);
       let bytes: Uint8Array | null = null;
-      if (existsSync(cachePath)) {
-        const cached = new Uint8Array(await readFile(cachePath));
+      let contentType: string | null = null;
+      if (existsSync(cacheKey)) {
+        const cached = new Uint8Array(await readFile(cacheKey));
         if (cached.byteLength >= 128) bytes = cached;
       }
       if (!bytes) {
-        bytes = await downloadImage(item.url);
-        await writeFile(cachePath, bytes);
+        const downloadedImage = await downloadImage(item.url);
+        bytes = downloadedImage.bytes;
+        contentType = downloadedImage.contentType;
+        await writeFile(cacheKey, bytes);
       }
+      const filename = await filenameFromSourceBytes(item.url, bytes, contentType);
+      urlToFilename.set(item.url, filename);
       downloaded.push({
-        path: mediaRepoPath(item.filename),
+        path: mediaRepoPath(filename),
         bytes,
-        filename: item.filename,
+        filename,
         url: item.url,
       });
-      log("ok", "download", `${item.filename} (${bytes.byteLength} B) from product ${item.productId}`);
+      log("ok", "download", `${filename} (${bytes.byteLength} B) from product ${item.productId}`);
     } catch (error) {
       imagesFailed += 1;
       failedUrls.add(item.url);
-      log("error", "download", `FAILED ${item.filename} product ${item.productId}: ${error instanceof Error ? error.message : error}`);
+      log("error", "download", `FAILED ${item.stem} product ${item.productId}: ${error instanceof Error ? error.message : error}`);
     }
   });
 
@@ -451,7 +460,8 @@ export async function runBasalamSync(options: BasalamSyncOptions = {}): Promise<
   for (const [url, filename] of urlToFilename) {
     if (failedUrls.has(url)) continue;
     if (verifiedFilenames.has(filename) || existingFiles.has(filename)) {
-      urlToCdn.set(url, jsdelivrUrl(filename));
+      // Primary CDN is adristore-img Pages; Basalam stays on photo.remote via remapPhoto.
+      urlToCdn.set(url, pagesImgUrl(filename));
     }
   }
 
@@ -746,14 +756,16 @@ export async function runRepairMissingMedia(
   let imagesFailed = 0;
   await runPool(batch, IMAGE_CONCURRENCY, async (item) => {
     try {
-      const bytes = await downloadImage(item.url);
+      const { bytes, contentType } = await downloadImage(item.url);
+      const sniffed = await filenameFromSourceBytes(item.url, bytes, contentType);
+      const filename = sniffed;
       downloaded.push({
-        path: mediaRepoPath(item.filename),
+        path: mediaRepoPath(filename),
         bytes,
-        filename: item.filename,
+        filename,
         url: item.url,
       });
-      log("ok", "download", `${item.filename} (${bytes.byteLength} B) product ${item.productId}`);
+      log("ok", "download", `${filename} (${bytes.byteLength} B) product ${item.productId}`);
     } catch (error) {
       imagesFailed += 1;
       log("error", "download", `FAILED ${item.filename} product ${item.productId}: ${error instanceof Error ? error.message : error}`);

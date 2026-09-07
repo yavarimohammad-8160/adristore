@@ -61,8 +61,96 @@ export function extensionFromUrl(url: string): string {
   return ext === "jpeg" ? ".jpg" : `.${ext}`;
 }
 
+/** Prefer magic bytes over URL/Content-Type lies (Basalam often serves WebP as .jpg). */
+export function extensionFromBytes(bytes: Uint8Array): string {
+  if (bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) {
+    return ".jpg";
+  }
+  if (
+    bytes.length >= 8 &&
+    bytes[0] === 0x89 &&
+    bytes[1] === 0x50 &&
+    bytes[2] === 0x4e &&
+    bytes[3] === 0x47 &&
+    bytes[4] === 0x0d &&
+    bytes[5] === 0x0a &&
+    bytes[6] === 0x1a &&
+    bytes[7] === 0x0a
+  ) {
+    return ".png";
+  }
+  if (
+    bytes.length >= 12 &&
+    bytes[0] === 0x52 &&
+    bytes[1] === 0x49 &&
+    bytes[2] === 0x46 &&
+    bytes[3] === 0x46 &&
+    bytes[8] === 0x57 &&
+    bytes[9] === 0x45 &&
+    bytes[10] === 0x42 &&
+    bytes[11] === 0x50
+  ) {
+    return ".webp";
+  }
+  if (
+    bytes.length >= 6 &&
+    bytes[0] === 0x47 &&
+    bytes[1] === 0x49 &&
+    bytes[2] === 0x46 &&
+    bytes[3] === 0x38 &&
+    (bytes[4] === 0x39 || bytes[4] === 0x37) &&
+    bytes[5] === 0x61
+  ) {
+    return ".gif";
+  }
+  return ".jpg";
+}
+
+export function extensionFromContentType(contentType?: string | null): string | null {
+  if (!contentType) return null;
+  const ct = contentType.split(";")[0]?.trim().toLowerCase() ?? "";
+  if (ct === "image/jpeg" || ct === "image/jpg") return ".jpg";
+  if (ct === "image/png") return ".png";
+  if (ct === "image/webp") return ".webp";
+  if (ct === "image/gif") return ".gif";
+  return null;
+}
+
 export async function filenameFromSourceUrl(url: string): Promise<string> {
   return `${await hashUrl(url)}${extensionFromUrl(url)}`;
+}
+
+/** Hash stem only — pair with extensionFromBytes after download. */
+export async function mediaHashStem(url: string): Promise<string> {
+  return hashUrl(url);
+}
+
+export async function filenameFromSourceBytes(
+  url: string,
+  bytes: Uint8Array,
+  contentType?: string | null
+): Promise<string> {
+  const stem = await mediaHashStem(url);
+  // Magic bytes win; Content-Type is advisory only when magic is unknown (.jpg fallback).
+  const fromBytes = extensionFromBytes(bytes);
+  if (fromBytes !== ".jpg" || !contentType) return `${stem}${fromBytes}`;
+  const fromCt = extensionFromContentType(contentType);
+  return `${stem}${fromCt || fromBytes}`;
+}
+
+const MEDIA_EXTS = [".jpg", ".jpeg", ".webp", ".png", ".gif"] as const;
+
+/** If any extension for this source hash already exists in the media repo, reuse it. */
+export function existingFilenameForStem(
+  existingFiles: Set<string>,
+  stem: string
+): string | undefined {
+  for (const ext of MEDIA_EXTS) {
+    const name = `${stem}${ext === ".jpeg" ? ".jpg" : ext}`;
+    if (existingFiles.has(name)) return name;
+    if (ext === ".jpg" && existingFiles.has(`${stem}.jpeg`)) return `${stem}.jpeg`;
+  }
+  return undefined;
 }
 
 export function pagesImgUrl(filename: string): string {
