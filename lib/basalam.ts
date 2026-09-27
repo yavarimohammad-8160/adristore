@@ -374,6 +374,33 @@ export async function enrichProductsWithGallery(
 }
 
 function normalizeProduct(p: Record<string, unknown>): Product {
+  const rawInventory = Number(p.inventory ?? p.stock ?? p.quantity ?? p.count ?? 0);
+  const status = p.status;
+  const statusFields = status && typeof status === "object"
+    ? [
+        (status as Record<string, unknown>).value,
+        (status as Record<string, unknown>).id,
+        (status as Record<string, unknown>).name,
+      ]
+    : [status];
+  // Basalam's ProductStatusInputEnum: unpublished, illegal, pending approval.
+  // Do not guess other numeric status IDs (2976 means published).
+  const unavailableStatusIds = new Set([3790, 4184, 3568]);
+  const unavailableStatuses = new Set([
+    "out_of_stock", "inactive", "unavailable", "unpublished", "illegal",
+    "pending_approval", "ناموجود", "غیرفعال", "غیر_فعال",
+  ]);
+  const unavailable = p.is_available === false || p.available === false ||
+    statusFields.some((value) => {
+      if (typeof value === "number") return unavailableStatusIds.has(value);
+      if (typeof value !== "string") return false;
+      const normalized = value.trim().toLowerCase().replace(/[\s\u200c-]+/g, "_");
+      return unavailableStatuses.has(normalized) || unavailableStatusIds.has(Number(normalized));
+    });
+  const finalInventory = unavailable || !Number.isFinite(rawInventory)
+    ? 0
+    : Math.max(0, rawInventory);
+
   const price = toDisplayPrice(p.price ?? p.primary_price ?? p.final_price ?? 0);
   const photos = collectPhotos(p);
   const photo = photos[0] ?? null;
@@ -388,7 +415,7 @@ function normalizeProduct(p: Record<string, unknown>): Product {
     price,
     photo,
     photos,
-    inventory: Number(p.inventory ?? p.stock ?? 0),
+    inventory: finalInventory,
     description: String(p.description || p.brief || ""),
     brief: String(p.brief || ""),
     status: p.status as Product["status"],

@@ -160,14 +160,23 @@ export function ProductCard({
           >
             مشاهده جزئیات 🃏
           </ProductLink>
-          <a
+          {inStock ? <a
             href={product.url || `https://basalam.com/p/${product.id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 block text-center text-xs text-[#1e40af] hover:underline font-bold"
+            className="mt-2 block flex-1 rounded-xl py-2.5 text-center text-xs text-[#1e40af] hover:underline font-bold"
           >
             خرید در باسلام →
-          </a>
+          </a> : (
+            <span
+              aria-disabled="true"
+              title="این محصول در حال حاضر ناموجود است"
+              className="mt-2 block flex-1 rounded-xl py-2.5 text-center text-xs bg-slate-800/80 text-slate-500 cursor-not-allowed font-bold"
+              onClick={(event) => event.stopPropagation()}
+            >
+              ناموجود
+            </span>
+          )}
         </div>
       </div>
     </>

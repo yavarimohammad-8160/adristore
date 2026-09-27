@@ -6,6 +6,9 @@ export interface CheckoutItem {
 }
 
 export function getBasalamProductUrl(product: Product): string {
+  if (product.inventory !== undefined && product.inventory <= 0) {
+    return product.url || `/product/${product.id}`;
+  }
   return product.url || `https://basalam.com/p/${product.id}`;
 }
 
@@ -19,13 +22,20 @@ export function buildBasalamCheckoutUrl(items: CheckoutItem[]): string {
     return "https://basalam.com/adristore";
   }
 
-  if (items.length === 1) {
-    const { product, quantity } = items[0];
+  const availableItems = items.filter(({ product }) =>
+    !(product.inventory !== undefined && product.inventory <= 0)
+  );
+  if (availableItems.length === 0) {
+    return getBasalamProductUrl(items[0].product);
+  }
+
+  if (availableItems.length === 1) {
+    const { product, quantity } = availableItems[0];
     const base = getBasalamProductUrl(product);
     return quantity > 1 ? `${base}?quantity=${quantity}` : base;
   }
 
-  const payload = items
+  const payload = availableItems
     .map(({ product, quantity }) => `${product.id}:${Math.max(1, quantity)}`)
     .join(",");
 
