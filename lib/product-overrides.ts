@@ -119,7 +119,8 @@ export function applyProductOverride(
     price: override.price ?? product.price,
     description: override.description || product.description,
     brief: override.brief || product.brief,
-    inventory: override.inventory ?? product.inventory,
+    // Editorial overrides cannot replace a verified vendor quantity (including zero).
+    inventory: product.inventory ?? override.inventory,
     photos,
     photo,
     videoUrl: override.videoUrl || product.videoUrl,

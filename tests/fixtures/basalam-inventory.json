@@ -1,0 +1,82 @@
+{
+  "capturedAt": "2026-09-27T13:58:03.321Z",
+  "endpoint": "https://openapi.basalam.com/v1/vendors/1213430/products",
+  "total": 1286,
+  "products": [
+    {
+      "id": 57176519,
+      "inventory": 0,
+      "status": {
+        "description": null,
+        "name": "در دسترس",
+        "value": 2976
+      },
+      "variant": []
+    },
+    {
+      "id": 57176431,
+      "inventory": 0,
+      "status": {
+        "description": null,
+        "name": "در دسترس",
+        "value": 2976
+      },
+      "variant": []
+    },
+    {
+      "id": 57176328,
+      "inventory": 1,
+      "status": {
+        "description": null,
+        "name": "در دسترس",
+        "value": 2976
+      },
+      "variant": []
+    },
+    {
+      "id": 57176181,
+      "inventory": 1,
+      "status": {
+        "description": null,
+        "name": "در دسترس",
+        "value": 2976
+      },
+      "variant": []
+    },
+    {
+      "id": 21940728,
+      "inventory": 1,
+      "status": {
+        "description": null,
+        "name": "در دسترس",
+        "value": 2976
+      },
+      "variant": [
+        {
+          "discount": null,
+          "id": 7228734,
+          "order": null,
+          "price": 1925000,
+          "primary_price": null,
+          "properties": [
+            {
+              "property": {
+                "id": 1,
+                "title": "رنگ",
+                "type": null
+              },
+              "value": {
+                "id": 300236,
+                "order": null,
+                "title": "رنگ کارتهای بیسیک، پرمیوم و …",
+                "value": null
+              }
+            }
+          ],
+          "sku": null,
+          "stock": 1
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,8 @@
  * Script-safe catalog builder (no Next.js unstable_cache).
  * Used by Cloudflare static export prebuild.
  */
-import { getAllMockCatalogProducts, getVendorProducts, enrichProductsWithGallery } from "./basalam";
+import { getAllMockCatalogProducts, fetchAllVendorProducts, enrichProductsWithGallery } from "./basalam";
+import { mergeBasalamWithManual } from "./catalog-inventory";
 import { buildSeriesCatalog } from "./product-series";
 import { readManualProducts, manualToProduct } from "./manual-products";
 import {
@@ -12,14 +13,7 @@ import {
 import type { Product } from "./types";
 
 async function fetchAllBasalamProducts(): Promise<Product[]> {
-  const first = await getVendorProducts({ page: 1, per_page: 100 });
-  const all = [...first.products];
-  const pages = Math.min(first.total_pages, 120);
-
-  for (let page = 2; page <= pages; page++) {
-    const batch = await getVendorProducts({ page, per_page: 100 });
-    all.push(...batch.products);
-  }
+  const { products: all } = await fetchAllVendorProducts();
 
   // 🔴 جادوی گالری اینجاست: بهش می‌گیم برو گالری همه محصولات رو هم بگیر!
   console.log(`Enriching ${all.length} products with gallery images...`);
@@ -36,9 +30,7 @@ async function applyOverrides(products: Product[]): Promise<Product[]> {
 async function mergeCatalog(basalamProducts: Product[]) {
   const manualRecords = await readManualProducts();
   const manual = manualRecords.map(manualToProduct);
-  const manualIds = new Set(manual.map((p) => p.id));
-  const basalamOnly = basalamProducts.filter((p) => !manualIds.has(p.id));
-  const merged = await applyOverrides([...manual, ...basalamOnly]);
+  const merged = await applyOverrides(mergeBasalamWithManual(basalamProducts, manual));
 
   return {
     products: merged,

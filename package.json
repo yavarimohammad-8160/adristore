@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "sync:inventory": "node --import tsx scripts/refresh-catalog-inventory.ts --write",
+    "test:inventory": "node --import tsx --test tests/inventory.test.tsx",
     "dev": "next dev",
     "build": "node scripts/build-cloudflare.mjs",
     "build:server": "next build",

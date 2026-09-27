@@ -93,14 +93,12 @@ async function fetchProductsPage(
 
   const res = await fetch(url, {
     headers: getHeaders(),
-    next: { revalidate: 300 },
+    cache: "no-store",
+    signal: AbortSignal.timeout(30_000),
   });
 
   if (!res.ok) {
     console.error(`Basalam products fetch failed (${res.status})`);
-    if (!getToken() || res.status === 401) {
-      return getMockProducts(page, per_page);
-    }
     throw new Error(`Failed to fetch products: ${res.status}`);
   }
 
@@ -118,7 +116,7 @@ export async function getVendorProducts(
     return applySort(result, sort);
   } catch (error) {
     console.error("Error fetching Basalam products:", error);
-    return getMockProducts(page, per_page);
+    throw error;
   }
 }
 
@@ -131,6 +129,9 @@ const CATALOG_PAGE_CONCURRENCY = 3;
 /** Fetch every vendor product page. Do not cap at 12 pages — that silently dropped new cards. */
 export async function fetchAllVendorProducts(): Promise<{ products: Product[]; total: number }> {
   const first = await fetchProductsPage(1, CATALOG_PAGE_SIZE);
+  if (first.total_pages > CATALOG_MAX_PAGES) {
+    throw new Error("Basalam catalog exceeds pagination limit; refusing a partial sync");
+  }
   const totalPages = Math.min(Math.max(first.total_pages || 1, 1), CATALOG_MAX_PAGES);
   const allProducts = [...first.products];
 
@@ -148,7 +149,10 @@ export async function fetchAllVendorProducts(): Promise<{ products: Product[]; t
     if (Number.isFinite(product.id)) unique.set(product.id, product);
   }
 
-  return { products: [...unique.values()], total: first.total || unique.size };
+  if (unique.size !== first.total) {
+    throw new Error(`Incomplete Basalam catalog: ${unique.size}/${first.total}`);
+  }
+  return { products: [...unique.values()], total: first.total };
 }
 
 async function getFullCatalog(): Promise<{ products: Product[]; total: number }> {
@@ -224,7 +228,7 @@ export async function searchVendorProducts(
     };
   } catch (error) {
     console.error("Search error:", error);
-    return getMockProducts(page, per_page);
+    throw error;
   }
 }
 
@@ -244,20 +248,18 @@ export async function getProduct(productId: number | string): Promise<Product | 
   try {
     const res = await fetch(`${BASE_URL}/products/${productId}`, {
       headers: getHeaders(),
-      next: { revalidate: 300 },
+      cache: "no-store",
+      signal: AbortSignal.timeout(30_000),
     });
 
     if (!res.ok) {
-      if (!getToken() && res.status === 401) {
-        return getMockProductById(String(productId));
-      }
       return null;
     }
     const product = await res.json();
-    return normalizeProduct(product);
+    return normalizeProduct(product.data || product);
   } catch (e) {
     console.error("getProduct error", e);
-    return getMockProductById(String(productId));
+    return null;
   }
 }
 
@@ -326,6 +328,7 @@ export async function fetchProductDetail(productId: number): Promise<Product | n
     const res = await fetch(`${BASE_URL}/products/${productId}`, {
       headers: getHeaders(),
       signal: AbortSignal.timeout(20_000),
+      cache: "no-store",
     });
     if (!res.ok) return null;
     const data = (await res.json()) as Record<string, unknown>;
@@ -357,6 +360,9 @@ export async function enrichProductsWithGallery(
         out[index] = {
           ...current,
           ...detailed,
+          // Gallery enrichment must not resurrect stock from a stale detail response.
+          inventory: current.inventory ?? detailed.inventory,
+          status: current.status ?? detailed.status,
           photo: photos[0] ?? detailed.photo ?? current.photo,
           photos,
           created_at: detailed.created_at || current.created_at,
@@ -373,8 +379,16 @@ export async function enrichProductsWithGallery(
   return out;
 }
 
-function normalizeProduct(p: Record<string, unknown>): Product {
-  const rawInventory = Number(p.inventory ?? p.stock ?? p.quantity ?? p.count ?? 0);
+export function normalizeProduct(p: Record<string, unknown>): Product {
+  // Live v1 vendor response (2026-09-27): inventory + status.value;
+  // its variant[] entries have stock. Aggregate inventory, especially 0, wins.
+  const variantStock = Array.isArray(p.variant)
+    ? p.variant.reduce((sum: number, variant: Record<string, unknown>) => {
+        const stock = Number(variant?.stock ?? 0);
+        return sum + (Number.isFinite(stock) ? Math.max(0, stock) : 0);
+      }, 0)
+    : 0;
+  const rawInventory = Number(p.inventory ?? p.stock ?? p.quantity ?? p.count ?? variantStock);
   const status = p.status;
   const statusFields = status && typeof status === "object"
     ? [
@@ -384,14 +398,16 @@ function normalizeProduct(p: Record<string, unknown>): Product {
       ]
     : [status];
   // Basalam's ProductStatusInputEnum: unpublished, illegal, pending approval.
-  // Do not guess other numeric status IDs (2976 means published).
-  const unavailableStatusIds = new Set([3790, 4184, 3568]);
+  // 3567 (not approved) was observed in the live vendor response.
+  // 2976 means published, not necessarily in stock.
+  const unavailableStatusIds = new Set([3790, 4184, 3568, 3567]);
   const unavailableStatuses = new Set([
     "out_of_stock", "inactive", "unavailable", "unpublished", "illegal",
     "pending_approval", "ناموجود", "غیرفعال", "غیر_فعال",
   ]);
   const unavailable = p.is_available === false || p.available === false ||
     statusFields.some((value) => {
+      if (value === false || value === 0) return true;
       if (typeof value === "number") return unavailableStatusIds.has(value);
       if (typeof value !== "string") return false;
       const normalized = value.trim().toLowerCase().replace(/[\s\u200c-]+/g, "_");
@@ -433,6 +449,7 @@ function normalizeProductResponse(
   per_page: number
 ): ProductListResponse {
   const items = (data.data || data.products || data.items || []) as Record<string, unknown>[];
+  if (!Array.isArray(items)) throw new Error("Unexpected Basalam product list response");
   const products = items.map(normalizeProduct);
 
   const meta = data.meta as { total?: number } | undefined;
@@ -479,24 +496,6 @@ export function getAllMockCatalogProducts(): Product[] {
       title: `${p.title} ${i > 0 ? `#${i + 1}` : ""}`.trim(),
     }))
   );
-}
-
-function getMockProducts(page: number, per_page: number): ProductListResponse {
-  const simulated = getAllMockCatalogProducts();
-  const start = (page - 1) * per_page;
-  return {
-    products: simulated.slice(start, start + per_page),
-    total: simulated.length,
-    page,
-    per_page,
-    total_pages: Math.ceil(simulated.length / per_page),
-  };
-}
-
-function getMockProductById(id: string): Product {
-  const found = MOCK_PRODUCTS.find((p) => String(p.id) === id);
-  if (found) return found;
-  return { ...MOCK_PRODUCTS[0], id: Number(id) || 999999, title: "کارت کلکسیونی ویژه" };
 }
 
 export const BASALAM_VENDOR_ID = getVendorId();

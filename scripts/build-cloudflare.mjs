@@ -288,6 +288,12 @@ try {
   if (!shouldSkipPrebuild()) {
     run("node", ["--import", "tsx", "scripts/prebuild-static-data.ts"]);
   } else {
+    if (hasBasalamToken() && process.env.SKIP_BASALAM_PREBUILD !== "1") {
+      console.log("   refreshing live inventory while keeping committed product images");
+      run("node", ["--import", "tsx", "scripts/refresh-catalog-inventory.ts", "--write"]);
+    } else {
+      console.warn("   inventory is a snapshot: configure BASALAM_TOKEN or run the inventory sync before deployment");
+    }
     console.log(
       `   reusing committed catalog JSON (${readCatalogProductCount()} products)` +
         (imageCount ? `, ${imageCount} local images` : ", images served from adristore-media")

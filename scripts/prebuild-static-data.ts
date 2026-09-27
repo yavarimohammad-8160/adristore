@@ -200,25 +200,7 @@ async function main() {
       };
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      const existing = await readExistingCatalog();
-      if (existing && existing.products.length >= MIN_REAL_CATALOG_PRODUCTS) {
-        console.warn(
-          `   live fetch failed (${message}) — keeping committed catalog (${existing.products.length} products)`
-        );
-        snapshot = {
-          ...existing,
-          generatedAt: existing.generatedAt || new Date().toISOString(),
-        };
-      } else {
-        console.warn(`   live fetch failed (${message}) — using mock catalog (no committed cache)`);
-        const { products, seriesCatalog, total } = await buildMockExportCatalog();
-        snapshot = {
-          products,
-          seriesCatalog,
-          total,
-          generatedAt: new Date().toISOString(),
-        };
-      }
+      throw new Error(`Live catalog refresh failed (${message}); refusing stale or mock inventory`);
     }
   }
 

@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { mergeBasalamWithManual } from "./catalog-inventory";
 import type { Product, ProductListResponse } from "./types";
 import {
   getVendorProducts as getBasalamProducts,
@@ -25,7 +26,7 @@ import {
 
 const MANUAL_ID_MIN = 900_000_000;
 
-function enrichProduct(detail: Product, fallback?: Product | null): Product {
+export function enrichProduct(detail: Product, fallback?: Product | null): Product {
   if (!fallback || fallback.id !== detail.id) return detail;
 
   const photos =
@@ -44,6 +45,7 @@ function enrichProduct(detail: Product, fallback?: Product | null): Product {
     photos: photos ?? (detail.photo ? [detail.photo] : []),
     description: detail.description || fallback.description || fallback.brief || "",
     brief: detail.brief || fallback.brief || "",
+    // Only null/undefined permit fallback. Zero is authoritative vendor stock.
     inventory: detail.inventory ?? fallback.inventory,
     url: detail.url || fallback.url,
     videoUrl: detail.videoUrl || fallback.videoUrl,
@@ -113,9 +115,7 @@ function mergeManualIntoResult(
   page: number
 ): ProductListResponse {
   if (page !== 1) return result;
-  const manualIds = new Set(manualProducts.map((p) => p.id));
-  const basalamOnly = result.products.filter((p) => !manualIds.has(p.id));
-  const merged = [...manualProducts, ...basalamOnly];
+  const merged = mergeBasalamWithManual(result.products, manualProducts);
   return {
     ...result,
     products: merged.slice(0, result.per_page),
@@ -177,9 +177,7 @@ async function getStorefrontCatalog(): Promise<Product[]> {
     getManualProductsAsProducts(),
   ]);
 
-  const manualIds = new Set(manual.map((p) => p.id));
-  const basalamOnly = basalamProducts.filter((p) => !manualIds.has(p.id));
-  const merged = [...manual, ...basalamOnly];
+  const merged = mergeBasalamWithManual(basalamProducts, manual);
   const products = await applyOverridesToList(merged);
 
   storefrontCatalogCache = { products, fetchedAt: Date.now() };

@@ -47,6 +47,7 @@ import { buildSeriesCatalog, type ProductSeries } from "./product-series";
 import { readManualProducts, manualToProduct } from "./manual-products";
 import { applyProductOverride, readProductOverrides } from "./product-overrides";
 import type { Photo, Product } from "./types";
+import { mergeBasalamWithManual } from "./catalog-inventory";
 
 
 export type SyncLogLevel = "info" | "warn" | "error" | "ok";
@@ -236,8 +237,7 @@ async function mergeWithManual(basalamProducts: Product[]): Promise<Product[]> {
   } catch {
     manual = [];
   }
-  const manualIds = new Set(manual.map((p) => p.id));
-  const merged = [...manual, ...basalamProducts.filter((p) => !manualIds.has(p.id))];
+  const merged = mergeBasalamWithManual(basalamProducts, manual);
   try {
     const overrides = await readProductOverrides();
     if (!overrides.length) return merged;
@@ -505,9 +505,15 @@ export async function runBasalamSync(options: BasalamSyncOptions = {}): Promise<
 
   if (existing) {
     const readyIds = new Set(readyProducts.map((p) => p.id));
+    const liveById = new Map(liveProducts.map((p) => [p.id, p]));
     for (const prev of existing.products) {
       if (!readyIds.has(prev.id) && skippedProducts.some((s) => s.id === prev.id)) {
-        readyProducts.push(prev);
+        const fresh = liveById.get(prev.id);
+        readyProducts.push({ ...prev, inventory: fresh?.inventory ?? prev.inventory });
+      } else if (!readyIds.has(prev.id) && prev.id < 900_000_000) {
+        // A delisted vendor product remains browsable, but cannot be purchased.
+        readyProducts.push({ ...prev, inventory: 0 });
+        log("warn", "catalog", `Product ${prev.id} absent from complete vendor list; retained as unavailable`);
       }
     }
   }
