@@ -35,6 +35,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items]);
 
   const addToCart = (product: Product) => {
+    if ((product.inventory ?? 0) <= 0) {
+      toast.error("این محصول ناموجود است");
+      return;
+    }
     setItems((prev) => {
       const existing = prev.findIndex((i) => i.product.id === product.id);
       if (existing >= 0) {

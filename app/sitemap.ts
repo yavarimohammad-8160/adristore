@@ -3,6 +3,8 @@ import { BLOG_POSTS } from "@/lib/blog-posts";
 import { buildExportCatalog } from "@/lib/prebuild-catalog";
 import { absoluteUrl, SITE_URL } from "@/lib/seo";
 import { productPath } from "@/lib/slug";
+import { isStaticExportBuild, readStaticProducts } from "@/lib/static-catalog";
+import type { Product } from "@/lib/types";
 
 export const dynamic = "force-static";
 
@@ -46,7 +48,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let productRoutes: MetadataRoute.Sitemap = [];
 
   try {
-    const { products } = await buildExportCatalog();
+    // Static export has no Basalam token in every build. The committed catalog
+    // is the same list the product pages were generated from.
+    const products: Product[] = isStaticExportBuild()
+      ? await readStaticProducts()
+      : (await buildExportCatalog()).products;
     productRoutes = products.map((p) => ({
       url: absoluteUrl(productPath(p.id, p.title)),
       lastModified: p.created_at ? new Date(p.created_at) : now,
@@ -55,6 +61,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
   } catch (e) {
     console.error("Sitemap product fetch error:", e);
+    try {
+      const products = await readStaticProducts();
+      productRoutes = products.map((p) => ({
+        url: absoluteUrl(productPath(p.id, p.title)),
+        lastModified: p.created_at ? new Date(p.created_at) : now,
+        changeFrequency: "weekly" as const,
+        priority: 0.6,
+      }));
+    } catch (fallbackError) {
+      console.error("Sitemap catalog fallback failed:", fallbackError);
+    }
   }
 
   return [...staticRoutes, ...blogRoutes, ...productRoutes];

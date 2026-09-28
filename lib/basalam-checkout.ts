@@ -6,8 +6,10 @@ export interface CheckoutItem {
 }
 
 export function getBasalamProductUrl(product: Product): string {
+  // Catalog products store a Basalam purchase URL in `url`. Zero stock must
+  // not follow it; the storefront product page stays browsable.
   if (product.inventory !== undefined && product.inventory <= 0) {
-    return product.url || `/product/${product.id}`;
+    return `/products/${product.id}/`;
   }
   return product.url || `https://basalam.com/p/${product.id}`;
 }

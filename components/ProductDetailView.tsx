@@ -114,14 +114,24 @@ export function ProductDetailView({
 
               <div className="flex flex-col sm:flex-row flex-wrap gap-3">
                 <AddToCartButton product={product} />
-                <a
-                  href={basalamUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-fun btn-blue touch-target inline-flex items-center justify-center min-h-[48px] h-12 px-6 rounded-xl text-sm font-bold w-full sm:w-auto text-center"
-                >
-                  خرید مستقیم از باسلام
-                </a>
+                {inStock ? (
+                  <a
+                    href={basalamUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-fun btn-blue touch-target inline-flex items-center justify-center min-h-[48px] h-12 px-6 rounded-xl text-sm font-bold w-full sm:w-auto text-center"
+                  >
+                    خرید مستقیم از باسلام
+                  </a>
+                ) : (
+                  <span
+                    aria-disabled="true"
+                    title="این محصول در حال حاضر ناموجود است"
+                    className="touch-target inline-flex items-center justify-center min-h-[48px] h-12 px-6 rounded-xl text-sm font-bold w-full sm:w-auto text-center bg-slate-800/80 text-slate-500 cursor-not-allowed"
+                  >
+                    ناموجود
+                  </span>
+                )}
               </div>
 
               <p className="mt-3 text-xs text-white/50 font-medium">

@@ -153,8 +153,10 @@ test("actual full sync serializes zero despite manual/override/gallery conflicts
 
 test("checkout excludes unavailable items and keeps available items", () => {
   const item = (id: number, inventory: number) => ({ product: { ...product(inventory), id }, quantity: 2 });
-  assert.equal(buildBasalamCheckoutUrl([item(1, 0)]), "/product/1");
-  assert.equal(buildBasalamCheckoutUrl([item(1, 0), item(2, 0)]), "/product/1");
+  assert.equal(buildBasalamCheckoutUrl([item(1, 0)]), "/products/1/");
+  assert.equal(buildBasalamCheckoutUrl([item(1, 0), item(2, 0)]), "/products/1/");
+  const linked = { product: { ...product(0), id: 9, url: "https://basalam.com/p/9" }, quantity: 1 };
+  assert.equal(buildBasalamCheckoutUrl([linked]), "/products/9/");
   assert.equal(buildBasalamCheckoutUrl([item(1, 0), item(2, 3)]), "https://basalam.com/p/2?quantity=2");
 });
 
