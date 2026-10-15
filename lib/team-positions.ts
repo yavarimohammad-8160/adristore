@@ -43,22 +43,71 @@ export function playerNameFromTitle(title: string): string {
   return (parts.length > 1 ? parts[parts.length - 1] : cleaned).trim();
 }
 
-export function classifyPosition(product: Pick<Product, "id" | "title">): TeamPosition | null {
-  const override = config.overrides[String(product.id)];
-  if (override) {
-    if (override === "EXCLUDE") return null;
-    return typeof override === "string" ? override : override.position;
-  }
+export type PositionSource = "manual" | "ocr" | "keyword" | "none";
+export type ManualPositionValue = TeamPosition | "EXCLUDE";
+export interface ManualPositionEntry {
+  position: ManualPositionValue;
+  updatedAt: string;
+}
+export type ManualPositions = Record<string, ManualPositionEntry>;
 
-  const title = product.title || "";
-  if (!title.trim().startsWith("کیمدی کارت")) return null;
-  if (config.excludeKeywords.some((k) => title.includes(k))) return null;
+/** OCR results below this confidence are listed for admin review. */
+export const LOW_OCR_CONFIDENCE = 85;
 
-  const name = normalizeFa(playerNameFromTitle(title));
+export function isKimdiCard(title: string): boolean {
+  const t = title || "";
+  return t.trim().startsWith("کیمدی کارت") && !config.excludeKeywords.some((k) => t.includes(k));
+}
+
+export function keywordPosition(title: string): TeamPosition | null {
+  const name = normalizeFa(playerNameFromTitle(title || ""));
   for (const [pos, keys] of normalizedKeywords) {
     if (keys.some((k) => name.includes(k))) return pos;
   }
   return null;
+}
+
+export interface ResolvedPosition {
+  position: TeamPosition | null;
+  source: PositionSource;
+  excluded: boolean;
+  confidence?: number;
+  ocrText?: string;
+}
+
+/** Priority: manual (admin) > OCR / config override > title keywords. */
+export function resolvePosition(
+  product: Pick<Product, "id" | "title">,
+  manual?: ManualPositions
+): ResolvedPosition {
+  const m = manual?.[String(product.id)];
+  if (m) {
+    return m.position === "EXCLUDE"
+      ? { position: null, source: "manual", excluded: true }
+      : { position: m.position, source: "manual", excluded: false };
+  }
+  const override = config.overrides[String(product.id)];
+  if (override) {
+    if (override === "EXCLUDE") return { position: null, source: "ocr", excluded: true };
+    if (typeof override === "string") return { position: override, source: "ocr", excluded: false };
+    return {
+      position: override.position,
+      source: "ocr",
+      excluded: false,
+      confidence: override.confidence,
+      ocrText: override.ocrText,
+    };
+  }
+  if (!isKimdiCard(product.title || "")) return { position: null, source: "none", excluded: true };
+  const kw = keywordPosition(product.title || "");
+  return { position: kw, source: kw ? "keyword" : "none", excluded: false };
+}
+
+export function classifyPosition(
+  product: Pick<Product, "id" | "title">,
+  manual?: ManualPositions
+): TeamPosition | null {
+  return resolvePosition(product, manual).position;
 }
 
 export interface TeamCard {
@@ -71,10 +120,10 @@ export interface TeamCard {
   product: Product;
 }
 
-export function buildTeamPool(products: Product[]): TeamCard[] {
+export function buildTeamPool(products: Product[], manual?: ManualPositions): TeamCard[] {
   const out: TeamCard[] = [];
   for (const p of products) {
-    const position = classifyPosition(p);
+    const position = classifyPosition(p, manual);
     if (!position) continue;
     out.push({
       id: p.id,

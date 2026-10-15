@@ -16,6 +16,7 @@ import {
   Database,
   ShoppingBag,
   Coins,
+  Shirt,
   type LucideIcon,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -26,6 +27,7 @@ const nav = [
   { href: "/admin", label: "داشبورد", icon: LayoutDashboard },
   { href: "/admin/products", label: "محصولات", icon: Package },
   { href: "/admin/series", label: "مدیریت سری‌ها", icon: Layers },
+  { href: "/admin/positions", label: "پوزیشن بازیکن‌ها", icon: Shirt },
   { href: "/admin/content", label: "صفحات و منو", icon: Link2 },
   { href: "/admin/settings", label: "تنظیمات", icon: Settings },
 ] as const;

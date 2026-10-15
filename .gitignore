@@ -75,3 +75,5 @@ out/
 .next/
 out/
 .next/
+/data/player-positions-manual.json
+/data/*.tmp
