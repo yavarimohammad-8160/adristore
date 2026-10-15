@@ -1,0 +1,5541 @@
+{
+  "_comment": "Team-builder position map. 'keywords' are matched (spaces/ZWNJ ignored) against the player name part of Kimdi card titles. 'overrides' maps a product id to GK|DEF|MID|FWD|COACH|EXCLUDE and always wins. Edit this file to fix/extend positions. OCR overrides (source:'ocr') were generated offline from the position text printed under the player name on each card image (tesseract); they are static and no OCR runs at runtime.",
+  "overrides": {
+    "21939963": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "21940881": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "21943670": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "21945440": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 94,
+      "keywordGuess": "GK"
+    },
+    "21945868": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 95,
+      "keywordGuess": "GK"
+    },
+    "21988710": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "22518141": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "22527243": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 97,
+      "keywordGuess": "COACH"
+    },
+    "22530648": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "22537228": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 95,
+      "keywordGuess": "DEF"
+    },
+    "22537637": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "22537706": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "22537878": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "22539729": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "22539842": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 87,
+      "keywordGuess": "MID"
+    },
+    "22539930": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "22540014": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "22540282": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "22560018": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "22560162": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "22560213": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "22560264": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 84,
+      "keywordGuess": "MID"
+    },
+    "22560354": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "22564465": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "22611002": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "22628496": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "22631682": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "22755430": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 84,
+      "keywordGuess": "MID"
+    },
+    "22783059": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "22783124": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "22803661": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDE",
+      "confidence": 83,
+      "keywordGuess": "DEF"
+    },
+    "22803760": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 83,
+      "keywordGuess": "MID"
+    },
+    "22803831": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "EFENDER",
+      "confidence": 86,
+      "keywordGuess": "DEF"
+    },
+    "22804058": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "22804168": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "22804429": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "22848298": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "22924256": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "VIDFIELDER",
+      "confidence": 71,
+      "keywordGuess": "MID"
+    },
+    "22924325": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "22924499": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "22924545": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "22924651": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "22924707": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "22924748": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 94,
+      "keywordGuess": "GK"
+    },
+    "22924778": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "22924815": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "22924869": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "22925929": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "22926041": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "22926195": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "22960639": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "22982680": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "22982718": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "23023757": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "23032207": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "23089482": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "23135805": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "23135844": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 87,
+      "keywordGuess": "MID"
+    },
+    "23141668": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "23161112": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 95,
+      "keywordGuess": "FWD"
+    },
+    "23187395": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23231283": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "23264816": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 85,
+      "keywordGuess": "FWD"
+    },
+    "23362664": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23369658": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23376977": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "23428268": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 93,
+      "keywordGuess": "GK"
+    },
+    "23428297": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 81,
+      "keywordGuess": "MID"
+    },
+    "23448795": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23448889": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "23449027": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 85,
+      "keywordGuess": "FWD"
+    },
+    "23482520": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "23482973": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "23504414": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 95,
+      "keywordGuess": "GK"
+    },
+    "23543454": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "23543493": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 95,
+      "keywordGuess": "FWD"
+    },
+    "23543533": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23544131": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "23544164": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23544186": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "23544215": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 85,
+      "keywordGuess": "FWD"
+    },
+    "23544236": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "23545838": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "23545885": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "23550405": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "23550457": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "23550534": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "23555110": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23570038": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "23570052": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23570061": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23570092": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "23570101": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "23570122": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "23580956": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "23580973": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23581023": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "23581033": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "23581052": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23581078": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23592845": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23674657": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 95,
+      "keywordGuess": "GK"
+    },
+    "23684656": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "23741400": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "23741449": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23747036": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23754413": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "23754465": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "FWD"
+    },
+    "23754522": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "23799051": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23799148": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "23799413": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23799461": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "23799503": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23919181": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "23919249": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23919344": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "23919442": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "23919548": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "23919620": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 85,
+      "keywordGuess": "MID"
+    },
+    "23919716": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "23919916": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "23920011": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "23967771": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "24052777": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "24057411": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "24057443": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "24062363": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "24072347": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "24072667": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "24073099": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "24073308": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 97,
+      "keywordGuess": "COACH"
+    },
+    "24117295": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "24320556": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "24320560": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "24320564": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 86,
+      "keywordGuess": "MID"
+    },
+    "24320581": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "24320590": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "24320601": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 95,
+      "keywordGuess": "GK"
+    },
+    "24320610": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "24381800": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "24534385": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "24534450": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "24607393": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "24607427": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "24607451": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "24646471": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "24743606": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "24743640": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "24743667": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "24952991": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "24953412": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "25008101": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "25008124": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "25044577": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "25053381": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "25205425": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "25205628": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "25205716": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "25205854": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "25205990": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 87,
+      "keywordGuess": "FWD"
+    },
+    "25250985": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "25251022": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "25251209": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "25260097": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "25262280": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "25262310": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 86,
+      "keywordGuess": "MID"
+    },
+    "25612585": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 95,
+      "keywordGuess": "FWD"
+    },
+    "25612713": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 85,
+      "keywordGuess": "MID"
+    },
+    "25612755": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "25612935": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "25613029": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "25626465": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 85,
+      "keywordGuess": "MID"
+    },
+    "26186536": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "26186671": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "26448829": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "26451178": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "26484986": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "26485063": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "26485092": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "26485119": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "26485144": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "26513370": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "26513404": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "26543878": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "26566315": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "26566456": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "26724263": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "26724403": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "26894876": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "KEEPER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "26896056": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "26896639": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "26896727": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "26896770": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "26896888": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 95,
+      "keywordGuess": "DEF"
+    },
+    "26897147": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 95,
+      "keywordGuess": "FWD"
+    },
+    "26900818": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "26901133": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "26901165": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "27024379": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "27024414": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "27024484": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "27024489": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "27286690": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "27306639": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "27334772": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "27334829": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "27334852": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "27334878": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 95,
+      "keywordGuess": "FWD"
+    },
+    "27335075": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "27482991": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 72,
+      "keywordGuess": "FWD"
+    },
+    "28438093": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "30808354": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "30808487": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "30808649": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "30808816": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "30808915": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "30809039": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "30809146": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "30809369": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "30809481": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "30809537": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "30809590": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "30809792": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "30809901": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "30809947": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "30810124": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 97,
+      "keywordGuess": "GK"
+    },
+    "30810402": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "30810499": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 91,
+      "keywordGuess": "MID"
+    },
+    "30810666": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "30810928": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "30855555": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "30855705": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "30855832": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "30856134": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "31601343": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 95,
+      "keywordGuess": "DEF"
+    },
+    "31601413": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "31601757": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "31601785": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "31602091": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "31602145": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "31602256": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "31602276": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "31602337": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "31602361": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "31602843": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "31602995": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "31603112": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "31603199": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "31603628": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "31604340": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "31765495": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "31765573": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "31765653": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "31765689": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "31765809": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "31955958": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "31956066": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "31956122": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "31956247": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "31956367": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "31956456": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "31956723": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "31956893": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "32332270": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "32332378": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "32332443": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "32332500": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "32332573": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "GK"
+    },
+    "32332620": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "32333318": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "32333427": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "32333609": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 92,
+      "keywordGuess": "MID"
+    },
+    "32333685": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "32333854": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "32333927": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "32333995": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "32334367": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "32556512": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "32556642": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "32556683": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "32594137": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "32594157": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "32594171": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "32594218": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "33062853": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "33062901": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "33062963": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "33062987": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "33631850": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "33631916": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "33632035": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 89,
+      "keywordGuess": "DEF"
+    },
+    "33657513": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "34602919": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "34603368": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "34866421": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "34866463": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "34866625": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "34866748": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "34867198": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "34867253": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "34870029": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "35650471": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "35650789": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "35651315": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "35651642": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "35652465": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "36085890": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "36085909": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "36085925": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "36085946": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "36086102": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "36473317": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "36473435": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "36481604": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "36697181": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "36697254": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "36908698": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "36908746": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "36927814": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "38415526": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "38415536": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "38415544": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "38415555": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "38415565": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "38415576": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "38415587": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 84,
+      "keywordGuess": "FWD"
+    },
+    "38415701": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "38415729": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "38415798": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 92,
+      "keywordGuess": "FWD"
+    },
+    "38415817": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "38415856": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "40691426": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "40696292": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "40696316": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "40696334": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "40698052": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "40698121": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "40698149": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 97,
+      "keywordGuess": "GK"
+    },
+    "40698175": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "40698190": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "41851402": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "41851527": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "41852117": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "41852702": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "42651625": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "42651783": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "42651995": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "42652277": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "42652579": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "42652797": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "42653112": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "42653188": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "42653298": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "42653402": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "42653507": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "42653601": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 97,
+      "keywordGuess": "GK"
+    },
+    "42653811": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "42653988": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "42654186": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "42654306": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "42654616": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "42654705": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "DEF"
+    },
+    "42654813": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 97,
+      "keywordGuess": "GK"
+    },
+    "42654923": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "42654998": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "42655083": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "42655286": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "42655401": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "42662946": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "42663022": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "42663115": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "42663280": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "42663382": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "42663474": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "42663554": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "42663649": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "42663784": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "42663886": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "42663997": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 97,
+      "keywordGuess": "GK"
+    },
+    "42664103": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "42666268": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "42666364": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "42666558": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "42666654": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "42682122": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "42682639": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "42682909": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "42683174": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "42683427": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "42683912": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "42684181": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "42686459": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "42688352": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "42688674": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "42690784": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 97,
+      "keywordGuess": "GK"
+    },
+    "42690954": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "42691157": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "42691424": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "42691726": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "42693319": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "42694225": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "42695014": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43187596": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43187722": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43187795": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43187886": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43187966": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "43188115": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "43188207": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43188515": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43189952": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43190278": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43190467": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "43190567": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 97,
+      "keywordGuess": "GK"
+    },
+    "43190669": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43190723": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "43192019": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "43192071": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "43192167": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43192313": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43192419": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 97,
+      "keywordGuess": "GK"
+    },
+    "43192484": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "43192729": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "43192819": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43192910": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43196596": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43196974": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43197094": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43200447": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "43200602": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "43200805": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43200924": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "43200993": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "43201074": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43201150": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "43201586": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43201685": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43201747": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43201873": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "43201958": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43202031": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "43202146": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43202264": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43202328": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43204529": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43204647": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43204775": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43204836": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43204944": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "43205016": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "43205109": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43223085": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43223234": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43223744": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43224049": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43224415": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43224550": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43224652": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43227575": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43227716": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43228001": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43228225": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43228629": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43229182": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43229264": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "43282044": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43282099": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43282146": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43282165": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43282182": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43282221": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43282256": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43282286": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43282305": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43282341": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43282367": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43282391": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 94,
+      "keywordGuess": "DEF"
+    },
+    "43282451": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43282559": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43282600": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43286015": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43286054": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43286141": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43286445": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43286626": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43286792": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43286879": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "43286933": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "43287153": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43287243": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43287356": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43287455": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "43288000": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "43288185": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43288366": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43288663": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43288766": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43288804": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43288848": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43288892": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43288945": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43288974": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "FWD"
+    },
+    "43288998": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43289030": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43289061": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "43289124": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43289202": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43289268": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43289333": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "43289391": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43289445": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43289502": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "43289640": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "IDFIELDER",
+      "confidence": 84,
+      "keywordGuess": "MID"
+    },
+    "43289704": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "43675982": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "44800193": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "44800247": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "44800322": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "44800433": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "44802092": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "44803033": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "44803482": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "44805683": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "45204136": {
+      "position": "COACH",
+      "subPosition": "COACH",
+      "source": "ocr",
+      "ocrText": "COACH",
+      "confidence": 96,
+      "keywordGuess": "COACH"
+    },
+    "45204296": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "45560084": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "45560244": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "45560331": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "ALKEEPER",
+      "confidence": 82,
+      "keywordGuess": "GK"
+    },
+    "45560380": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "45560683": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "45560822": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "45561050": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "45561128": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "45561272": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "45561683": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "45562152": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "46071586": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "46071660": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "46071682": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "46071732": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "46071906": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "46071940": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "46071994": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "47875159": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "47875543": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "47875576": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "47875624": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "47875667": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "47875739": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "47875789": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "47875986": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "47876056": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "47876091": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "47876123": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "MID"
+    },
+    "47876160": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "47876849": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "47876935": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "48109382": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "48110132": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 81,
+      "keywordGuess": "FWD"
+    },
+    "48115633": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "50858250": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 81,
+      "keywordGuess": "MID"
+    },
+    "50863098": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "50865313": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "50865615": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "50865770": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "50865924": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "50866124": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "50866653": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "50866790": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "50866942": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "50869060": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "50869369": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "50872766": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "50873322": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "50873684": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "50874611": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "56062542": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "56062652": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "56063215": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "56063302": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "56063594": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "56063788": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "56064386": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "56064486": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "56065129": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "56065199": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "56066658": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "56069416": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "56069537": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "56069947": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 93,
+      "keywordGuess": "FWD"
+    },
+    "56070016": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "56070082": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "56070140": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "56070190": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "56070507": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "56070568": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "56070651": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "56070722": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "FWD"
+    },
+    "56070776": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "56071583": {
+      "position": "GK",
+      "subPosition": "GK",
+      "source": "ocr",
+      "ocrText": "GOALKEEPER",
+      "confidence": 96,
+      "keywordGuess": "GK"
+    },
+    "56071645": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "56072089": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "56072246": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "56073423": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "56073604": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 94,
+      "keywordGuess": "FWD"
+    },
+    "56073746": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "56079004": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 96,
+      "keywordGuess": "DEF"
+    },
+    "56079122": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "56079237": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "56079362": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "56079458": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "56393172": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "56393433": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "56393528": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    },
+    "56665258": {
+      "position": "DEF",
+      "subPosition": "DEF",
+      "source": "ocr",
+      "ocrText": "DEFENDER",
+      "confidence": 97,
+      "keywordGuess": "DEF"
+    },
+    "57175947": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "57176080": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 97,
+      "keywordGuess": "FWD"
+    },
+    "57176181": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 95,
+      "keywordGuess": "MID"
+    },
+    "57176328": {
+      "position": "FWD",
+      "subPosition": "FW",
+      "source": "ocr",
+      "ocrText": "FORWARD",
+      "confidence": 96,
+      "keywordGuess": "FWD"
+    },
+    "57176431": {
+      "position": "MID",
+      "subPosition": "MID",
+      "source": "ocr",
+      "ocrText": "MIDFIELDER",
+      "confidence": 96,
+      "keywordGuess": "MID"
+    }
+  },
+  "excludeKeywords": [
+    "برچسب",
+    "پکیج",
+    "مجموعه",
+    "هفت سین",
+    "لیگ برتر",
+    "سری آ ایتالیا",
+    "لیگ 1",
+    "کلاب کیمدی",
+    "باشگاه کیمدی",
+    "+",
+    "لیورپول",
+    "اینترمیلان",
+    "منچستر",
+    "بارسلونا",
+    "آرسنال",
+    "چلسی",
+    "یوونتوس",
+    "بایرن مونیخ",
+    "آث میلان",
+    "رئال مادرید",
+    "پاریس سنژرمن"
+  ],
+  "keywords": {
+    "COACH": [
+      "مربی",
+      "سرمربی",
+      "گواردیولا",
+      "کلوپ",
+      "آنجلوتی",
+      "مورینیو",
+      "فرگوسن",
+      "ونگر",
+      "لیپی",
+      "پوچتینو",
+      "کونته",
+      "آرنه اسلات",
+      "ناگلزمن",
+      "کاپلو",
+      "دل بوسکه",
+      "پریرا",
+      "سیمئونه",
+      "پوستکوگلو",
+      "تد لسو",
+      "اسون گوران اریکسون",
+      "هانسی فلیک",
+      "مانچینی",
+      "دالیچ",
+      "کومان",
+      "فونسکا",
+      "زیدان سرمربی"
+    ],
+    "GK": [
+      "دروازه بان",
+      "اوبلاک",
+      "نویر",
+      "کاسیاس",
+      "آلیسون",
+      "دیدا",
+      "پیتر چک",
+      "پیترچک",
+      "کوبل",
+      "ادرسون",
+      "لنو",
+      "منیان",
+      "اشمایکل",
+      "الیور کان",
+      "اولیور کان",
+      "یاشین",
+      "بوفون",
+      "دوناروما",
+      "ترشتگن",
+      "کورتوآ",
+      "وندرسال",
+      "بونو",
+      "زومر",
+      "دخه‌آ",
+      "پیکفورد",
+      "اونانا",
+      "اونای سیمون",
+      "روبرت سانچز",
+      "کپا",
+      "رافا سیلوا",
+      "آبیاتی",
+      "کانیزارس",
+      "تیم هاوارد",
+      "دودک",
+      "ینس لمن",
+      "زامورا",
+      "تروبین",
+      "تولدو",
+      "روی پاتریشیو",
+      "آسمیر",
+      "رافا میر",
+      "رمسدل"
+    ],
+    "DEF": [
+      "راموس",
+      "مارسلو",
+      "تئو هرناندز",
+      "کاناوارو",
+      "دزایلی",
+      "حکیمی",
+      "ریو فردیناند",
+      "وندایک",
+      "ون‌دایک",
+      "ون دایک",
+      "آلابا",
+      "کیلینی",
+      "مالدینی",
+      "زانتی",
+      "پویول",
+      "دنی آلوز",
+      "آلوز",
+      "ریسه",
+      "وین بریج",
+      "لوسیو",
+      "روبرتو کارلوس",
+      "گروسو",
+      "خوان برنات",
+      "فیلیپ لام",
+      "واران",
+      "دیویس",
+      "پائو تورس",
+      "آکانجی",
+      "فریمپونگ",
+      "دیسسی",
+      "دیساسی",
+      "تیمبر",
+      "کولو توره",
+      "کلیچی",
+      "ویدیچ",
+      "آیالا",
+      "جان اوشی",
+      "جینتر",
+      "بکن باوئر",
+      "بکن بائر",
+      "اسکالوینی",
+      "آزپیلیکوئتا",
+      "گیلبرتو",
+      "دالوت",
+      "کارواخال",
+      "گریمالدو",
+      "لوک شاو",
+      "اسپینازولا",
+      "هوملز",
+      "تیریپیر",
+      "تاه",
+      "توموری",
+      "کوناته",
+      "کیمپمبه",
+      "میلیتائو",
+      "بن دیویس",
+      "کای واکر",
+      "کایل واکر",
+      "دیلورنزو",
+      "گواردیول",
+      "برمر",
+      "باستونی",
+      "رومرو",
+      "اشکرینیار",
+      "لوکاس هرناندز",
+      "کالافیوری",
+      "پاوارد",
+      "کونده",
+      "روبن دیاز",
+      "لیساندرو",
+      "ناچو",
+      "فرلاند مندی",
+      "اشلی کول",
+      "رودیگر",
+      "سالیبا",
+      "ماتراتزی",
+      "بوردیسو",
+      "زامبروتا",
+      "کوبارسی",
+      "ریکو لوئیس",
+      "بارزی",
+      "هیتینگا",
+      "لورن بلان",
+      "گارانکو",
+      "کولیبالی",
+      "دی لیخت",
+      "جان تری",
+      "والتر ساموئل",
+      "تورام",
+      "گالاس",
+      "آرنولد",
+      "کافو",
+      "رافائل مارکز",
+      "رابرتسون",
+      "لاپورت",
+      "سالگادو",
+      "کاروالیو",
+      "هیرو",
+      "کمپل",
+      "نستا",
+      "پیکه",
+      "گری نویل",
+      "مندی",
+      "استونز",
+      "آرائوخو",
+      "بادیاشیل",
+      "کوردوبا",
+      "اکسل دیسسی",
+      "چیولیر",
+      "کالویل",
+      "بالدرینی",
+      "ماتیاس جینتر",
+      "ماتئوس جینتر",
+      "آدرین موتا",
+      "آدرین موتو",
+      "استانیسیچ",
+      "استانیشیچ",
+      "نیکلاس سول",
+      "خوزه آنتونیو ریس",
+      "مارکوس آلونسو",
+      "اَگِر"
+    ],
+    "MID": [
+      "بکهام",
+      "اوزیل",
+      "دیبروینه",
+      "توتی",
+      "بالاک",
+      "پدری",
+      "مودریچ",
+      "ژابی آلونسو",
+      "ژابی آلانسو",
+      "کروز",
+      "بیلینگهام",
+      "بلینگهام",
+      "اولمو",
+      "زیدان",
+      "سیدورف",
+      "اینیستا",
+      "اینییستا",
+      "دکو",
+      "کاکا",
+      "ویرا",
+      "جرارد",
+      "سوکراتس",
+      "ریکارد",
+      "کانته",
+      "هارگریوز",
+      "داویدز",
+      "خدیرا",
+      "خامس",
+      "ژاکا",
+      "پتی",
+      "رایس",
+      "مدیسون",
+      "الیوت",
+      "برانت",
+      "پلاتینی",
+      "پوگبا",
+      "وراتی",
+      "کوکه",
+      "جورجینیو",
+      "چالهان",
+      "سابیتزر",
+      "گاوی",
+      "ماکلله",
+      "آرتتا",
+      "پارک جی سونگ",
+      "جی سونگ پارک",
+      "روی کاستا",
+      "والورده",
+      "مانیچ",
+      "لمپارد",
+      "ورون",
+      "پیرلو",
+      "ماتئوس",
+      "سیسینیو",
+      "اریکسن",
+      "آمبروزینی",
+      "آکونا",
+      "کیمیچ",
+      "دونگا",
+      "اشنایدر",
+      "آمرابات",
+      "پاکوئتا",
+      "فابینیو",
+      "کسیه",
+      "تولیسو",
+      "زائیچ",
+      "رویز",
+      "سائول",
+      "کایسدو",
+      "انزو فرناندز",
+      "لورنته",
+      "بیسوما",
+      "دی‌پائول",
+      "تونالی",
+      "آلمیرون",
+      "گیمارش",
+      "برونو فرناندز",
+      "مک‌تامنی",
+      "میسن مونت",
+      "گوندوغان",
+      "دی‌یونگ",
+      "دییونگ",
+      "گورتزکا",
+      "فیلیپس",
+      "مک‌آلیستر",
+      "کواچیچ",
+      "ربیوت",
+      "سوبوسلای",
+      "اودگارد",
+      "ریکلمه",
+      "آیمار",
+      "فابرگاس",
+      "اسکولز",
+      "مایکل کریک",
+      "سیسوکو",
+      "لایمر",
+      "گوتی",
+      "فلامینی",
+      "دیارا",
+      "دروسی",
+      "نونز",
+      "کاماوینگا",
+      "رودری",
+      "شوان اشتایگر",
+      "فن بومل",
+      "ندود",
+      "استانکوویچ",
+      "هلب",
+      "بارتز",
+      "ناکاتا",
+      "اندو",
+      "ژاوی",
+      "لادروپ",
+      "ماسکرانو",
+      "کاسمیرو",
+      "جیمز میلنر",
+      "ماتا",
+      "ساوینیو",
+      "میلینکوویچ",
+      "مارتین اودگارد",
+      "دنیلسون",
+      "جونینیو",
+      "پارتی",
+      "ساندرو",
+      "موسیالا",
+      "ویلیام",
+      "تیاگو آلکانتارا",
+      "روی کین",
+      "جیمز",
+      "پارخو",
+      "فرناندز",
+      "بوسکتس",
+      "خوان موتا",
+      "تیاگو موتا"
+    ],
+    "FWD": [
+      "رونالدو",
+      "اوون",
+      "ابراهیموویچ",
+      "نیمار",
+      "آنری",
+      "هانری",
+      "صلاح",
+      "مانه",
+      "مسی",
+      "دی ماریا",
+      "دی‌ماریا",
+      "وینیسیوس",
+      "امباپه",
+      "باجو",
+      "مولر",
+      "ریوالدو",
+      "سوارز",
+      "رونالدینیو",
+      "ایسکو",
+      "لواندوفسکی",
+      "هالند",
+      "نیستلروی",
+      "دیبالا",
+      "گریلیش",
+      "دوکو",
+      "آنسو فاتی",
+      "رونی",
+      "دروگبا",
+      "گریزمان",
+      "ریچاردلیسون",
+      "بیل",
+      "هازارد",
+      "تورس",
+      "ساکا",
+      "فیگو",
+      "راشفورد",
+      "روماریو",
+      "یامال",
+      "ژاوی سیمونز",
+      "دیوید",
+      "کولوسوسکی",
+      "برنان جانسون",
+      "شیرر",
+      "ریبری",
+      "باتیستوتا",
+      "کانتونا",
+      "سانچو",
+      "گیوکرش",
+      "گویکرش",
+      "برلا",
+      "کواراتسخلیا",
+      "پالمر",
+      "هویلوند",
+      "استرلینگ",
+      "موراتا",
+      "والاهوویچ",
+      "پالیسیچ",
+      "کاراسکو",
+      "لیائو",
+      "بنزما",
+      "فودن",
+      "مارتینلی",
+      "ماهرز",
+      "پرسی",
+      "گولیت",
+      "ترزگه",
+      "دلپیرو",
+      "پیرس",
+      "سیسه",
+      "مارتینز",
+      "کرسپو",
+      "بالوتلی",
+      "توز",
+      "دیاز",
+      "سانچز",
+      "کلوزه",
+      "شوچنکو",
+      "زیکو",
+      "جرزینیو",
+      "آدریانو",
+      "سون",
+      "رودریگو",
+      "زولا",
+      "مارادونا",
+      "استوییچکف",
+      "پله",
+      "لی کانگ این",
+      "شیک",
+      "لوزانو",
+      "مککنی",
+      "اولیسه",
+      "میتوما",
+      "نازون",
+      "کیول",
+      "بلوز اوغلو",
+      "اوزهبیو",
+      "اوزبیو",
+      "کنی دالگلیش",
+      "ژکو",
+      "جهانبخش",
+      "طارمی",
+      "لارسن",
+      "پودولسکی",
+      "اتوئو",
+      "بوتراگوئنو",
+      "فورلان",
+      "لوک‌من",
+      "اینزاگی",
+      "روبن",
+      "هاورتز",
+      "پوشکاش",
+      "فان باستن",
+      "مورینتس",
+      "رائول",
+      "باروش",
+      "ویا",
+      "کوارشما",
+      "اوزیمهن",
+      "واتکینز",
+      "گارناچو",
+      "کوره‌آ",
+      "نونیز",
+      "ویلیامز",
+      "آدیمی",
+      "خوزلو",
+      "خوسلو",
+      "کولو موآنی",
+      "ایموبیله",
+      "سانه",
+      "ورنر",
+      "ترپ",
+      "گنبری",
+      "ایزاک",
+      "جکسون",
+      "گاکپو",
+      "آلوارز",
+      "آبراهام",
+      "کیزا",
+      "خسوس",
+      "خزوس",
+      "مورنو",
+      "دپای",
+      "دمبله",
+      "آنتونی",
+      "پوپه",
+      "انکونکو",
+      "اسکاماکا",
+      "مایکن",
+      "گولووین",
+      "اورتگا",
+      "چرکی",
+      "ایان راش",
+      "اوبامیانگ",
+      "پاردس",
+      "دیابی",
+      "براردی",
+      "آدبایور",
+      "کالورت",
+      "برگکمپ",
+      "لوئیز گارسیا",
+      "نیکو گونزالس",
+      "پاپه مطر سار",
+      "میلی",
+      "باریوس",
+      "برباتوف",
+      "رویس",
+      "گومز",
+      "ساها",
+      "ماستانتونو",
+      "رافینیا",
+      "فران تورس",
+      "لوکاکو",
+      "سولاری",
+      "رایت فلیپس",
+      "رایت فیلیپس",
+      "کاسانو",
+      "هندوانویچ",
+      "کلایورت",
+      "روبینیو",
+      "نانی",
+      "ویری",
+      "جو کول",
+      "گرد مولر",
+      "خولیو کروز",
+      "زامورانو",
+      "گیگز",
+      "جرج بست",
+      "لینکر",
+      "دلافونته",
+      "زکریا",
+      "کلمبوس",
+      "دنی سبالوس",
+      "آردا گولر",
+      "هرادکی",
+      "کوین",
+      "نوبل",
+      "گوردون",
+      "لوئیس دیاز",
+      "هری کین",
+      "درک کویت",
+      "پائولو روسی",
+      "اسمیت‌رو",
+      "آسنسیو",
+      "آندره سیلوا",
+      "ولکات",
+      "کرایوف",
+      "کرایف",
+      "لوین",
+      "گنابری",
+      "آگوئرو"
+    ]
+  }
+}

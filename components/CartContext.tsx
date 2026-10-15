@@ -12,6 +12,11 @@ interface CartContextType {
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
+  /** Add several products at once (one toast). Returns how many were added. */
+  addManyToCart: (products: Product[]) => number;
+  isCartOpen: boolean;
+  setCartOpen: (open: boolean) => void;
+  openCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -56,6 +61,31 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const [isCartOpen, setCartOpen] = useState(false);
+  const openCart = () => setCartOpen(true);
+
+  const addManyToCart = (products: Product[]) => {
+    const available = products.filter((p) => (p.inventory ?? 0) > 0);
+    if (available.length === 0) {
+      toast.error("هیچ‌کدام از کارت‌ها موجود نیستند");
+      return 0;
+    }
+    setItems((prev) => {
+      const updated = [...prev];
+      for (const product of available) {
+        const idx = updated.findIndex((i) => i.product.id === product.id);
+        if (idx >= 0) {
+          updated[idx] = { ...updated[idx], quantity: updated[idx].quantity + 1 };
+        } else {
+          updated.push({ product, quantity: 1 });
+        }
+      }
+      return updated;
+    });
+    toast.success(`${available.length} کارت به سبد اضافه شد`);
+    return available.length;
+  };
+
   const removeFromCart = (id: number) => {
     setItems((prev) => prev.filter((i) => i.product.id !== id));
   };
@@ -87,6 +117,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart,
         totalItems,
         totalPrice,
+        addManyToCart,
+        isCartOpen,
+        setCartOpen,
+        openCart,
       }}
     >
       {children}
