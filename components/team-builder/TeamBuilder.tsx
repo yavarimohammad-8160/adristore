@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Check, Search, Share2, X } from "lucide-react";
+import { AlertTriangle, Check, Search, Share2, X } from "lucide-react";
 import { toast } from "sonner";
 import { useCart } from "@/components/CartContext";
 import { SmartProductImage } from "@/components/SmartProductImage";
@@ -21,6 +21,34 @@ const COACH_SLOT: Slot = { key: "coach", position: "COACH", x: 0, y: 0 };
 const FORMATION_KEYS = Object.keys(FORMATIONS) as FormationKey[];
 
 type Picks = Record<string, number>; // slot key -> product id
+
+/** Hold this long (ms) before a press turns into a drag. */
+const LONG_PRESS_MS = 280;
+/** Mouse: moving this far (px) while pressed also starts a drag. */
+const MOUSE_DRAG_PX = 6;
+/** Touch: moving this far before the long-press fires cancels it (user is scrolling). */
+const TOUCH_SLOP_PX = 10;
+
+interface DragState {
+  from: string;
+  id: number;
+  x: number;
+  y: number;
+  over: string | null;
+}
+
+/** Pure swap/move: coach only trades with coach; empty target = move. */
+export function applyDrop(picks: Picks, from: string, to: string): Picks {
+  if (from === to || !picks[from]) return picks;
+  if ((from === "coach") !== (to === "coach")) return picks;
+  const next = { ...picks };
+  const a = picks[from];
+  const b = picks[to];
+  next[to] = a;
+  if (b) next[from] = b;
+  else delete next[from];
+  return next;
+}
 
 function parseShare(q: URLSearchParams): { f: FormationKey; picks: Picks } | null {
   const f = q.get("f") as FormationKey | null;
@@ -59,6 +87,103 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
   const [activeSlot, setActiveSlot] = useState<Slot | null>(null);
   const [query, setQuery] = useState("");
   const [hideOut, setHideOut] = useState(false);
+
+  // ---- drag & drop on the pitch (pointer events, no library) ----
+  const [drag, setDrag] = useState<DragState | null>(null);
+  const dragRef = useRef<DragState | null>(null);
+  const suppressClick = useRef(false);
+  const pending = useRef<{
+    key: string;
+    id: number;
+    sx: number;
+    sy: number;
+    touch: boolean;
+    timer: number;
+  } | null>(null);
+
+  const slotAt = (x: number, y: number): string | null => {
+    const el = document.elementFromPoint(x, y)?.closest<HTMLElement>("[data-slot-key]");
+    return el?.dataset.slotKey ?? null;
+  };
+
+  const startDrag = useCallback((x: number, y: number) => {
+    const p = pending.current;
+    if (!p) return;
+    window.clearTimeout(p.timer);
+    pending.current = null;
+    const d = { from: p.key, id: p.id, x, y, over: p.key };
+    dragRef.current = d;
+    setDrag(d);
+    suppressClick.current = true;
+    navigator.vibrate?.(15);
+  }, []);
+
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      const p = pending.current;
+      if (p) {
+        const dist = Math.hypot(e.clientX - p.sx, e.clientY - p.sy);
+        if (p.touch) {
+          if (dist > TOUCH_SLOP_PX) {
+            window.clearTimeout(p.timer);
+            pending.current = null; // it's a scroll, not a drag
+          }
+        } else if (dist > MOUSE_DRAG_PX) startDrag(e.clientX, e.clientY);
+        return;
+      }
+      const d = dragRef.current;
+      if (!d) return;
+      const next = { ...d, x: e.clientX, y: e.clientY, over: slotAt(e.clientX, e.clientY) };
+      dragRef.current = next;
+      setDrag(next);
+    };
+    const onUp = (e: PointerEvent) => {
+      if (pending.current) {
+        window.clearTimeout(pending.current.timer);
+        pending.current = null;
+      }
+      const d = dragRef.current;
+      if (!d) return;
+      dragRef.current = null;
+      setDrag(null);
+      if (e.type === "pointerup") {
+        const to = slotAt(e.clientX, e.clientY);
+        if (to) setPicks((cur) => applyDrop(cur, d.from, to));
+      }
+      // the click that follows pointerup must not open the sheet
+      window.setTimeout(() => (suppressClick.current = false), 0);
+    };
+    // block page scroll on mobile while a card is being dragged
+    const onTouchMove = (e: TouchEvent) => {
+      if (dragRef.current && e.cancelable) e.preventDefault();
+    };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+      window.removeEventListener("touchmove", onTouchMove);
+    };
+  }, [startDrag]);
+
+  const onSlotPointerDown = (e: React.PointerEvent, s: Slot) => {
+    const id = picks[s.key];
+    if (!id || s.key === "coach") return; // only one coach slot: nothing to swap with
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    const touch = e.pointerType !== "mouse";
+    const { clientX, clientY } = e;
+    pending.current = {
+      key: s.key,
+      id,
+      sx: clientX,
+      sy: clientY,
+      touch,
+      timer: window.setTimeout(() => startDrag(clientX, clientY), LONG_PRESS_MS),
+    };
+  };
 
   const byId = useMemo(() => new Map(pool.map((c) => [c.id, c])), [pool]);
   const slots = useMemo(() => formationSlots(formation), [formation]);
@@ -127,24 +252,47 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
 
   const renderSlot = (s: Slot, coach = false) => {
     const card = picks[s.key] ? byId.get(picks[s.key]) : undefined;
+    const isSource = drag?.from === s.key;
+    const isTarget =
+      !!drag && drag.over === s.key && drag.from !== s.key && (s.key === "coach") === (drag.from === "coach");
+    const mismatch = !!card && card.position !== s.position;
     return (
       <button
         key={s.key}
         type="button"
-        onClick={() => setActiveSlot(s)}
-        className={
+        data-slot-key={s.key}
+        onClick={() => {
+          if (suppressClick.current) return;
+          setActiveSlot(s);
+        }}
+        onPointerDown={(e) => onSlotPointerDown(e, s)}
+        onContextMenu={(e) => card && e.preventDefault()}
+        onDragStart={(e) => e.preventDefault()}
+        className={`select-none [-webkit-touch-callout:none] ${
           coach
             ? "flex flex-col items-center"
             : "absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center w-[18%]"
-        }
+        } ${isSource ? "opacity-40" : ""}`}
         style={coach ? undefined : { left: `${s.x}%`, top: `${s.y}%` }}
         aria-label={`انتخاب ${POSITION_LABEL[s.position]}`}
       >
         <span
-          className={`relative block w-12 h-16 sm:w-14 sm:h-[76px] rounded-lg overflow-hidden border-2 ${
-            card ? "border-[#fbbf24]" : "border-dashed border-white/60 bg-black/30"
+          className={`relative block w-12 h-16 sm:w-14 sm:h-[76px] rounded-lg overflow-hidden border-2 transition-transform ${
+            isTarget
+              ? "border-[#22c55e] scale-110 ring-2 ring-[#22c55e]/60"
+              : card
+                ? "border-[#fbbf24]"
+                : "border-dashed border-white/60 bg-black/30"
           }`}
         >
+          {mismatch && (
+            <span
+              className="absolute top-0.5 left-0.5 z-10 rounded-full bg-amber-500/90 p-0.5"
+              title={`این کارت ${POSITION_LABEL[card.position]} است`}
+            >
+              <AlertTriangle className="h-2.5 w-2.5 text-black" />
+            </span>
+          )}
           {card ? (
             <SmartProductImage photo={card.product.photo} alt={card.name} className="w-full h-full object-cover" />
           ) : (
@@ -154,6 +302,9 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
         <span className="mt-1 max-w-full truncate rounded bg-black/60 px-1 text-[10px] text-white">
           {card ? card.name : POSITION_LABEL[s.position]}
         </span>
+        {mismatch && (
+          <span className="text-[9px] leading-3 text-amber-300">{POSITION_LABEL[card.position]}</span>
+        )}
       </button>
     );
   };
@@ -196,6 +347,24 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
         <span className="text-sm text-white/70">مربی:</span>
         {renderSlot(COACH_SLOT, true)}
       </div>
+
+      <p className="mt-2 text-center text-[11px] text-white/50">
+        برای جابه‌جایی، کارت را نگه دارید و روی جای دیگر بکشید
+      </p>
+
+      {/* drag ghost */}
+      {drag && byId.get(drag.id) && (
+        <div
+          className="pointer-events-none fixed z-[60] -translate-x-1/2 -translate-y-1/2 w-14 h-[76px] rounded-lg overflow-hidden border-2 border-[#22c55e] shadow-2xl scale-110"
+          style={{ left: drag.x, top: drag.y }}
+        >
+          <SmartProductImage
+            photo={byId.get(drag.id)!.product.photo}
+            alt=""
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
 
       {/* sticky total */}
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#1e40af]/40 bg-[#0a0f1e]/95 backdrop-blur px-3 py-3">

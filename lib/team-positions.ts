@@ -2,7 +2,18 @@ import positionsConfig from "@/data/player-positions.json";
 import type { Product } from "./types";
 
 export type TeamPosition = "GK" | "DEF" | "MID" | "FWD" | "COACH";
-type Override = TeamPosition | "EXCLUDE";
+type Override =
+  | TeamPosition
+  | "EXCLUDE"
+  | {
+      position: TeamPosition;
+      /** Detailed role printed on the card, e.g. "CB" / "ST" (from offline OCR). */
+      subPosition?: string;
+      source?: string;
+      ocrText?: string;
+      confidence?: number;
+      keywordGuess?: TeamPosition | null;
+    };
 
 interface PositionsConfig {
   overrides: Record<string, Override>;
@@ -34,7 +45,10 @@ export function playerNameFromTitle(title: string): string {
 
 export function classifyPosition(product: Pick<Product, "id" | "title">): TeamPosition | null {
   const override = config.overrides[String(product.id)];
-  if (override) return override === "EXCLUDE" ? null : override;
+  if (override) {
+    if (override === "EXCLUDE") return null;
+    return typeof override === "string" ? override : override.position;
+  }
 
   const title = product.title || "";
   if (!title.trim().startsWith("کیمدی کارت")) return null;
