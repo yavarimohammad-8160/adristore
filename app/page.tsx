@@ -74,6 +74,19 @@ export default async function Home() {
         <HomeTopSeriesBar />
         <HeroBanner showcaseSlots={showcaseSlots} />
 
+        <section className="max-w-[1440px] mx-auto px-4 sm:px-5 pt-4" aria-label="تیم‌ساز">
+          <Link
+            href="/team-builder"
+            className="flex items-center justify-between gap-3 rounded-2xl border border-[#22c55e]/40 bg-gradient-to-l from-[#14532d]/70 via-[#0f2a1d]/80 to-[#0a0f1e] px-5 py-4 hover:border-[#22c55e] transition"
+          >
+            <div>
+              <p className="font-display text-lg sm:text-xl text-white">⚽ تیم رویایی‌ات رو بچین!</p>
+              <p className="text-sm text-white/70 mt-1">۱۱ بازیکن + مربی رو انتخاب کن و کل تیم رو یک‌جا بخر</p>
+            </div>
+            <span className="shrink-0 rounded-xl bg-[#22c55e] px-4 py-2 text-sm font-bold text-black">شروع</span>
+          </Link>
+        </section>
+
         {featured.length > 0 && (
           <section
             className="max-w-[1440px] mx-auto px-4 sm:px-5 pt-4 pb-2"

@@ -16,7 +16,7 @@ import { buildBasalamCheckoutUrl } from "@/lib/basalam-checkout";
 import { toast } from "sonner";
 
 export function CartDrawer() {
-  const { items, removeFromCart, updateQuantity, totalItems, totalPrice, clearCart } = useCart();
+  const { items, removeFromCart, updateQuantity, totalItems, totalPrice, clearCart, isCartOpen, setCartOpen } = useCart();
 
   const handleCheckout = () => {
     if (items.length === 0) return;
@@ -33,7 +33,7 @@ export function CartDrawer() {
   };
 
   return (
-    <Sheet>
+    <Sheet open={isCartOpen} onOpenChange={(open) => setCartOpen(open)}>
       <SheetTrigger
         className="touch-target relative inline-flex items-center justify-center rounded-xl border-2 border-[#1e40af]/40 bg-[#1e40af]/20 text-white hover:bg-[#1e40af]/40 transition"
         aria-label="سبد خرید"

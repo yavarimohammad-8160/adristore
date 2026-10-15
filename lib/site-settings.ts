@@ -48,7 +48,8 @@ export const DEFAULT_NAV_LINKS: SiteNavLink[] = [
   { id: "products", label: "همه کارت‌ها", href: "/products", color: "hover:text-[#3b82f6]", enabled: true, order: 1 },
   { id: "videos", label: "ویدئوها", href: "/videos", color: "hover:text-[#ef4444]", enabled: true, order: 2 },
   { id: "blog", label: "وبلاگ", href: "/blog", color: "hover:text-[#fbbf24]", enabled: true, order: 3 },
-  { id: "basalam", label: "باسلام", href: "https://basalam.com/adristore", color: "hover:text-[#eab308]", external: true, enabled: true, order: 4 },
+  { id: "team-builder", label: "تیمت رو بچین ⚽", href: "/team-builder", color: "hover:text-[#22c55e]", enabled: true, order: 4 },
+  { id: "basalam", label: "باسلام", href: "https://basalam.com/adristore", color: "hover:text-[#eab308]", external: true, enabled: true, order: 5 },
 ];
 
 function defaultSettings(): SiteSettings {
