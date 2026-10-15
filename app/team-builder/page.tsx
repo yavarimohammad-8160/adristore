@@ -6,9 +6,8 @@ import { readManualPositions } from "@/lib/team-positions-manual";
 import { TeamBuilder } from "@/components/team-builder/TeamBuilder";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
-// Positions can be edited at runtime from /admin/positions.
-export const dynamic = "force-dynamic";
-
+// Manual overrides from /admin/positions are baked in at build time on
+// Cloudflare Pages (static export). Runtime edits need a serverful host.
 export const metadata: Metadata = {
   title: `تیمت رو بچین | ${SITE_NAME}`,
   description: "ترکیب ۱۱ نفره و مربی رویایی‌ات را با کارت‌های کیمدی بچین و کل تیم را یک‌جا بخر.",
