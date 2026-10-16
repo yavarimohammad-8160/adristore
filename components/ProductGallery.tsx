@@ -48,6 +48,7 @@ const GalleryImage = memo(function GalleryImage({
         />
       )}
       <SmartProductImage
+        width={828}
         photo={photo}
         src={src}
         alt={alt}

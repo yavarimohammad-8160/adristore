@@ -6,6 +6,7 @@ import {
   CARD_PLACEHOLDER,
   isJsDelivrUrl,
   isPagesImgUrl,
+  optimizedImageUrl,
   photoFallbackSrcs,
 } from "@/lib/media-cdn";
 
@@ -23,6 +24,8 @@ type Props = {
   decoding?: "async" | "auto" | "sync";
   draggable?: boolean;
   onLoad?: () => void;
+  /** Display width in CSS px used to request a resized copy (0 = original). */
+  width?: number;
 };
 
 export function SmartProductImage({
@@ -35,8 +38,15 @@ export function SmartProductImage({
   decoding = "async",
   draggable = false,
   onLoad,
+  width = 384,
 }: Props) {
-  const srcs = useMemo(() => photoFallbackSrcs(photo, src), [photo, src]);
+  const srcs = useMemo(() => {
+    const base = photoFallbackSrcs(photo, src);
+    if (!width || !base.length) return base;
+    // Try a resized copy of the first source, then fall back to originals.
+    const opt = optimizedImageUrl(base[0], width);
+    return opt ? [opt, ...base] : base;
+  }, [photo, src, width]);
   const [index, setIndex] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const current = srcs[Math.min(index, srcs.length - 1)] || CARD_PLACEHOLDER;

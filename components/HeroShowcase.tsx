@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { HeroShowcaseSlot } from "@/lib/hero-showcase";
 import { getPhotoUrl } from "@/lib/basalam";
+import { optimizedImageUrl } from "@/lib/media-cdn";
 import { buildProductImageAlt } from "@/lib/seo";
 import { productPath } from "@/lib/slug";
 import { KimdiBadge } from "@/components/KimdiBadge";
@@ -71,7 +72,13 @@ function ShowcaseCard({
           <div className="hero-showcase__face hero-showcase__front">
             {img ? (
               <img
-                src={img}
+                src={optimizedImageUrl(img, 256) ?? img}
+                loading={isStar ? "eager" : "lazy"}
+                decoding="async"
+                onError={(e) => {
+                  const el = e.currentTarget;
+                  if (el.src !== img && img) el.src = img;
+                }}
                 alt={buildProductImageAlt(product!.title)}
                 className="hero-showcase__img"
               />

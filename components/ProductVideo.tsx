@@ -26,7 +26,7 @@ export function ProductVideo({ videoUrl }: ProductVideoProps) {
             src={embed}
             controls
             playsInline
-            preload="metadata"
+            preload="none"
             className="absolute inset-0 w-full h-full object-contain bg-black"
           />
         ) : (
