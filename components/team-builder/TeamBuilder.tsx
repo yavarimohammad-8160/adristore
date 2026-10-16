@@ -111,22 +111,75 @@ function shareUrl(f: FormationKey, picks: Picks): string {
   return `${window.location.origin}/team-builder?${q.toString()}`;
 }
 
-export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
+const PAGE_SIZE = 30;
+
+export function TeamBuilder() {
   const { addManyToCart, openCart } = useCart();
   const searchParams = useSearchParams();
   const [initial] = useState(() => {
     const shared = parseShare(new URLSearchParams(searchParams.toString()));
     if (!shared) return { f: "4-3-3" as FormationKey, picks: {} as Picks };
-    const ids = new Set(pool.map((c) => c.id));
-    const picks: Picks = {};
-    for (const [k, id] of Object.entries(shared.picks)) if (ids.has(id)) picks[k] = id;
-    return { f: shared.f, picks };
+    return { f: shared.f, picks: shared.picks };
   });
   const [formation, setFormation] = useState<FormationKey>(initial.f);
   const [picks, setPicks] = useState<Picks>(initial.picks);
+  // cards loaded on demand: per position (sheet) and by id (shared lineups)
+  const [byPos, setByPos] = useState<Partial<Record<TeamPosition, TeamCard[]>>>({});
+  const [known, setKnown] = useState<Map<number, TeamCard>>(() => new Map());
+  const [loadingPos, setLoadingPos] = useState<TeamPosition | null>(null);
+  const [loadError, setLoadError] = useState(false);
+  const [shown, setShown] = useState(PAGE_SIZE);
+  const remember = useCallback((cards: TeamCard[]) => {
+    setKnown((m) => {
+      const next = new Map(m);
+      for (const c of cards) next.set(c.id, c);
+      return next;
+    });
+  }, []);
+
+  // shared link: fetch just the picked cards, drop ids that no longer exist
+  useEffect(() => {
+    const ids = Object.values(initial.picks);
+    if (!ids.length) return;
+    fetch(`/api/team-pool?ids=${ids.join(",")}`)
+      .then((r) => (r.ok ? r.json() : { cards: [] }))
+      .then(({ cards }: { cards: TeamCard[] }) => {
+        remember(cards);
+        const ok = new Set(cards.map((c) => c.id));
+        setPicks((p) => Object.fromEntries(Object.entries(p).filter(([, id]) => ok.has(id))));
+      })
+      .catch(() => {});
+  }, [initial, remember]);
+
+  const loadPosition = useCallback(
+    (pos: TeamPosition) => {
+      if (byPos[pos]) return;
+      setLoadingPos(pos);
+      setLoadError(false);
+      fetch(`/api/team-pool?pos=${pos}`)
+        .then((r) => {
+          if (!r.ok) throw new Error(String(r.status));
+          return r.json();
+        })
+        .then(({ cards }: { cards: TeamCard[] }) => {
+          setByPos((b) => ({ ...b, [pos]: cards }));
+          remember(cards);
+        })
+        .catch(() => setLoadError(true))
+        .finally(() => setLoadingPos((p) => (p === pos ? null : p)));
+    },
+    [byPos, remember]
+  );
+
   const [activeSlot, setActiveSlot] = useState<Slot | null>(null);
   const [query, setQuery] = useState("");
   const [hideOut, setHideOut] = useState(false);
+
+  useEffect(() => {
+    setShown(PAGE_SIZE);
+    if (activeSlot) loadPosition(activeSlot.position);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeSlot]);
 
   // ---- drag & drop on the pitch (pointer events, no library) ----
   const [drag, setDrag] = useState<DragState | null>(null);
@@ -225,7 +278,7 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
     };
   };
 
-  const byId = useMemo(() => new Map(pool.map((c) => [c.id, c])), [pool]);
+  const byId = known;
   const slots = useMemo(() => formationSlots(formation), [formation]);
   const allSlots = useMemo(() => [...slots, COACH_SLOT], [slots]);
 
@@ -257,13 +310,13 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
   const options = useMemo(() => {
     if (!activeSlot) return [];
     const q = query.trim();
-    return pool.filter(
+    const list = byPos[activeSlot.position] ?? [];
+    return list.filter(
       (c) =>
-        c.position === activeSlot.position &&
         (!hideOut || c.inventory > 0) &&
         (!q || c.title.includes(q))
     );
-  }, [pool, activeSlot, query, hideOut]);
+  }, [byPos, activeSlot, query, hideOut]);
 
   const choose = (card: TeamCard) => {
     if (!activeSlot) return;
@@ -480,8 +533,16 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
               </label>
             </div>
             <div className="grid grid-cols-3 gap-2 overflow-y-auto p-4">
-              {options.length === 0 && <p className="col-span-3 text-center text-white/50 py-8">کارتی پیدا نشد</p>}
-              {options.map((c, i) => {
+              {loadingPos === activeSlot.position && (
+                <p className="col-span-3 text-center text-white/60 py-8">در حال بارگذاری کارت‌ها…</p>
+              )}
+              {loadError && !byPos[activeSlot.position] && (
+                <button type="button" onClick={() => loadPosition(activeSlot.position)} className="col-span-3 text-center text-[#fbbf24] py-8">
+                  خطا در بارگذاری — دوباره امتحان کن
+                </button>
+              )}
+              {byPos[activeSlot.position] && options.length === 0 && <p className="col-span-3 text-center text-white/50 py-8">کارتی پیدا نشد</p>}
+              {options.slice(0, shown).map((c, i) => {
                 const out = c.inventory <= 0;
                 const selectedHere = picks[activeSlot.key] === c.id;
                 const usedElsewhere = !selectedHere && usedIds.has(c.id);
@@ -510,6 +571,15 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
                   </button>
                 );
               })}
+              {options.length > shown && (
+                <button
+                  type="button"
+                  onClick={() => setShown((n) => n + PAGE_SIZE)}
+                  className="col-span-3 rounded-xl border border-white/15 py-3 text-sm font-bold text-[#fbbf24]"
+                >
+                  نمایش کارت‌های بیشتر ({options.length - shown})
+                </button>
+              )}
             </div>
           </div>
         </div>

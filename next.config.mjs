@@ -48,6 +48,8 @@ const nextConfig = {
     : {
         experimental: {
           optimizePackageImports: ["@base-ui/react", "sonner"],
+          // 2-vCPU VPS: resize one image at a time so page renders stay responsive.
+          imgOptConcurrency: 1,
         },
         async headers() {
           return [
