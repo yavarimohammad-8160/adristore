@@ -1794,3 +1794,31 @@ html {
   }
 }
 
+
+/* ── Performance: touch devices (iPad/phones) & reduced motion ──
+   Infinite 3D/glow animations and large blur filters on many layers exhaust
+   GPU memory on iPad Safari (page reloads / never finishes painting). */
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .hero-showcase__slot,
+  .hero-showcase__card,
+  .hero-showcase__inner,
+  .hero-showcase__shine,
+  .hero-showcase__halo,
+  .hero-glow,
+  .video-page__hero-glow {
+    animation: none !important;
+  }
+  .hero-showcase__card,
+  .hero-showcase__inner {
+    will-change: auto !important;
+  }
+  .hero-glow,
+  .video-page__hero-glow {
+    filter: blur(40px);
+    opacity: 0.6;
+  }
+  .hero-showcase__halo,
+  .hero-showcase__shine {
+    display: none;
+  }
+}

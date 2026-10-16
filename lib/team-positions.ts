@@ -133,13 +133,16 @@ export function buildTeamPool(products: Product[], manual?: ManualPositions): Te
       inventory: p.inventory ?? 0,
       position,
       // keep cart payload small: drop long text fields
+      // keep payload small (~1000 cards are serialized into the page)
       product: {
-        ...p,
-        description: undefined,
-        brief: undefined,
-        photos: undefined,
-        photo: p.photo ? { md: p.photo.md, sm: p.photo.sm, remote: p.photo.remote } : p.photo,
-      },
+        id: p.id,
+        title: p.title,
+        price: p.price,
+        inventory: p.inventory ?? 0,
+        photo: p.photo
+          ? ({ md: p.photo.md || p.photo.sm, ...(p.photo.remote ? { remote: p.photo.remote } : {}) } as Product["photo"])
+          : undefined,
+      } as Product,
     });
   }
   // in-stock first, then cheaper first

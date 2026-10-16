@@ -337,7 +337,7 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
           )}
           {card && <YearBadge title={card.title} small />}
           {card ? (
-            <SmartProductImage photo={card.product.photo} alt={card.name} className="w-full h-full object-cover" />
+            <SmartProductImage width={256} photo={card.product.photo} alt={card.name} className="w-full h-full object-cover" />
           ) : (
             <span className="flex h-full items-center justify-center text-xl text-white/70">+</span>
           )}
@@ -401,7 +401,7 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
           className="pointer-events-none fixed z-[60] -translate-x-1/2 -translate-y-1/2 w-14 h-[76px] rounded-lg overflow-hidden border-2 border-[#22c55e] shadow-2xl scale-110"
           style={{ left: drag.x, top: drag.y }}
         >
-          <SmartProductImage
+          <SmartProductImage width={256}
             photo={byId.get(drag.id)!.product.photo}
             alt=""
             className="w-full h-full object-cover"
@@ -453,7 +453,7 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
               return (
                 <div className="mx-4 mb-2 flex items-center gap-3 rounded-xl border border-[#22c55e]/40 bg-[#22c55e]/10 p-2">
                   <span className="relative block w-12 h-16 shrink-0 overflow-hidden rounded-lg">
-                    <SmartProductImage photo={cur.product.photo} alt={cur.title} className="w-full h-full object-cover" />
+                    <SmartProductImage width={256} photo={cur.product.photo} alt={cur.title} className="w-full h-full object-cover" />
                     <YearBadge title={cur.title} small />
                   </span>
                   <div className="min-w-0">
@@ -499,7 +499,7 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
                   >
                     <HoverTip text={c.title} below={i < 3} />
                     <span className="relative block">
-                      <SmartProductImage photo={c.product.photo} alt={c.title} className="aspect-[3/4] w-full rounded-lg object-cover" />
+                      <SmartProductImage width={256} photo={c.product.photo} alt={c.title} className="aspect-[3/4] w-full rounded-lg object-cover" />
                       <YearBadge title={c.title} />
                     </span>
                     <p className="mt-1 line-clamp-2 text-[11px] leading-4 break-words">{c.title}</p>

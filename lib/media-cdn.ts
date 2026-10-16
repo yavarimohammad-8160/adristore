@@ -314,3 +314,18 @@ export function remapPhoto(
 export function purgeJsdelivrUrl(filename: string): string {
   return `https://purge.jsdelivr.net/gh/${MEDIA_OWNER}/${MEDIA_REPO}@${MEDIA_BRANCH}/${MEDIA_PRODUCTS_DIR}/${filename}`;
 }
+
+/** Widths allowed by the Next image optimizer (default imageSizes + deviceSizes). */
+const OPT_WIDTHS = [128, 256, 384, 640, 828, 1080];
+
+/**
+ * Resized WebP/AVIF via the server's /_next/image endpoint (content-negotiated,
+ * correct MIME for Safari). Returns null for static export, SVGs and data URLs.
+ */
+export function optimizedImageUrl(url: string, width: number): string | null {
+  if (!url || process.env.NEXT_PUBLIC_STATIC_EXPORT === "1") return null;
+  if (url.startsWith("data:") || url.startsWith("/_next/") || /\.svg(\?|$)/i.test(url)) return null;
+  if (url.startsWith("/") && url.includes("?")) return null;
+  const w = OPT_WIDTHS.find((x) => x >= width) ?? 1080;
+  return `/_next/image?url=${encodeURIComponent(url)}&w=${w}&q=75`;
+}

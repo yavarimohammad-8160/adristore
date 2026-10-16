@@ -18,7 +18,7 @@ export function RelatedProductCard({ product }: RelatedProductCardProps) {
         <div className="trading-card-inner">
           <div className="trading-card-front relative flex flex-col h-full">
             <div className="relative flex-1 min-h-0 overflow-hidden">
-              <SmartProductImage
+              <SmartProductImage width={256}
                 photo={product.photo}
                 alt={buildProductImageAlt(product.title)}
                 className="card-img absolute inset-0"

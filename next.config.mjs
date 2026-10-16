@@ -73,9 +73,13 @@ const nextConfig = {
           ];
         },
         images: {
-          formats: ["image/avif", "image/webp"],
-          minimumCacheTTL: 3600,
+          formats: ["image/webp"],
+          minimumCacheTTL: 2592000,
           remotePatterns: [
+            { protocol: "https", hostname: "adristore-img.pages.dev" },
+            { protocol: "https", hostname: "statics.basalam.com" },
+            { protocol: "https", hostname: "cdn.jsdelivr.net" },
+            { protocol: "https", hostname: "raw.githubusercontent.com" },
             { protocol: "https", hostname: "static.basalam.com" },
             { protocol: "https", hostname: "cdn.basalam.com" },
             { protocol: "https", hostname: "basalam.com" },
