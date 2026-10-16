@@ -7,7 +7,7 @@ const conc = Number(process.argv[3] || 2);
 const POS = ["GK", "DEF", "MID", "FWD", "COACH"];
 const urls = new Set();
 for (const p of POS) {
-  const r = await fetch(`${BASE}/api/team-pool?pos=${p}`);
+  const r = await fetch(`${process.env.POOL_BASE || BASE}/api/team-pool?pos=${p}`);
   if (!r.ok) throw new Error(`team-pool ${p}: ${r.status}`);
   const { cards } = await r.json();
   for (const c of cards) {
