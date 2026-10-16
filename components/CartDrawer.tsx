@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "./CartContext";
 import { ShoppingCart, Trash2, ExternalLink } from "lucide-react";
 import { formatPrice } from "@/lib/format";
-import { getPhotoUrl } from "@/lib/basalam";
+import { SmartProductImage } from "@/components/SmartProductImage";
 import { buildBasalamCheckoutUrl } from "@/lib/basalam-checkout";
 import { toast } from "sonner";
 
@@ -65,8 +65,12 @@ export function CartDrawer() {
                 {items.map(({ product, quantity }) => (
                   <div key={product.id} className="cart-item flex gap-3 py-3">
                     <div className="w-16 h-16 flex-shrink-0 rounded-xl overflow-hidden border-2 border-[#fbbf24]/30">
-                      <img
-                        src={getPhotoUrl(product.photo, product.id)}
+                      {/* Same fallback chain as product cards: resized copy served from our
+                          own domain first, then CDN mirrors / Basalam (pages.dev can be
+                          unreachable for some visitors). Works for old saved carts too. */}
+                      <SmartProductImage
+                        photo={product.photo}
+                        width={128}
                         alt=""
                         className="object-cover w-full h-full"
                       />
