@@ -38,6 +38,46 @@ interface DragState {
 }
 
 /** Pure swap/move: coach only trades with coach; empty target = move. */
+/** Card year from its title: 2025/2026 in Latin or Persian digits. */
+export function cardYear(title: string): "2025" | "2026" | null {
+  const t = title.replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 0x06f0));
+  const m = t.match(/(?:^|\D)(202[56])(?!\d)/);
+  return m ? (m[1] as "2025" | "2026") : null;
+}
+
+const YEAR_FA = { "2025": "۲۰۲۵", "2026": "۲۰۲۶" } as const;
+const YEAR_CLASS = {
+  "2025": "bg-sky-500 text-white",
+  "2026": "bg-fuchsia-500 text-white",
+} as const;
+
+function YearBadge({ title, small }: { title: string; small?: boolean }) {
+  const y = cardYear(title);
+  if (!y) return null;
+  return (
+    <span
+      className={`pointer-events-none absolute z-10 rounded font-bold leading-none shadow ${YEAR_CLASS[y]} ${
+        small ? "bottom-0.5 right-0.5 px-0.5 py-px text-[8px]" : "top-1.5 right-1.5 px-1 py-0.5 text-[10px]"
+      }`}
+    >
+      {YEAR_FA[y]}
+    </span>
+  );
+}
+
+/** Desktop-only (hover-capable pointer) RTL tooltip shown above the card. */
+function HoverTip({ text, below }: { text: string; below?: boolean }) {
+  return (
+    <span
+      dir="rtl"
+      role="tooltip"
+      className={`pointer-events-none absolute ${below ? "top-full mt-1" : "bottom-full mb-1"} left-1/2 z-30 hidden w-max max-w-[200px] -translate-x-1/2 rounded-lg border border-[#fbbf24]/40 bg-[#0a0f1e]/95 px-2 py-1 text-center text-[11px] leading-4 text-white opacity-0 shadow-lg transition-opacity [@media(hover:hover)]:block group-hover:opacity-100`}
+    >
+      {text}
+    </span>
+  );
+}
+
 export function applyDrop(picks: Picks, from: string, to: string): Picks {
   if (from === to || !picks[from]) return picks;
   if ((from === "coach") !== (to === "coach")) return picks;
@@ -268,14 +308,16 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
         onPointerDown={(e) => onSlotPointerDown(e, s)}
         onContextMenu={(e) => card && e.preventDefault()}
         onDragStart={(e) => e.preventDefault()}
-        className={`select-none [-webkit-touch-callout:none] ${
+        title={card?.title}
+        className={`group select-none [-webkit-touch-callout:none] ${
           coach
             ? "flex flex-col items-center"
             : "absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center w-[18%]"
         } ${isSource ? "opacity-40" : ""}`}
         style={coach ? undefined : { left: `${s.x}%`, top: `${s.y}%` }}
-        aria-label={`انتخاب ${POSITION_LABEL[s.position]}`}
+        aria-label={card ? card.title : `انتخاب ${POSITION_LABEL[s.position]}`}
       >
+        {card && !drag && <HoverTip text={card.title} below={!coach && s.y < 25} />}
         <span
           className={`relative block w-12 h-16 sm:w-14 sm:h-[76px] rounded-lg overflow-hidden border-2 transition-transform ${
             isTarget
@@ -293,6 +335,7 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
               <AlertTriangle className="h-2.5 w-2.5 text-black" />
             </span>
           )}
+          {card && <YearBadge title={card.title} small />}
           {card ? (
             <SmartProductImage photo={card.product.photo} alt={card.name} className="w-full h-full object-cover" />
           ) : (
@@ -404,6 +447,23 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
                 <X className="h-5 w-5" />
               </button>
             </div>
+            {(() => {
+              const cur = picks[activeSlot.key] ? byId.get(picks[activeSlot.key]) : undefined;
+              if (!cur) return null;
+              return (
+                <div className="mx-4 mb-2 flex items-center gap-3 rounded-xl border border-[#22c55e]/40 bg-[#22c55e]/10 p-2">
+                  <span className="relative block w-12 h-16 shrink-0 overflow-hidden rounded-lg">
+                    <SmartProductImage photo={cur.product.photo} alt={cur.title} className="w-full h-full object-cover" />
+                    <YearBadge title={cur.title} small />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[11px] text-[#22c55e]">کارت فعلی</p>
+                    <p className="text-xs leading-5 line-clamp-3">{cur.title}</p>
+                    <p className="text-[11px] font-bold text-[#fbbf24]">{formatPrice(cur.price)}</p>
+                  </div>
+                </div>
+              );
+            })()}
             <div className="px-4 flex items-center gap-2">
               <div className="flex-1 flex items-center gap-2 rounded-xl bg-white/5 px-3">
                 <Search className="h-4 w-4 text-white/50" />
@@ -421,7 +481,7 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
             </div>
             <div className="grid grid-cols-3 gap-2 overflow-y-auto p-4">
               {options.length === 0 && <p className="col-span-3 text-center text-white/50 py-8">کارتی پیدا نشد</p>}
-              {options.map((c) => {
+              {options.map((c, i) => {
                 const out = c.inventory <= 0;
                 const selectedHere = picks[activeSlot.key] === c.id;
                 const usedElsewhere = !selectedHere && usedIds.has(c.id);
@@ -432,12 +492,17 @@ export function TeamBuilder({ pool }: { pool: TeamCard[] }) {
                     type="button"
                     disabled={disabled}
                     onClick={() => choose(c)}
-                    className={`relative rounded-xl border p-1 text-right ${
+                    title={c.title}
+                    className={`group relative rounded-xl border p-1 text-right ${
                       selectedHere ? "border-[#22c55e]" : "border-white/10"
                     } ${disabled ? "opacity-40 cursor-not-allowed" : "hover:border-[#fbbf24]"}`}
                   >
-                    <SmartProductImage photo={c.product.photo} alt={c.title} className="aspect-[3/4] w-full rounded-lg object-cover" />
-                    <p className="mt-1 line-clamp-2 text-[11px] leading-4">{c.name}</p>
+                    <HoverTip text={c.title} below={i < 3} />
+                    <span className="relative block">
+                      <SmartProductImage photo={c.product.photo} alt={c.title} className="aspect-[3/4] w-full rounded-lg object-cover" />
+                      <YearBadge title={c.title} />
+                    </span>
+                    <p className="mt-1 line-clamp-2 text-[11px] leading-4 break-words">{c.title}</p>
                     <p className="text-[11px] font-bold text-[#fbbf24]">
                       {out ? "ناموجود" : usedElsewhere ? "در تیم" : formatPrice(c.price)}
                     </p>
