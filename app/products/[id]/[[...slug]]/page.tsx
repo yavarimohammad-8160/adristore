@@ -21,7 +21,7 @@ import {
 import { productPath, slugMatches } from "@/lib/slug";
 import { resolveStaticVideoUrl } from "@/lib/static-video-url";
 import { readStaticProducts } from "@/lib/static-catalog";
-import { uniqueProductPhotos } from "@/lib/media-cdn";
+import { uniqueProductPhotos, optimizedImageUrl, photoFallbackSrcs } from "@/lib/media-cdn";
 const AddToCartButton = nextDynamic(
   () => import("@/components/AddToCartButton").then((m) => m.AddToCartButton),
   {
@@ -100,8 +100,13 @@ export default async function ProductPage({ params }: Props) {
   const photos = uniqueProductPhotos(product);
   const mainImageUrl = getPhotoUrl(product.photo, product.id);
 
-  if (mainImageUrl) {
-    preload(mainImageUrl, { as: "image", fetchPriority: "high" });
+  // Preload exactly what the gallery requests first (resized copy), not the original.
+  const firstGallerySrc = photoFallbackSrcs(photos[0] ?? product.photo)[0];
+  const preloadSrc = firstGallerySrc
+    ? optimizedImageUrl(firstGallerySrc, 828) ?? firstGallerySrc
+    : mainImageUrl;
+  if (preloadSrc) {
+    preload(preloadSrc, { as: "image", fetchPriority: "high" });
   }
 
   return (

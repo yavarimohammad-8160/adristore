@@ -54,7 +54,7 @@ function ShowcaseCard({
   return (
     <Link
       href={href}
-      prefetch
+      prefetch={false}
       className={slotClass}
       style={
         {
