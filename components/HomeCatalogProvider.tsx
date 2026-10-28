@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -17,8 +18,12 @@ import {
   parseSeriesCatalogJson,
   type ProductSeries,
 } from "@/lib/product-series";
+import {
+  fetchHomeCatalogClient,
+  fetchSeriesListClient,
+  shouldApplyClientCatalog,
+} from "@/lib/client-catalog";
 import { productMatchesSearch } from "@/lib/product-search";
-import { STATIC_DATA } from "@/lib/static-data";
 import { sortProductsNewestFirst } from "@/lib/product-sort";
 
 const PER_PAGE = 24;
@@ -107,49 +112,6 @@ function scrollToProductsGrid() {
   });
 }
 
-async function fetchSeriesList(): Promise<ProductSeries[]> {
-  const staticRes = await fetch(STATIC_DATA.productSeries);
-  if (staticRes.ok) {
-    const data = await staticRes.json();
-    const list = parseSeriesCatalogJson(JSON.stringify(data?.series ?? []));
-    if (list.length > 0) return list;
-  }
-
-  const res = await fetch("/api/product-series", { cache: "no-store" });
-  if (!res.ok) throw new Error(`series fetch failed: ${res.status}`);
-  const data = await res.json();
-  const list = parseSeriesCatalogJson(JSON.stringify(data?.series ?? []));
-  return list.length > 0 ? list : DEFAULT_SERIES_CATALOG;
-}
-
-async function fetchProductCatalog(): Promise<{
-  products: Product[];
-  series: ProductSeries[];
-}> {
-  for (const url of [STATIC_DATA.homeCatalog, STATIC_DATA.productsCatalog]) {
-    const staticRes = await fetch(`${url}?v=${Date.now()}`, { cache: "no-store" });
-    if (!staticRes.ok) continue;
-    const data = await staticRes.json();
-    const products = asProductArray(data?.products);
-    if (products.length === 0) continue;
-    const series = parseSeriesCatalogJson(
-      JSON.stringify(data?.series ?? [])
-    );
-    return {
-      products,
-      series: series.length > 0 ? series : DEFAULT_SERIES_CATALOG,
-    };
-  }
-
-  const res = await fetch("/api/home-catalog", { cache: "no-store" });
-  if (!res.ok) throw new Error(`catalog fetch failed: ${res.status}`);
-  const data = await res.json();
-  const series = parseSeriesCatalogJson(JSON.stringify(data?.series ?? []));
-  return {
-    products: asProductArray(data?.products),
-    series: series.length > 0 ? series : DEFAULT_SERIES_CATALOG,
-  };
-}
 
 interface HomeCatalogProviderProps {
   initialProducts?: Product[] | null;
@@ -179,18 +141,15 @@ export function HomeCatalogProvider({
   const [totalCount, setTotalCount] = useState(
     typeof initialTotal === "number" && initialTotal >= 0 ? initialTotal : 0
   );
+  const serverProductsRef = useRef(asProductArray(initialProducts));
 
   // 1) Load series list immediately (small payload → dropdown populates fast)
   useEffect(() => {
     let cancelled = false;
 
     (async () => {
-      try {
-        const list = await fetchSeriesList();
-        if (!cancelled && list.length > 0) setSeriesList(list);
-      } catch (error) {
-        console.error("Series list fetch failed:", error);
-      }
+      const list = await fetchSeriesListClient();
+      if (!cancelled && list && list.length > 0) setSeriesList(list);
     })();
 
     return () => {
@@ -202,23 +161,31 @@ export function HomeCatalogProvider({
   useEffect(() => {
     let cancelled = false;
     let attempts = 0;
+    let retryTimer = 0;
 
     const load = async () => {
       attempts += 1;
       try {
-        const { products, series } = await fetchProductCatalog();
+        // Node server: live API first. Static JSON is the Cloudflare snapshot
+        // and is only accepted after live retries fail — and not when it would
+        // replace newer cards already rendered from the server.
+        const payload = await fetchHomeCatalogClient({
+          staticFallback: attempts >= 3,
+        });
         if (cancelled) return;
 
-        if (products.length > 0) {
-          setCatalog(products);
+        if (shouldApplyClientCatalog(payload, serverProductsRef.current)) {
+          const series =
+            payload.series.length > 0 ? payload.series : DEFAULT_SERIES_CATALOG;
+          setCatalog(asProductArray(payload.products));
           setSeriesList(enrichSeriesCatalog(series));
-          setTotalCount(products.length);
+          setTotalCount(payload.products.length);
           setCatalogReady(true);
         }
       } catch (error) {
         console.error("Product catalog fetch failed:", error);
         if (!cancelled && attempts < 3) {
-          window.setTimeout(load, 600 * attempts);
+          retryTimer = window.setTimeout(load, 600 * attempts);
           return;
         }
       } finally {
@@ -229,6 +196,7 @@ export function HomeCatalogProvider({
     load();
     return () => {
       cancelled = true;
+      window.clearTimeout(retryTimer);
     };
   }, []);
 

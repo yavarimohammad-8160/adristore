@@ -3,6 +3,8 @@ import path from "node:path";
 import { buildSeriesCatalog } from "./product-series";
 import type { Product } from "./types";
 
+export { isStaticExportBuild } from "./static-data";
+
 const DATA_DIR = path.join(process.cwd(), "public", "data");
 
 type HomeCatalogSnapshot = {
@@ -13,10 +15,6 @@ type HomeCatalogSnapshot = {
 
 let productsCache: Product[] | null = null;
 let homeCache: HomeCatalogSnapshot | null = null;
-
-export function isStaticExportBuild(): boolean {
-  return process.env.NEXT_PUBLIC_STATIC_EXPORT === "1";
-}
 
 async function readJson<T>(filename: string): Promise<T> {
   const raw = await readFile(path.join(DATA_DIR, filename), "utf8");
