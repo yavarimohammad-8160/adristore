@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { filterProductCatalog } from "@/lib/catalog-search";
-import { STATIC_DATA } from "@/lib/static-data";
+import { fetchProductsCatalogClient } from "@/lib/client-catalog";
 import type { Product, ProductListResponse } from "@/lib/types";
 import { KimdiBadge } from "@/components/KimdiBadge";
 import { Loader2, Search } from "lucide-react";
@@ -18,20 +18,7 @@ let catalogCache: Product[] | null = null;
 async function loadCatalogProducts(): Promise<Product[]> {
   if (catalogCache) return catalogCache;
 
-  const staticRes = await fetch(`${STATIC_DATA.productsCatalog}?v=${Date.now()}`, {
-    cache: "no-store",
-  });
-  if (staticRes.ok) {
-    const data = await staticRes.json();
-    const products = Array.isArray(data?.products) ? data.products : [];
-    catalogCache = products;
-    return products;
-  }
-
-  const res = await fetch("/api/products?full=1&per_page=10000");
-  if (!res.ok) throw new Error("Failed to fetch catalog");
-  const data = await res.json();
-  const products = Array.isArray(data?.products) ? data.products : [];
+  const { products } = await fetchProductsCatalogClient();
   catalogCache = products;
   return products;
 }
